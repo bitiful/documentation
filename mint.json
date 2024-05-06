@@ -6,6 +6,9 @@
     "light": "https://bitiful-contents.s3.bitiful.net/images/bitiful-Docs-Logo-V2-light.svg"
   },
   "favicon": "/favicon-docs.svg",
+  "modeToggle": {
+    "default": "dark"
+  },
   "colors": {
     "primary": "#0D9373",
     "light": "#07C983",
