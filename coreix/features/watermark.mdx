@@ -1,0 +1,49 @@
+---
+title: '文字水印'
+description: '本文介绍为图片增加 **文字水印** 功能的参数说明及使用示例。'
+---
+
+以下例子中，默认原图均为: https://fanfan.s3.bitiful.net/bridge.jpeg
+
+## 参数说明
+<Warning>该方法只能用于静态图片</Warning>
+### 相关参数总览
+
+**水印参数: **
+
+| 参数 | 含义 | 作用说明 | 范围 |
+| :--- | --- | --- | --- |
+|`txt`|**水印内容**| 默认为空 - 代表不增加文字水印（推荐进行 UrlEncode） | 可打印字符 |
+|`txt-font`|**水印字体**| 默认为空, 多个字体用半角逗号隔开, 系统按顺序匹配 | Inter,<br />NotoSansSC,<br />NotoSansTC,<br />SmileySans |
+|`txt-size`|**水印字号大小**| - **< 1** 时: 表示按原图最小边像素**百分比**自动计算字号<br />- **≥ 1** 时: 表示按 px 绝对值设定字号 | - |
+|`txt-weight`|**水印字号粗细**| 同 CSS 中 font-weight，默认: 400 | 100 ~ 900 |
+|` txt-line-height `|**水印行高**| 按**倍数**设置行高，同 CSS 中 line-height（不支持px），默认: 1.1 | 0.0 ~ 100.0 |
+|`txt-pos`|**水印位置偏移**|- **≥ 1** 时: 表示按绝 px 对值设定偏移<br />- **< 1** 时: 表示按原图像素**百分比**自动计算偏移(支持 3 种偏移策略)<br />-- 策略A: `0.99,0.99`表示按水印渲染范围的**最远边**<br />（即: **右&下**边）计算（此时水印绝对不会超过原图边界）<br />-- 策略B: `*0.99,*0.99`表示按水印渲染范围的**中心**计算<br />（此时水印会超出原图边界一半）<br />- 策略C: `**0.99,**0.99`表示按水印渲染范围的**最近边**<br />（即: **左&上**边）计算（此时水印会完全超出原图边界） | - |
+|`txt-pct`|**水印最大百分比**| - 当水印 size 过大时，系统会用该值对总大小进行约束<br />如: 设定 0.5 代表无论 size 多大都不会超过原图 50%<br />大于 1 时代表可超出原图大小，有助于部分艺术表达场景 | 0.0 ~ 2.0 |
+|`txt-color`|**水印颜色**| RGB 颜色 16 进制值，不支持颜色名称（默认为白色）<br />多个颜色用半角逗号(,)隔开，可**txt-color-deg**方向实现渐变色 | 000000<br />~<br />FFFFFF |
+|`txt-color-deg`|**水印颜色渐变方向**| 代表代表渐变角度（默认为 90 代表从 左 -> 右） | 0 ~ 360 |
+|`txt-alpha`|**水印透明度**| 透明度百分比。 | 0.0 ~ 1.0 |
+|`txt-shad`|**水印阴影虚化度**| - 为像素 px 绝对值<br />- **注意**: txt-color 为多个颜色适合，阴影**自动关闭**| 0 ~ 50 |
+|`txt-shad-pos`|**水印阴影偏移**| 为像素 px 绝对值 | 0 ~ 100 |
+|`txt-shad-color`|**水印阴影颜色**| - RGB 颜色 16 进制值，不支持颜色名称（默认为灰色）<br />- 注意: 不支持多个颜色 | 000000<br />~<br />FFFFFF |
+
+<Tip>推荐: 为 txt-size 和 txt-pos 设定**比例值**而不是绝对值。
+由于原图的比例、大小（特别是在配合 **w** 和 **h** 参数对原图进行裁剪、缩略后）各不相同，为 **txt-size** 和 **txt-pos** 设定 **小于 1 的比例值** 能让水印大小及偏移位置更可靠。</Tip>
+
+## 参数示例
+
+<AccordionGroup>
+    <Accordion title="演示 1: 打上文字水印 **Bitiful** 其他默认" icon="hand-back-point-right">
+    加上参数后 URL: [https://fanfan.s3.bitiful.net/bridge.jpeg? **`txt=Bitiful`**](https://fanfan.s3.bitiful.net/bridge.jpeg?txt=Bitiful&fmt=png)
+    <Frame>![bridge.txt.jpg](https://fanfan.s3.bitiful.net/bridge.jpeg?txt=Bitiful&fmt=png)</Frame>
+    </Accordion>
+    <Accordion title="演示 2: 将上面的水印放在图片底部居中**并推出边界**；字号自动调整到约为原图的 **55%**；透明度为 3%" icon="hand-back-point-right">
+    加上参数后 URL: [https://fanfan.s3.bitiful.net/bridge.jpeg?txt=Bitiful& **`txt-size=0.55 & txt-pos=0.5,*0.96 & txt-alpha=0.03`**](https://fanfan.s3.bitiful.net/bridge.jpeg?txt=Bitiful&txt-size=0.55&txt-pos=0.5,*0.96&txt-alpha=0.03&fmt=png)
+    <Frame>![bridge.txt.jpg](https://fanfan.s3.bitiful.net/bridge.jpeg?txt=Bitiful&txt-size=0.55&txt-pos=0.5,*0.96&txt-alpha=0.03&fmt=png)</Frame>
+    </Accordion>
+    <Accordion title="演示 3: 将水印略微缩小并移至原图中央，然后为文字水印加上**三个颜色**，以从**左到右渐变**；完全不透明" icon="hand-back-point-right">
+    > 将图片模糊是为了更好地观察水印
+    加上参数后 URL: [https://fanfan.s3.bitiful.net/bridge.jpeg?txt=Bitiful&blur=50& **`txt-size=0.3 & txt-pos=0.5,*0.5 & txt-color=03FF76,FFE05B,03FFFE`**](https://fanfan.s3.bitiful.net/bridge.jpeg?blur=50&txt=Bitiful&txt-size=0.3&txt-pos=0.5,0.5&txt-color=03FF76,FFE05B,03FFFE&fm=png)
+    <Frame>![bridge.txt.jpg](https://fanfan.s3.bitiful.net/bridge.jpeg?blur=50&txt=Bitiful&txt-size=0.3&txt-pos=0.5,0.5&txt-color=03FF76,FFE05B,03FFFE&fm=png)</Frame>
+    </Accordion>
+</AccordionGroup>

@@ -1,0 +1,67 @@
+---
+title: '图片缩放'
+description: '图片缩放功能可以对原图大小进行调整。本文介绍图片缩放功能的参数说明及使用示例。'
+---
+
+以下例子中，默认原图均为：https://fanfan.s3.bitiful.net/girl.jpeg
+
+## 参数说明
+
+### 相关参数总览
+
+| 参数 | 含义 | 作用说明 |
+| :--- | --- | --- |
+| ` w ` | 指定 **宽度** | 系统将图片宽度缩小到 w 的值。 |
+| ` h ` | 指定 **高度** | 系统将图片高度缩小到 h 的值。 |
+| ` dpr ` | 额外 **缩放比** | - 默认：1，代表不缩放<br />- 范围：0.01 ~ 10，该参数为额外缩放系数 |
+| ` mode ` | 指定 **缩略模式** | - crop：裁切模式<br />- clip：等比模式 |
+| ` pos ` | 指定 **裁剪保留位置** | - center：居中（默认）<br />- top：保留中间和上侧<br />- bottom：保留中间和下侧<br />- left：保留中间和左侧<br />- right：保留中间和右侧<br />- top-left：保留上侧和左侧<br />- top-right：保留上侧和右侧<br />- bottom-left：保留下侧和左侧<br />- bottom-right：保留下侧和右侧<br />- top-center：保留居中偏上侧<br />- bottom-center：保留居中偏下侧<br />- left-center：保留居中偏左侧<br />- right-center：保留居中偏右侧 |
+
+### 用例说明
+
+- **单独设定 w 或 h**
+    - 若单独指定 w 参数（不指定 h）：系统会按 `等比模式 mode=clip` 将图片 **等比缩小** 为 宽度为 w 大小的缩略图。
+    - 若单独指定 h 参数（不指定 w）：系统会按 `等比模式 mode=clip` 将图片 **等比缩小** 为 高度为 h 大小的缩略图。
+- **同时设定 w 和 h**
+    - 系统会自动按 `裁切模式 mode=crop` 将图片 **强行裁剪** 为 w、h 设定大小的缩略图，默认取中间部分，丢弃多余部分。
+- **同时设定 w 和 h，且指定 mode 为 clip**
+    - 系统会自动按 `最小模式 mode=clip` 将图片 **等比缩略** 到 w、h 的矩形盒子内，即：缩略图的长、宽均不会超过设定的 w、h 值。
+- **设定 dpr**
+    - 以上面 `w=300&h=300` 为例：
+        - 且 `dpr=2` 时：系统会生成 `600x600` 的正方形缩略图
+        - 且 `dpr=0.5` 时：系统会生成 `150x150` 的正方形缩略图
+
+## 参数范例
+<AccordionGroup>
+    <Accordion title="演示：指定缩放宽度为 w=200，进行等比缩放（此时 mode 强制为 clip）" icon="hand-back-point-right">
+    加上参数后 URL：[https://fanfan.s3.bitiful.net/girl.jpeg? **w=200**](https://fanfan.s3.bitiful.net/girl.jpeg?w=200)
+    <Frame>![girl.resize.jpg](https://fanfan.s3.bitiful.net/girl.jpeg?w=200)</Frame>
+    </Accordion>
+    <Accordion title="演示：指定缩放高度为 h=200，进行等比缩放（此时 mode 强制为 clip）" icon="hand-back-point-right">
+    加上参数后 URL：[https://fanfan.s3.bitiful.net/girl.jpeg? **h=200**](https://fanfan.s3.bitiful.net/girl.jpeg?h=200)
+    <Frame>![girl.resize.jpg](https://fanfan.s3.bitiful.net/girl.jpeg?h=200)</Frame>
+    </Accordion>
+    <Accordion title="演示：同时指定宽高 w=200 & h=200（此时 mode 默认为 crop；pos 默认为 center）" icon="hand-back-point-right">
+        <Accordion title="处理逻辑示例" icon="hand-back-point-right">
+        <Frame>![crop-mode-demo-1.png](https://fanfan.s3.bitiful.net/static/docs/crop-mode-demo-1.png?w=200&fmt=webp&q=90)</Frame>
+        </Accordion>
+    加上参数后 URL：[https://fanfan.s3.bitiful.net/girl.jpeg? **w=200 & h=200**](https://fanfan.s3.bitiful.net/girl.jpeg?w=200&h=200)
+    <Frame>![girl.resize.jpg](https://fanfan.s3.bitiful.net/girl.jpeg?w=200&h=200)</Frame>
+    </Accordion>
+    <Accordion title="演示：同时指定宽高 w=200 & h=200 并设置 mode=clip" icon="hand-back-point-right">
+    加上参数后 URL：[https://fanfan.s3.bitiful.net/girl.jpeg? **w=200 & h=200 & mode=clip**](https://fanfan.s3.bitiful.net/girl.jpeg?w=200&h=200&mode=clip)
+    <Frame>![girl.resize.jpg](https://fanfan.s3.bitiful.net/girl.jpeg?w=200&h=200&mode=clip)</Frame>
+    </Accordion>
+    <Accordion title="演示：同时指定宽高 w=200 & h=200 并设置 dpr=0.5" icon="hand-back-point-right">
+    加上参数后 URL：[https://fanfan.s3.bitiful.net/girl.jpeg? **w=200 & h=200 & dpr=0.5**](https://fanfan.s3.bitiful.net/girl.jpeg?w=200&h=200&dpr=0.5)
+    <Frame>![girl.resize.jpg](https://fanfan.s3.bitiful.net/girl.jpeg?w=200&h=200&dpr=0.5)</Frame>
+    </Accordion>
+    <Accordion title="演示：同时指定宽高 w=200 & h=200 并设置 pos=top" icon="hand-back-point-right">
+    加上参数后 URL：[https://fanfan.s3.bitiful.net/girl.jpeg? **w=200 & h=200 & pos=top**](https://fanfan.s3.bitiful.net/girl.jpeg?w=200&h=200&pos=top)
+    <Frame>![girl.resize.jpg](https://fanfan.s3.bitiful.net/girl.jpeg?w=200&h=200&pos=top)</Frame>
+    </Accordion>
+    <Accordion title="演示：同时指定宽高 w=200 & h=200 并设置 pos=bottom" icon="hand-back-point-right">
+    加上参数后 URL：[https://fanfan.s3.bitiful.net/girl.jpeg? **`w=200 & h=200 & pos=bottom`**](https://fanfan.s3.bitiful.net/girl.jpeg?w=200&h=200&pos=bottom)
+    <Frame>![girl.resize.jpg](https://fanfan.s3.bitiful.net/girl.jpeg?w=200&h=200&pos=bottom)</Frame>
+    </Accordion>
+</AccordionGroup>

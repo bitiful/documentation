@@ -1,0 +1,30 @@
+---
+title: '计费概述'
+description: '介绍对象存储。'
+---
+
+## 计费周期
+
+S4 以 **小时** 为周期，统计所有计费项的使用量，并按照使用量结算生成账单并扣费。
+
+## 计费方式
+
+S4 目前只支持 **按量计费**，该计费方式为一种后付费方式，即先使用再付费。系统会自动按使用量乘以每小时单价计算费用，然后自动生成账单并扣费。更多信息，请参见下方的 `费用组成`。
+
+## 费用组成
+
+S4 服务费用由 [存储容量费用](/prices/detail/storage-prices)、[流量费用](/prices/detail/transfer-prices)、[请求费用](/prices/detail/requests-prices) 和 [数据处理费用](/prices/detail/processing-prices) 组成。
+
+## 免费额度
+
+前置条件 - [实名账户](https://console.bitiful.com/users): 
+
+- 前 50 GiB 存储
+- 每月前 10*3 GB HTTP/HTTPS 流量（每日每项限 5 GB）
+    - S4 出口流量 10GB/月
+    - 内置 CDN 回源 S4 流量 10GB/月
+    - 内置 CDN 出口流量 10GB/月
+- 每月前 10*3 万次 请求（每日每项限 1 万次）
+    - S4 请求数 10万次/月
+    - 内置 CDN 回源 S4 请求数 10万次/月
+    - 内置 CDN 请求数 10万次/月

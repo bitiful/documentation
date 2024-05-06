@@ -1,0 +1,26 @@
+---
+title: '图像锐化'
+description: '图像锐化参数为 sharp，可提高图片处理后的清晰度。'
+---
+
+## 参数说明
+<Warning>该方法只能用于静态图片</Warning>
+### 相关参数总览
+
+| 参数 | 含义 | 作用说明 |
+| :--- | --- | --- |
+| ` sharp ` | 指定**锐化效果强度** | - 取值范围：<br />0 ~ 500（默认为 0）<br />- 取值含义：取值越大，锐化强度越高，图片越清晰，但过大的值可能会导致图片失真。 |
+
+### 效果演示
+
+原始清晰度：
+
+<Frame>![girl.sharp.jpg](https://fanfan.s3.bitiful.net/girl.jpeg?rect=0,0,1000,1000&w=300&q=90)</Frame>
+
+清晰度设置为 200：[https://fanfan.s3.bitiful.net/girl.jpeg?rect=0,0,1000,1000&w=300&q=90 **`&sharp=200`**](https://fanfan.s3.bitiful.net/girl.jpeg?rect=0,0,1000,1000&w=300&q=90&sharp=200)
+
+<Frame>![girl.sharp.jpg](https://fanfan.s3.bitiful.net/girl.jpeg?rect=0,0,1000,1000&w=300&q=90&sharp=200)</Frame>
+
+清晰度设置为 500：[https://fanfan.s3.bitiful.net/girl.jpeg?rect=0,0,1000,1000&w=300&q=90 **`&sharp=500`**](https://fanfan.s3.bitiful.net/girl.jpeg?rect=0,0,1000,1000&w=300&q=90&sharp=500)
+
+<Frame>![girl.sharp.jpg](https://fanfan.s3.bitiful.net/girl.jpeg?rect=0,0,1000,1000&w=300&q=90&sharp=500)</Frame>

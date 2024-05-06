@@ -1,11 +1,11 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "Starter Kit",
+  "name": "缤纷云文档",
   "logo": {
-    "dark": "/logo/dark.svg",
-    "light": "/logo/light.svg"
+    "dark": "https://bitiful-contents.s3.bitiful.net/images/bitiful-Docs-Logo-V2-dark.svg",
+    "light": "https://bitiful-contents.s3.bitiful.net/images/bitiful-Docs-Logo-V2-light.svg"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/favicon_v2.svg",
   "colors": {
     "primary": "#0D9373",
     "light": "#07C983",
@@ -15,71 +15,137 @@
       "to": "#07C983"
     }
   },
+  "backgroundImage":"https://bitiful-contents.s3.bitiful.net/images/bitiful-docs-blur-bg.svg",
   "topbarLinks": [
     {
-      "name": "Support",
-      "url": "mailto:hi@mintlify.com"
+      "name": "官网",
+      "url": "https://www.bitiful.com"
+    },
+    {
+      "name": "更新记录",
+      "url": "https://www.bitiful.com/blog"
     }
   ],
   "topbarCtaButton": {
-    "name": "Dashboard",
-    "url": "https://dashboard.mintlify.com"
+    "name": "控制台",
+    "url": "https://console.bitiful.com"
+  },
+  "primaryTab": {
+    "name": "产品文档"
   },
   "tabs": [
     {
-      "name": "API Reference",
-      "url": "api-reference"
+      "name": "计费与价格",
+      "url": "prices"
+    },
+    {
+      "name": "API & SDK",
+      "url": "sdk"
+    },
+    {
+      "name": "最佳实践",
+      "url": "best-practice"
     }
   ],
-  "anchors": [
+  "redirects": [
     {
-      "name": "Documentation",
-      "icon": "book-open-cover",
-      "url": "https://mintlify.com/docs"
+      "source": "/docs/:slug*",
+      "destination": "/:slug*"
     },
     {
-      "name": "Community",
-      "icon": "slack",
-      "url": "https://mintlify.com/community"
-    },
-    {
-      "name": "Blog",
-      "icon": "newspaper",
-      "url": "https://mintlify.com/blog"
+      "source": "/BitifulS4/:slug*",
+      "destination": "/bitiful-s4/:slug*"
+    },{
+      "source": "/bitiful-s4/what-is-bitiful-s4",
+      "destination": "/bitiful-s4/intro"
+    },{
+      "source": "/intro",
+      "destination": "/bitiful-s4/intro"
+    },{
+      "source": "/sdk",
+      "destination": "/sdk/intro"
     }
   ],
   "navigation": [
     {
-      "group": "Get Started",
+      "group": "S4 对象存储",
       "pages": [
-        "introduction",
-        "quickstart",
-        "development"
+        "bitiful-s4/intro",
+        "bitiful-s4/handbook/quick-start",
+        {
+          "group": "产品说明",
+          "pages": [
+            "bitiful-s4/use-case",
+            "bitiful-s4/limits",
+            "bitiful-s4/definitions"
+          ]
+        },
+        {
+          "group": "CoreIX 媒体处理",
+          "pages": [
+            "coreix/basic",
+            {
+              "group": "处理参数",
+              "pages": [
+                "coreix/features/resize",
+                "coreix/features/crop",
+                "coreix/features/quality",
+                "coreix/features/sharp",
+                "coreix/features/blur",
+                "coreix/features/watermark-image",
+                "coreix/features/watermark"
+              ]
+            }
+          ]
+        }
       ]
     },
     {
-      "group": "Essentials",
+      "group": "计费与价格",
       "pages": [
-        "essentials/markdown",
-        "essentials/code",
-        "essentials/images",
-        "essentials/settings",
-        "essentials/navigation",
-        "essentials/reusable-snippets"
+        "prices/basic",
+        {
+          "group": "计费细则",
+          "pages": [
+            "prices/detail/storage-prices",
+            "prices/detail/transfer-prices",
+            "prices/detail/requests-prices",
+            "prices/detail/processing-prices"
+          ]
+        },
+        "prices/compare",
+        "prices/arrearage"
       ]
     },
     {
-      "group": "API Documentation",
+      "group": "内容分发 CDN",
       "pages": [
-        "api-reference/introduction"
+        "cdn/intro"
       ]
     },
     {
-      "group": "Endpoint Examples",
+      "group": "Framer 加速",
       "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/delete"
+        "framerplus/intro"
+      ]
+    },
+    {
+      "group": "最佳实践",
+      "pages": [
+        "best-practice/web-uploads",
+        "best-practice/auto-detect-mime",
+        "best-practice/token-link"
+      ]
+    },
+    {
+      "group": "SDK 接入 S4",
+      "pages": [
+        "sdk/intro",
+        "sdk/php-demo/start-to-use",
+        "sdk/golang-demo/start-to-use",
+        "sdk/java-demo/start-to-use",
+        "sdk/python3-demo/start-to-use",
+        "sdk/android-demo/start-to-use"
       ]
     }
   ],

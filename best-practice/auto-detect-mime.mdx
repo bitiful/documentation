@@ -1,0 +1,39 @@
+---
+title: '上传时自动检测 MIME'
+description: '本文介绍如何用缤纷云对文件 MIME 的自动检测能力。'
+---
+
+## 利用缤纷云 S4 自动检测文件对象的 MIME
+在 《[在客户端中安全地上传文件](/best-practice/web-uploads)》的最佳实践中，我们的末尾的 Js 脚本片段将 Content-Type 强制置空完全是刻意为之，因为：
+
+- axios 采用 PUT 请求时会默认带上 `application/x-www-form-urlencoded` 的 `Content-Type`，而这与 S3 PUT 中对 `Content-Type` 的预期不同；
+- 对于 S3 协议来说，上传时主动带上文件 MIME 并赋值给 `Content-Type` 可作为元数据同时保存至 S3 后端系统当中（告诉 S3 上传的对象是何种 MIME 类型）
+
+所以最好的做法可能是 ———— 将 `Content-Type` 指定为上传文件的 MIME 类型，例如：
+
+```Javascript
+                const config = {
+                    headers: {
+                        'Content-Type': 'image/jpeg',
+                    },
+                };
+```
+
+那么在 AWS / OSS 中最好的做法可能是：用 Javascript 程序创建有效的文件类型判断，并在请求「预签名链接」时告知服务端我们需要上传一个何种 MIME 类型的文件：
+
+```Javascript
+        const url = `/s3_upload_url`;
+        const params = {key: '1.jpg', mime: 'image/jpeg'};
+```
+
+在 Bitiful S4 中，我们有 **更好的** 选择：
+
+**Bitiful S4 在接收到 `Content-Type` 为空的上传请求时，会`自动根据后缀与字节智能地判断文件的 MIME 类型`。**
+> AWS S3 和 OSS 中会全部变成 "application/octet-stream"
+
+这与 Javascript 中 file.type 只依赖后缀名的判断不同，把 MIME 推测工作交给 S4 会更可靠和真实。
+
+而你需要做的一切就是：
+
+1. **删除你的 MIME 判断代码**
+2. **发起 Put 请求时将 Content-Type 置为 Null**

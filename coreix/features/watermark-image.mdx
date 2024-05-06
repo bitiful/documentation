@@ -1,0 +1,26 @@
+---
+title: '图片水印'
+description: '本文介绍为图片增加 **图片水印** 功能的参数说明及使用示例。'
+---
+
+以下例子中，默认原图均为：https://fanfan.s3.bitiful.net/bridge.jpeg
+
+## 参数说明
+<Warning>该方法只能用于静态图片</Warning>
+### 相关参数总览
+
+**图片水印参数：**
+
+| 参数 | 含义 | 作用说明 | 范围 |
+| :--- | --- | --- | --- |
+| ` mark ` |**水印图片路径**| 桶内水印图片 path（如：*img/logo.png*）<br />默认为空 - 代表不增加图片水印（推荐进行 UrlEncode） | 只能是该桶内的图片 |
+| ` mark-pos ` |**水印位置偏移**|- **≥ 1** 时: 表示按绝 px 对值设定偏移<br />- **< 1** 时: 表示按原图像素**百分比**自动计算偏移(支持 3 种偏移策略)<br />-- 策略A: `0.99,0.99`表示按水印渲染范围的**最远边**<br />（即: **右&下**边）计算（此时水印绝对不会超过原图边界）<br />-- 策略B: `*0.99,*0.99`表示按水印渲染范围的**中心**计算<br />（此时水印会超出原图边界一半）<br />- 策略C: `**0.99,**0.99`表示按水印渲染范围的**最近边**<br />（即: **左&上**边）计算（此时水印会完全超出原图边界）| - |
+| ` mark-pct ` |**水印最大百分比**| - 当水印图片 size 过大时，系统会用该值对总大小进行约束<br />- 如：设定 0.5 代表无论 size 多大都不会超过原图 50%<br />大于 1 时代表可超出原图大小，有助于部分艺术表达场景 | 0.0 ~ 2.0 |
+| ` mark-alpha ` |**水印透明度**| 透明度百分比。 | 0.0 ~ 1.0 |
+
+<Tip>推荐：为 mark-pos 设定 **比例值** 而不是绝对值
+由于原图的比例、大小（特别是在配合 **w** 和 **h** 参数对原图进行裁剪、缩略后）各不相同，为 **mark-pos** 设定 **小于 1 的比例值** 能让水印大小及偏移位置更可靠。</Tip>
+
+加上参数后 URL：[https://fanfan.s3.bitiful.net/bridge.jpeg? **`mark=static/img/bitiful-logo@3x.png & fm=png & mark-pos=0.5,0.95`**](https://fanfan.s3.bitiful.net/bridge.jpeg?mark=static/img/bitiful-logo@3x.png&fm=png&mark-pos=0.5,0.95&fmt=png)
+
+<Frame>![bridge.txt.jpg](https://fanfan.s3.bitiful.net/bridge.jpeg?mark=static/img/bitiful-logo@3x.png&fm=png&mark-pos=0.5,0.95&fmt=png)</Frame>

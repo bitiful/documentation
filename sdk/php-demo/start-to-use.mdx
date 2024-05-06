@@ -1,0 +1,175 @@
+---
+title: '用 Aws-for-PHP 连接 S4'
+sidebarTitle: "Aws-for-PHP"
+description: '本文介绍如何用 Aws-for-PHP 连接 缤纷云 S4。'
+---
+## 引入 aws-for-php 框架
+
+前置步骤：安装框架（https://docs.aws.amazon.com/sdk-for-php/v3/developer-guide/welcome.html ）
+
+```php s4-demo.php
+require 'vendor/autoload.php';
+
+use Aws\Middleware;
+use Aws\S3\S3Client;
+use Aws\S3\S3ClientInterface;
+use Aws\S3\MultipartUploader;
+use Aws\Exception\AwsException;
+use Aws\S3\Exception\S3Exception;
+```
+
+### 连接到 S4 Endpoint
+```php s4-demo.php
+    /**
+	*
+	* 使用 AWS S3 协议连接到 Bitiful S4 Endpoint
+	*
+	* @param - 桶名
+	* @return - S3Client 对象
+	*
+	*/
+	private function connectS4() {		
+		$s3 = new Aws\S3\S3Client([
+		 	'credentials' => [				
+	        	'key'    => '子账户 accessKey', // 请到控制台创建子账户，并为子账户创建相应 accessKey
+	        	'secret' => '子账户 secretKey', // ！！切记，创建子账户时，需要手动为其分配具体权限！！
+	    	],
+                        'use_path_style_endpoint' => false,
+                        'use_aws_shared_config_files' => false,
+			'endpoint' => "https://s3.bitiful.net", // 请填入控制台 “Bucket 设置” 页面底部的 “Endpoint” 标签中的信息
+            'signature_version' => 'v4',
+			'version' => 'latest',
+			'region'  => 'cn-east-1'
+		]);
+
+		return $s3;
+	}
+```
+
+### 列出桶中对象
+```php s4-demo.php
+    /**
+	*
+	* List objects in the bucket
+	*
+	* @param - bucket name, prefix, delimiter
+	* @return - objects list
+	*
+	*/
+	public function listObjects($bucket, $prefix, $StartAfter) {
+		$s4 = $this->connectS4();
+		$objects = $s4->listObjects([
+			'Bucket' => $bucket,
+			'Prefix' => $prefix,
+			'Delimiter' => '/',
+			'StartAfter' => $StartAfter,
+			'MaxKeys' => 50
+		]);
+
+		return $objects;
+
+	}
+```
+
+### 获取具备时效的预签名文件下载链接
+
+```php s4-demo.php
+    /**
+	*
+	* 获取具备时效的预签名文件下载链接
+	*
+	* @param - Object Key, bucket name
+	* @return - 该对象时效性预签名链接
+	*
+	*/
+	public function getFileLink($key, $bucket) {
+		$s4 = $this->connectS4($bucket);
+		$key = html_entity_decode($key, ENT_COMPAT, 'UTF-8');
+		$result = $s4->getCommand('GetObject',[
+			'Bucket' => $bucket,
+			'Key' => $key
+		]);
+		# 用 S3 协议生成一个 S4 对象的预签名私有链接对象（未来 1 小时内有效）
+		$presigned_url = $s4->createPresignedRequest($result , '+1 hours');
+		# 获取预签名私有链接字符串并返回
+		$private_url = (string)$presigned_url->getUri();
+		return $private_url;
+	}
+```
+
+### 在预签名链接中加入 CoreIX 媒体处理参数
+
+因 S3 协议的预签名会将所有 Url 参数（Args）包含在内统一做签名，所以这里需要用到 Middleware 处理：
+```php s4-demo.php
+    /**
+	*
+	* 获取具备时效的预签名文件下载链接
+	*
+	* @param - 需要下载的 Object Key、桶名
+	* @return - 该对象时效性预签名链接
+	*
+	*/
+	public function getFileLink($key, $bucket) {
+		$s4 = $this->connectS4($bucket);
+		$key = html_entity_decode($key, ENT_COMPAT, 'UTF-8');
+		$result = $s4->getCommand('GetObject',[
+			'Bucket' => $bucket,
+			'Key' => $key
+		]);
+		$result->getHandlerList()->appendBuild(
+			Middleware::mapRequest(function (RequestInterface $request) {
+				// Return a new request with the added header
+				return $request->withUri(
+					$request->getUri()->withQuery(
+						$request->getUri()->getQuery() . "w=500" // 这里在增加了一个 w=500 的 CoreIX 处理参数
+					)
+				);
+			}),
+			'add-custom-param'
+		);
+		# 这里将会 `w=500` 一起加入签名计算
+		$presigned_url = $s4->createPresignedRequest($result , '+1 hours');
+		# 获取预签名私有链接字符串并返回
+		$private_url = (string)$presigned_url->getUri();
+		return $private_url;
+	}
+```
+
+### 在预签名链接中加入「单线程限速」参数
+
+S4 拓展了 x-amz-limit-rate 参数，可以对当前对象做下载的单线程限速，value 为 字节数（正整数）。
+如上所述，这里仍然需要用到 Middleware 处理签名：
+```php s4-demo.php
+    /**
+	*
+	* 获取具备时效的预签名文件下载链接
+	*
+	* @param - 需要下载的 Object Key、桶名
+	* @return - 该对象时效性预签名链接
+	*
+	*/
+	public function getFileLink($key, $bucket) {
+		$s4 = $this->connectS4($bucket);
+		$key = html_entity_decode($key, ENT_COMPAT, 'UTF-8');
+		$result = $s4->getCommand('GetObject',[
+			'Bucket' => $bucket,
+			'Key' => $key
+		]);
+		$result->getHandlerList()->appendBuild(
+			Middleware::mapRequest(function (RequestInterface $request) {
+				// Return a new request with the added header
+				return $request->withUri(
+					$request->getUri()->withQuery(
+						$request->getUri()->getQuery() . "x-amz-limit-rate=102400" // 限 102400 字节（100 KiB）每秒
+					)
+				);
+			}),
+			'add-custom-param'
+		);
+		# 这里将会 `x-amz-limit-rate=102400` 一起加入签名计算
+		$presigned_url = $s4->createPresignedRequest($result , '+1 hours');
+		# 获取预签名私有链接字符串并返回
+		$private_url = (string)$presigned_url->getUri();
+		return $private_url;
+	}
+```

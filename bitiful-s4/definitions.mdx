@@ -1,0 +1,51 @@
+---
+title: '主要名词与概念'
+description: '这里列出和定义一些S4对象存储服务中遇到的概念。'
+---
+
+缤纷云 S4 的存储桶均为 **目录桶**，约相当于 Amazon AWS 最新推出的：[Directory Buckets](https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/userguide/directory-buckets-overview.html)。
+>AWS 基于它构建了最新的高性能 S3 产品：[S3 Express One Zone](https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/userguide/s3-express-one-zone.html)
+
+## 存储桶（Bucket）
+
+- 存储桶是您存储内容对象（Object）的独享空间，所有的对象都必须隶属于某个存储桶。存储桶具有各种配置属性，包括地域、访问权限等。
+    - 存储桶的名字全局唯一，如果您创建了某个名称的存储桶，其他用户将无法再创建同名的存储桶。
+    - 每一个桶的存储空间没有限制。
+- 存储桶命名规范如下：
+    - 只能包括小写字母 a \~ z、数字 0 \~ 9 和 半角横线（-）。
+    - 开头和结尾只能是数字或字母。
+    - 长度必须在 4 \~ 63 个字符之间。
+
+## 对象（Object）
+
+对象是 S4 存储数据的基本单元，在本文档中 对象、文件 与 Object 意义相同。对象由键（Key），数据（Data）和元数据（Metadata）三部分组成。
+    - Key：为在某个存储桶（Bucket）中一个对象（文件）的唯一标识，它包含目录、后缀的完整路径。存储桶名 + Key 组成该对象在互联网上访问与操作的 [URL](https://baike.baidu.com/item/%E7%BB%9F%E4%B8%80%E8%B5%84%E6%BA%90%E5%AE%9A%E4%BD%8D%E7%B3%BB%E7%BB%9F)；
+    - Data：为该数据的实体内容，例如：一张图片中；
+    - Metadata：与本地文件系统不同，对象存储独有可描述一个对象（文件）其他属性的“元数据”。
+- 对象的命名规范如下：
+    - 使用 UTF-8 编码。
+    - 长度必须在 1～696 个字符之间。
+    - 不能以反斜线（\）开头。
+    - 不支持 \a、\b、\t、\n、\v、\f、\r 字符。
+- 目录对象 vs 文件对象
+    - S4 特有对象类型，旨在为高性能场景带来原生的 Rename 等特性；
+    - 目录对象只能以斜杠（/）结尾；
+    - 目录对象没有实质的 Data 二进制数据（Body 为空）；
+
+<Accordion title="举例：对象 https://somebucket.s3.bitiful.net/userFiles/000001.avatar">
+
+- **存储桶（Bucket）名为**：somebucket；
+- **Key 为**：userFiles/000001.avatar；
+- **数据（Data）为**：该图片实际的二进制内容；
+- **元数据（Metadata）为**：image/jpeg。在对象存储中，不需要依靠[文件扩展名](https://baike.baidu.com/item/%E6%96%87%E4%BB%B6%E6%89%A9%E5%B1%95%E5%90%8D/1270230)来判断文件类型（MIME），只要元数据（Metadata）中指定了其类型为“image/jpeg”，那么在访问时浏览器可自动识别为图片。
+
+</Accordion>
+
+## 地域（Region）
+地域表示 S4 的数据中心所在可用区的地理位置，目前只有中国东部1可用区（cn-east-1）。
+
+## 子账户（Sub-user）
+子账户是缤纷云最小的权限管理单位，每个子账户可以单独设置不同`存储桶`的权限，每个子账户下的 AccessKey 集成该子账户所有的权限。
+
+## 访问密钥（AccessKey）
+AccessKey 简称AK，是 AccessKey Id 和 AccessKey Secret 的统称，凭借 AccessKey，您可以在任何兼容 S3 协议的第三方工具、SDK 中方便地使用 缤纷云 S4。

@@ -1,0 +1,45 @@
+---
+title: '介绍 S4'
+description: '介绍缤纷云 S4 对象存储。'
+---
+<Frame>![](https://bitiful-contents.s3.bitiful.net/images/Background-logo.png?w=1280&fm=webp)</Frame>
+
+[缤纷云 S4](https://www.bitiful.com/)（Smart Simple Storage Service）是一款兼容 S3 协议（S3 Compatible Storage）的对象存储服务。它在 S3 的基础上添加了一系列内置的 **内容处理及优化功能**。故相比 S3 多了 **Smart** 特性。
+
+同时，缤纷云 S4 采用了创新的低成本架构，使得中国大陆用户首次能以不到一半的存储成本使用 [热点云存储](https://wasabi.com/hot-cloud-storage/)（OSS标准、COS标准 等）。
+
+如果需要一个对比，它将类似于：
+- [Wasabi.com](https://wasabi.com/) + [Cloudinary.com](https://cloudinary.com/)
+- [Backblaze.com B2](https://www.backblaze.com/cloud-storage) + [Cloudinary.com](https://cloudinary.com/)
+
+## S4 的重要特性
+<Tip>
+缤纷云 S4 的存储桶均为 **目录桶**，约相当于 Amazon AWS 最新推出的：[Directory Buckets](https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/userguide/directory-buckets-overview.html)。
+
+AWS 基于它构建了最新的高性能 S3 产品：[S3 Express One Zone](https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/userguide/s3-express-one-zone.html)
+</Tip>
+- **低成本**：相比 亚马逊S3 和 阿里云OSS，缤纷云S4的使用成本最多可 **降低 80%**（查看：[表格对比](https://docs.qq.com/sheet/DQ3VwTlJQY1l5dU9G)）。
+- **高性能**：
+    - 元数据性能高 —— 缤纷云S4 基于[Directory Buckets](https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/userguide/directory-buckets-overview.html)；
+    - 网络性能高 —— 原生支持 Rename、HTTP/2、HTTP/3、TLS1.3；
+- **智能化**：
+    - 使用自研的 CoreIX 媒体处理引擎而非 Imagemagick，可基于内容感知对图片进行自动裁剪、缩略。
+    - 支持 Webp、Avif 等高级图片格式输出；
+    - 原生支持 HDR 图片处理、HDR 视频截图；
+    - 支持内容感知的图片主体内容推测；
+- **兼容S3**：亚马逊 S3 是世界范围内用户最多的对象存储服务之一，绝大多数场景可以像使用 S3 一样使用 缤纷云 S4。
+- **不分层**：无论是 OSS 还是 S3，都将服务分割成 —— “标准、低频、归档”等以应对不同场景，这不仅会大大增加选型难度，同时会带来容易忽略的大量“隐性”费用，S4 使用一个类型应对所有场景。
+
+## 值得注意的限制
+
+目前S4处于预览阶段，正在积极开发中，功能较成熟产品还有很多不足：
+
+- 我们的性能低于 OSS 标准，但高于 低频存储 ，大部分场完全不需要上万 QPS ，我们争取做到其 60%的性能就足以满足大部分需求（若流量非常大可搭配 CDN）；
+- 就功能的丰富度而言，还差许多，但随着开发的推进，会很快补上；
+- 如果你使用了阿里的服务器，且服务器需要跟对象存储大量交互，则会消耗服务器外网流量，众所周知，阿里云的流量巨贵，总体而言，如果你可以用七牛云、又拍云，基本上完全可以平替过来。
+- 目前只有浙江可用区，我们争取在 1 年内上线北方可用区。
+- 目前没有服务端加密、WORM、多版本 等特性
+
+## 成本对比（OSS）
+
+对比详情：[缤纷云S4 VS. 阿里云OSS](/prices/compare.md#对比-阿里云oss)

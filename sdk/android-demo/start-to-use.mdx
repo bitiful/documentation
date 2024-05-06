@@ -1,0 +1,48 @@
+---
+title: '用 Aws-Android-SDK 连接 S4'
+sidebarTitle: "Aws-Android-SDK"
+description: '本文介绍如何用 Aws-Android-SDK 连接 缤纷云 S4。'
+---
+## 引入 aws-for-android 框架
+
+<Warning>
+
+我们强烈建议 `不要在` 客户端中内置 ak / sk，也 `不要用` API 下发 ak / sk。
+
+更优方案请参考我们的：《[上传内容最佳实践](/best-practice/web-uploads)》
+
+</Warning>
+
+前置步骤：安装 sdk（https://github.com/aws-amplify/aws-sdk-android ）
+
+```java s4-demo.android.java
+def aws_version = '2.64.0'
+implementation "com.amazonaws:aws-android-sdk-s3:$aws_version"
+implementation ("com.amazonaws:aws-android-sdk-mobile-client:$aws_version")
+```
+
+### 连接到 S4 Endpoint
+```java title="s4-demo.java"
+fun getS3Client(): AmazonS3Client {
+    val credentials = object: AWSCredentials {
+        override fun getAWSAccessKeyId() = accessKey // 请到控制台创建子账户，并为子账户创建相应 accessKey
+        override fun getAWSSecretKey() = sercetKey // ！！切记，创建子账户时，需要手动为其分配具体权限！！
+    }
+    val amazonS3Client = AmazonS3Client(credentials, Region.getRegion(Regions.DEFAULT_REGION), ClientConfiguration())
+    amazonS3Client.endpoint = "https://s3.bitiful.net" // 请填入控制台 “Bucket 设置” 页面底部的 “Endpoint” 标签中的信息
+    return amazonS3Client
+}
+```
+
+### 列出桶中对象
+```java s4-demo.android.java
+val s3 = getS3Client()
+s3.listObjects(bucketName)
+```
+
+### 获取具备时效的预签名文件下载链接
+
+```java s4-demo.android.java
+val s3 = getS3Client()
+val url = s3.generatePresignedUrl(bucketName, key, date)
+```

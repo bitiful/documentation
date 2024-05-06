@@ -1,0 +1,62 @@
+---
+title: '用 Aws-for-Java 连接 S4'
+sidebarTitle: "Aws-for-Java"
+description: '本文介绍如何用 Aws-for-Java 连接 缤纷云 S4。'
+---
+
+---
+sidebar_label: '用 Aws-Java-sdk 连接'
+sidebar_position: 1
+---
+## 引入 aws-for-java 框架
+
+前置步骤：安装 sdk（https://github.com/aws/aws-sdk-java-v2 ）
+
+```java s4-demo.java
+implementation 'software.amazon.awssdk:s3:2.20.29'
+```
+
+### 连接到 S4 Endpoint
+```java s4-demo.java
+fun getS3Client() = S3Client.builder().region(Region.CN_NORTH_1).endpointOverride(URI.create("https://s3.bitiful.net/"))// 请填入控制台 “Bucket 设置” 页面底部的 “Endpoint” 标签中的信息
+        .credentialsProvider(AwsCredentialsProvider {
+            return@AwsCredentialsProvider object :AwsCredentials{
+                override fun accessKeyId(): String {
+                    return accessKey // 请到控制台创建子账户，并为子账户创建相应 accessKey
+                }
+                override fun secretAccessKey(): String {
+                    return sercetKey // ！！切记，创建子账户时，需要手动为其分配具体权限！！
+                }
+            }
+        }).build()
+```
+
+### 列出桶中对象
+```java s4-demo.java
+val s3 = getS3Client()
+s3.listObjects(ListObjectsRequest.builder().bucket(bucketName))
+```
+
+### 获取具备时效的预签名文件下载链接
+
+```java s4-demo.java
+val presign = S3Presigner.builder().region(Region.CN_NORTH_1).endpointOverride(URI.create("https://s3.bitiful.net/"))// 请填入控制台 “Bucket 设置” 页面底部的 “Endpoint” 标签中的信息
+        .credentialsProvider(AwsCredentialsProvider {
+            return@AwsCredentialsProvider object :AwsCredentials{
+                override fun accessKeyId(): String {
+                    return accessKey // 请到控制台创建子账户，并为子账户创建相应 accessKey
+                }
+
+                override fun secretAccessKey(): String {
+                    return sercetKey // ！！切记，创建子账户时，需要手动为其分配具体权限！！
+                }
+
+            }
+        }).build()
+        
+val request = GetObjectRequest.builder().bucket(bucketName).key(key).build()
+val presignRequest = GetObjectPresignRequest.builder()
+           .signatureDuration(Duration.ofSeconds(time))
+           .getObjectRequest(request).build()
+val url = presign.presignGetObject(presignRequest).url().toString()
+```

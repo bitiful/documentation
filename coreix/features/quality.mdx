@@ -1,0 +1,31 @@
+---
+title: '质量变换'
+description: '质量变换可以对处理后的图片输出时做质量压缩，以尽可能节省传输流量。本文介绍质量变换的参数说明及使用示例。'
+---
+
+以下例子中，默认原图均为：https://fanfan.s3.bitiful.net/girl.jpeg
+
+## 参数说明
+
+<Warning>该方法只能在输出 `Jpeg 静图` / `Webp 动、静图` / `Avif 动、静图` / `GIF 动图` 使用（fmt=jpg / fmt=webp / fmt=avif）</Warning>
+
+### 相关参数总览
+
+| 参数 | 含义 | 作用说明 |
+| :--- | --- | --- |
+| ` q ` | 指定**图片输出质量百分比** | - 设置图片的绝对质量，将原图质量压缩至 q%<br />- 默认值：88 |
+
+### 用例说明
+
+- **q**：如果原图质量小于指定参数值，则按照原图质量重新进行压缩。例如 原图质量是95%，添加 q=90 参数后最终会得到质量90％的图片。
+
+
+### 对比效果
+质量转换为 90%：[https://fanfan.s3.bitiful.net/girl.jpeg?rect=0,0,1000,1000&w=300& q=**90**](https://fanfan.s3.bitiful.net/girl.jpeg?rect=0,0,1000,1000&w=300&q=90)
+<Frame>
+![girl.quality.jpg](https://fanfan.s3.bitiful.net/girl.jpeg?rect=0,0,1000,1000&w=300&q=90)
+</Frame>
+质量转换为 20%：[https://fanfan.s3.bitiful.net/girl.jpeg?rect=0,0,1000,1000&w=300& q=**20**](https://fanfan.s3.bitiful.net/girl.jpeg?rect=0,0,1000,1000&w=300&q=20)
+<Frame>
+![girl.quality.jpg](https://fanfan.s3.bitiful.net/girl.jpeg?rect=0,0,1000,1000&w=300&q=20)
+</Frame>

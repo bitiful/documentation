@@ -1,0 +1,283 @@
+---
+title: 'CDN 使用高级防盗链'
+description: '本文介绍如何在缤纷云 CDN 中使用高级防盗链。'
+---
+
+<Note>
+
+为保护资源被滥用，CDN 配置 Referer 和 IP 的黑白名单来判断是否是合法用户及来源。然后 Referer 可被 **轻松伪造**，实际使用中仍存在隐患。
+
+为了更好地保护源站资源，CDN 支持加密 URL 的功能，可以通过 **高级鉴权** 的方式来正确响应合法请求、拒绝非法请求。
+
+</Note>
+
+## 工作原理
+在控制台为需要保护的 “加速项目” 启用“高级鉴权”，并设置一个名为 `鉴权 Key` 的“暗号”，利用与 CDN 同样策略的方式向合法用户提供利加密的 URL，并通过 ts 参数设定该 URL 的有效时间戳；
+
+用户在访问资源时会根据下面的 `规则` 判断请求的合法性：
+<Steps>
+<Step title="是否有签名">
+    - **是** - `继续判断下一条规则`
+    - **否** - `返回 403 Forbidden`；
+</Step>
+<Step title="当前是否早于 _ts 参数规定的时间戳">
+    - **是** - `继续判断下一条规则`
+    - **否** - `返回 403 Forbidden`；
+</Step>
+<Step title="判断 _btf_tk 是否合法（防止 _ts 被伪造）">
+    - **是** - `200 并返回资源`
+    - **否** - `返回 403 Forbidden`。
+</Step>
+</Steps>
+
+
+## 典型范例
+一个正确的典型高级防盗链 URL 应该类似于：
+> [http://tests3origin.dogecast.com/image.jpg?`_ts`=1701091625&`_btf_tk`=960edecad993db64d8aab938c7dfc3f7](http://tests3origin.dogecast.com/image.jpg?_ts=1701091625&_btf_tk=960edecad993db64d8aab938c7dfc3f7)
+
+其中：
+- ts: 为 UTC 时间戳，意为：该 URL 的时效时间（**晚于该时间** 后链接将返回 403）
+- token: 用 **tokenKey** + **path** (本例为 /image.jpg) + **args** (本例为 _ts=1701091625)
+
+
+## 代码示例：
+
+下面是部分主流语言实现上述 **典型范例** 中的 `高级鉴权 URL` 的示例代码。
+它们应该可在各个 playground 中被正确执行。
+
+<Warning>
+
+**安全提示：**
+
+下面虽然列出了部分客户端语言的示例，但缤纷云建议您永远 **只在服务端生成** 高级鉴权链接并分发给客户端。
+因为这可以：
+1. 最大程度保护 **tokenKey** 的安全；
+2. 更高效、安全地随时替换 **tokenKey**（不必迫使用户更新客户端）。
+
+</Warning>
+
+### PHP 语言版本
+
+```php
+function creatLink() {
+    $deadLine = time() + 60; # 链接在未来的 60秒 内有效
+    $tokenKey = "**testsecretkey**"; # 缤纷云后台设置的 鉴权Key
+    $domain = "http://tests3origin.dogecast.com";
+    $fileName = "/image.jpg";
+    $md5RawString = $tokenKey.$fileName.
+        "?_ts=".$deadLine;
+    $md5Result = md5($md5RawString);
+    $tokenLink = $domain.$fileName.
+        "?_btf_tk=".$md5Result.
+        "&_ts=".$deadLine;
+    return $tokenLink;
+}
+echo creatLink();
+```
+
+### Go 语言版本
+<Tip>
+
+time.Now().Unix() 有效性提示
+- 大部分 Golang playground 并不支持获取时间戳 ———— time.Now().Unix() 将会得到一个错误的早期时间；
+- 请注意选择部分第三方支持该特性的 Golang playground；
+- 以下 golang 示例代码可以在 [Programiz](https://www.programiz.com/golang/online-compiler/) 得到正确地执行。
+
+</Tip>
+
+```go
+package main
+
+import (
+	"crypto/md5"
+	"encoding/hex"
+	"fmt"
+	"time"
+)
+
+func createLink() string {
+	deadLine := time.Now().Unix() + 60 // 链接在未来的 60秒 内有效
+	tokenKey := "testsecretkey" // 缤纷云后台设置的 鉴权Key
+	domain := "http://tests3origin.dogecast.com"
+	fileName := "/image.jpg"
+	rawString := fmt.Sprintf("%s%s?_ts=%d", tokenKey, fileName, deadLine)
+	hasher := md5.New()
+	hasher.Write([]byte(rawString))
+	md5Result := hex.EncodeToString(hasher.Sum(nil))
+	tokenLink := fmt.Sprintf("%s%s?_btf_tk=%s&_ts=%d", domain, fileName, md5Result, deadLine)
+	return tokenLink
+}
+
+func main() {
+	fmt.Println(createLink())
+}
+```
+
+### Python3 语言版本
+
+```python
+import hashlib
+import time
+
+def create_link():
+    deadLine = int(time.time()) + 60 # 链接在未来的 60秒 内有效
+    tokenKey = "testsecretkey" # 缤纷云后台设置的 鉴权Key
+    domain = "http://tests3origin.dogecast.com"
+    fileName = "/image.jpg"
+    rawString = f"{tokenKey}{fileName}?_ts={deadLine}"
+    md5Result = hashlib.md5(rawString.encode()).hexdigest()
+    tokenLink = f"{domain}{fileName}?_btf_tk={md5Result}&_ts={deadLine}"
+    return tokenLink
+
+print(create_link())
+```
+
+### JS 语言版本
+
+```javascript
+const crypto = require('crypto');
+
+function createLink() {
+    let deadLine = Math.floor(Date.now() / 1000) + 60; // 链接在未来的 60秒 内有效
+    let tokenKey = "testsecretkey"; // 缤纷云后台设置的 鉴权Key
+    let domain = "http://tests3origin.dogecast.com";
+    let fileName = "/image.jpg";
+    let rawString = tokenKey + fileName + "?_ts=" + deadLine;
+    let md5Result = crypto.createHash('md5').update(rawString).digest('hex');
+    let tokenLink = domain + fileName + "?_btf_tk=" + md5Result + "&_ts=" + deadLine;
+    return tokenLink;
+}
+
+console.log(createLink());
+```
+
+### Java 语言版本
+
+```Java
+import java.security.NoSuchAlgorithmException;
+import java.time.Instant;
+import java.security.MessageDigest;
+import java.nio.charset.StandardCharsets;
+import java.math.BigInteger;
+
+public class Main {
+    public static void main(String[] args) throws NoSuchAlgorithmException {
+        System.out.println(createLink());
+    }
+
+    public static String createLink() throws NoSuchAlgorithmException {
+        long deadline = Instant.now().getEpochSecond() + 60; // 链接在未来的 60秒 内有效
+        String tokenKey = "testsecretkey"; // 缤纷云后台设置的 鉴权Key
+        String domain = "http://tests3origin.dogecast.com";
+        String fileName = "/image.jpg";
+        String rawString = tokenKey + fileName + "?_ts=" + deadline;
+        String md5Result = getMd5(rawString);
+        String tokenLink = domain + fileName + "?_btf_tk=" + md5Result + "&_ts=" + deadline;
+        return tokenLink;
+    }
+    
+    public static String getMd5(String input) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] messageDigest = md.digest(input.getBytes(StandardCharsets.UTF_8));
+            BigInteger no = new BigInteger(1, messageDigest);
+            String hashtext = no.toString(16);
+            while (hashtext.length() < 32) {
+                hashtext = "0" + hashtext;
+            }
+            return hashtext;
+        }
+        catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
+```
+
+### rust 语言版本
+
+```rust
+extern crate chrono;
+extern crate crypto;
+
+use chrono::prelude::*;
+use crypto::digest::Digest;
+use crypto::md5::Md5;
+
+fn create_link() -> String {
+    let deadline = Utc::now().timestamp() + 60; // 链接在未来的 60秒 内有效
+    let token_key = "testsecretkey"; // 缤纷云后台设置的 鉴权Key
+    let domain = "http://tests3origin.dogecast.com";
+    let file_name = "/image.jpg";
+    let raw_string = format!("{}{}?_ts={}", token_key, file_name, deadline);
+    let mut hasher = Md5::new();
+    hasher.input_str(&raw_string);
+    let md5_result = hasher.result_str();
+    let token_link = format!("{}{}?_btf_tk={}&_ts={}", domain, file_name, md5_result, deadline);
+    token_link
+}
+
+fn main() {
+    println!("{}", create_link());
+}
+```
+
+**请注意: 在运行 Rust 代码前需要在你的 Cargo.toml 文件中添加以下依赖**
+```toml
+[dependencies]
+chrono = "0.4"
+rust-crypto = "0.2"
+```
+
+### swift 语言版本
+
+```swift
+import CommonCrypto
+import Foundation
+
+func MD5(string: String) -> String {
+    let length = Int(CC_MD5_DIGEST_LENGTH)
+    var digest = [UInt8](repeating: 0, count: length)
+    if let data = string.data(using: String.Encoding.utf8) {
+        data.withUnsafeBytes { _ = CC_MD5($0.baseAddress, CC_LONG(data.count), &digest) }
+    }
+    return digest.map { String(format: "%02x", $0) }.joined()
+}
+
+func createLink() -> String {
+    let deadline = Int(Date().timeIntervalSince1970) + 60
+    let tokenKey = "testsecretkey"
+    let domain = "http://tests3origin.dogecast.com"
+    let fileName = "/image.jpg"
+    let rawString = "\(tokenKey)\(fileName)?_ts=\(deadline)"
+    let md5Result = MD5(string: rawString)
+    let tokenLink = "\(domain)\(fileName)?_btf_tk=\(md5Result)&_ts=\(deadline)"
+    return tokenLink
+}
+
+print(createLink())
+```
+
+### kotlin 语言版本
+
+```kotlin
+import java.security.MessageDigest
+import java.time.Instant
+
+fun createLink(): String {
+    val deadline = Instant.now().epochSecond + 60
+    val tokenKey = "testsecretkey"
+    val domain = "http://tests3origin.dogecast.com"
+    val fileName = "/image.jpg"
+    val rawString = "$tokenKey$fileName?_ts=$deadline"
+    val md = MessageDigest.getInstance("MD5")
+    md.update(rawString.toByteArray())
+    val md5Result = md.digest().joinToString("") { "%02x".format(it) }
+    val tokenLink = "$domain$fileName?_btf_tk=$md5Result&_ts=$deadline"
+    return tokenLink
+}
+
+fun main() {
+    println(createLink())
+}
+```

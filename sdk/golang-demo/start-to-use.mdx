@@ -1,0 +1,352 @@
+---
+title: '用 Aws-SDK-Go-v2 连接 S4'
+sidebarTitle: "Aws-SDK-Go"
+description: '本文介绍如何用 aws-sdk-go-v2 连接 缤纷云 S4。'
+---
+## 连接到 S4 Endpoint
+### 以下代码基于版本
+```
+github.com/aws/aws-sdk-go-v2 v1.24.1
+github.com/aws/aws-sdk-go-v2/config v1.26.6
+github.com/aws/aws-sdk-go-v2/credentials v1.16.16
+github.com/aws/aws-sdk-go-v2/service/s3 v1.48.1
+```
+
+```golang main.go
+package main
+
+import (
+	"context"
+	"fmt"
+	"log"
+
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/credentials"
+	"github.com/aws/aws-sdk-go-v2/service/s3"
+)
+
+const s3Endpoint = "https://s3.bitiful.net"
+
+func main() {
+	// 替换成自己的AccessKey和SecretKey
+	s3AccessKey := "your-access-key"
+	s3SecretKey := "your-secret-key"
+
+	// 获取S3客户端
+	s3Client, err := getS3Client(s3AccessKey, s3SecretKey)
+	if err != nil {
+		log.Println("get s3 client failed, err=", err)
+		return
+	}
+	log.Println("get s3 client success", s3Client)
+}
+
+// 获取S3客户端
+func getS3Client(key, secret string) (*s3.Client, error) {
+	customResolver := aws.EndpointResolverWithOptionsFunc(func(service, region string, options ...interface{}) (aws.Endpoint, error) {
+		if service == "S3" {
+			return aws.Endpoint{
+				URL: s3Endpoint,
+			}, nil
+		}
+		return aws.Endpoint{}, fmt.Errorf("unknown service requested")
+	})
+
+	customProvider := credentials.NewStaticCredentialsProvider(key, secret, "")
+	cfg, err := config.LoadDefaultConfig(context.TODO(), config.WithCredentialsProvider(customProvider), config.WithEndpointResolverWithOptions(customResolver))
+	if err != nil {
+		return nil, err
+	}
+        cfg.Region = "cn-east-1"
+	s3client := s3.NewFromConfig(cfg)
+	return s3client, nil
+}
+
+```
+
+### 列出桶中对象
+```golang main.go
+package main
+
+import (
+	"context"
+	"fmt"
+	"log"
+
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/credentials"
+	"github.com/aws/aws-sdk-go-v2/service/s3"
+)
+
+const s3Endpoint = "https://s3.bitiful.net"
+
+func main() {
+	// 替换成自己的AccessKey和SecretKey
+	s3AccessKey := "your-access-key"
+	s3SecretKey := "your-secret-key"
+
+	// 获取S3客户端
+	s3Client, err := getS3Client(s3AccessKey, s3SecretKey)
+	if err != nil {
+		log.Println("get s3 client failed, err=", err)
+		return
+	}
+
+	// 替换成自己的桶名
+	bucket := "your-bucket-name" // 例如：test
+
+	// 获取桶内文件列表
+	listObjsResponse, err := s3Client.ListObjectsV2(context.TODO(), &s3.ListObjectsV2Input{
+		Bucket:    aws.String(bucket),
+		Delimiter: aws.String("/"),
+		MaxKeys:   aws.Int32(50),
+	})
+	if err != nil {
+		log.Println("list objects failed, err=", err)
+		return
+	}
+
+	// 输出文件列表
+	for _, object := range listObjsResponse.Contents {
+		log.Printf("object key=%v", *object.Key)
+	}
+
+	log.Println("list objects success")
+}
+
+// 获取S3客户端
+func getS3Client(key, secret string) (*s3.Client, error) {
+	customResolver := aws.EndpointResolverWithOptionsFunc(func(service, region string, options ...interface{}) (aws.Endpoint, error) {
+		if service == "S3" {
+			return aws.Endpoint{
+				URL: s3Endpoint,
+			}, nil
+		}
+		return aws.Endpoint{}, fmt.Errorf("unknown service requested")
+	})
+
+	customProvider := credentials.NewStaticCredentialsProvider(key, secret, "")
+	cfg, err := config.LoadDefaultConfig(context.TODO(), config.WithCredentialsProvider(customProvider), config.WithEndpointResolverWithOptions(customResolver))
+	if err != nil {
+		return nil, err
+	}
+        cfg.Region = "cn-east-1"
+	s3client := s3.NewFromConfig(cfg)
+	return s3client, nil
+}
+
+```
+
+### 获取具备时效的预签名文件下载链接
+
+```golang main.go
+package main
+
+import (
+	"context"
+	"fmt"
+	"log"
+	"time"
+
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/credentials"
+	"github.com/aws/aws-sdk-go-v2/service/s3"
+)
+
+const s3Endpoint = "https://s3.bitiful.net"
+
+func main() {
+	// 替换成自己的AccessKey和SecretKey
+	s3AccessKey := "your-access-key"
+	s3SecretKey := "your-secret-key"
+
+	// 获取S3客户端
+	s3Client, err := getS3Client(s3AccessKey, s3SecretKey)
+	if err != nil {
+		log.Println("get s3 client failed, err=", err)
+		return
+	}
+
+	// 替换成自己的桶名和对象的key
+	bucket := "your-bucket-name"   // 例如：test
+	objectKey := "your-object-key" // 例如：test.txt
+
+	// 获取 presign client
+	preSignClient := s3.NewPresignClient(s3Client)
+
+	// 获取预签名请求
+	preSignedRequest, _ := preSignClient.PresignGetObject(context.TODO(), &s3.GetObjectInput{
+		Bucket: aws.String(bucket),
+		Key:    aws.String(objectKey),
+	}, func(presignOptions *s3.PresignOptions) {
+		presignOptions.Expires = time.Hour // 过期时间，默认是900秒，这里修改为合适的时效，比如1小时
+	})
+
+	// 输出预签名URL
+	preSignedUrl := preSignedRequest.URL
+	log.Printf("get preSigned url success, preSignedUrl=%v", preSignedUrl)
+}
+
+// 获取S3客户端
+func getS3Client(key, secret string) (*s3.Client, error) {
+	customResolver := aws.EndpointResolverWithOptionsFunc(func(service, region string, options ...interface{}) (aws.Endpoint, error) {
+		if service == "S3" {
+			return aws.Endpoint{
+				URL: s3Endpoint,
+			}, nil
+		}
+		return aws.Endpoint{}, fmt.Errorf("unknown service requested")
+	})
+
+	customProvider := credentials.NewStaticCredentialsProvider(key, secret, "")
+	cfg, err := config.LoadDefaultConfig(context.TODO(), config.WithCredentialsProvider(customProvider), config.WithEndpointResolverWithOptions(customResolver))
+	if err != nil {
+		return nil, err
+	}
+        cfg.Region = "cn-east-1"
+	s3client := s3.NewFromConfig(cfg)
+	return s3client, nil
+}
+
+```
+
+### 在预签名链接中加入 CoreIX 媒体处理参数
+
+因 S3 协议的预签名会将所有 Url 参数（Args）包含在内统一做签名，所以这里需要用到 Middleware 处理：
+```golang main.go
+package main
+
+import (
+	"context"
+	"fmt"
+	"log"
+	"time"
+
+	"github.com/aws/smithy-go/middleware"
+	smithyhttp "github.com/aws/smithy-go/transport/http"
+
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/credentials"
+	"github.com/aws/aws-sdk-go-v2/service/s3"
+)
+
+const s3Endpoint = "https://s3.bitiful.net"
+
+func main() {
+	// 替换成自己的AccessKey和SecretKey
+	s3AccessKey := "your-access-key"
+	s3SecretKey := "your-secret-key"
+
+	// 获取S3客户端
+	s3Client, err := getS3Client(s3AccessKey, s3SecretKey)
+	if err != nil {
+		log.Println("get s3 client failed, err=", err)
+		return
+	}
+
+	// 替换成自己的桶名和对象的key
+	bucket := "your-bucket-name"   // 例如：test
+	objectKey := "your-object-key" // 例如：test.txt
+
+	// 获取 presign client
+	preSignClient := s3.NewPresignClient(s3Client)
+
+	// 在预签名地址中 加入 CoreIX 媒体处理参数
+	bitifulQuery := map[string]string{"w": "500"} // 宽度为500px
+	// 在预签名地址中 加入「单线程限速」参数
+	// bitifulQuery := map[string]string{"x-amz-limit-rate": "102400"} // 102400 代表 102400字节/秒
+
+	//自定义参数, 使用ctx传递
+	ctx := context.WithValue(context.TODO(), "bitiful-query", bitifulQuery)
+
+	// 获取预签名请求
+	preSignedRequest, _ := preSignClient.PresignGetObject(ctx, &s3.GetObjectInput{
+		Bucket: aws.String(bucket),
+		Key:    aws.String(objectKey),
+	}, func(presignOptions *s3.PresignOptions) {
+		presignOptions.Expires = time.Hour // 过期时间，默认是900秒，这里修改为合适的时效，比如1小时
+		presignOptions.ClientOptions = append(presignOptions.ClientOptions, func(options *s3.Options) {
+			// 注入自定义中间件
+			options.APIOptions = append(options.APIOptions, registerPresignedUrlAddBitifulQueryMiddleware)
+		})
+	})
+
+	//输出预签名URL
+	preSignedUrl := preSignedRequest.URL
+	log.Println("get preSigned url success, preSignedUrl=", preSignedUrl)
+}
+
+// 获取S3客户端
+func getS3Client(key, secret string) (*s3.Client, error) {
+	customResolver := aws.EndpointResolverWithOptionsFunc(func(service, region string, options ...interface{}) (aws.Endpoint, error) {
+		if service == "S3" {
+			return aws.Endpoint{
+				URL: s3Endpoint,
+			}, nil
+		}
+		return aws.Endpoint{}, fmt.Errorf("unknown service requested")
+	})
+
+	customProvider := credentials.NewStaticCredentialsProvider(key, secret, "")
+	cfg, err := config.LoadDefaultConfig(context.TODO(), config.WithCredentialsProvider(customProvider), config.WithEndpointResolverWithOptions(customResolver))
+	if err != nil {
+		return nil, err
+	}
+        cfg.Region = "cn-east-1"
+	s3client := s3.NewFromConfig(cfg)
+	return s3client, nil
+}
+
+// 获取预签名url增加自定义参数
+func registerPresignedUrlAddBitifulQueryMiddleware(stack *middleware.Stack) error {
+	// Attach the custom middleware to the beginning of the Initialize step
+	return stack.Build.Add(presignedUrlAddBitifulQueryMiddleware, middleware.After)
+}
+
+// 自定义中间件
+var presignedUrlAddBitifulQueryMiddleware = middleware.BuildMiddlewareFunc("AddBitifulQuery", func(ctx context.Context, input middleware.BuildInput, next middleware.BuildHandler) (out middleware.BuildOutput, metadata middleware.Metadata, err error) {
+	bitifulQuery := ctx.Value("bitiful-query")
+	if bitifulQuery == nil {
+		return next.HandleBuild(ctx, input)
+	}
+
+	req, ok := input.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, fmt.Errorf("unknown transport type %T", req)
+	}
+
+	bitifulQueryMap, ok := bitifulQuery.(map[string]string)
+	if !ok {
+		return next.HandleBuild(ctx, input)
+	}
+
+	// set bitiful query
+	query := req.URL.Query()
+	for key, value := range bitifulQueryMap {
+		query.Set(key, value)
+	}
+	req.URL.RawQuery = query.Encode()
+
+	return next.HandleBuild(ctx, input)
+})
+
+```
+
+### 在预签名链接中加入「单线程限速」参数
+
+S4 拓展了 x-amz-limit-rate 参数，可以对当前对象做下载的单线程限速，value 为 字节数（正整数）。
+
+如上所述，这里仍然需要用到 Middleware 处理签名, 参考【在预签名链接中加入 CoreIX 媒体处理参数】只需修改bitifulQuery即可：
+```
+...
+// 在预签名地址中 加入「单线程限速」参数
+bitifulQuery := map[string]string{"x-amz-limit-rate": "102400"} // 102400 代表 102400字节/秒
+
+//自定义参数, 使用ctx传递
+ctx := context.WithValue(context.TODO(), "bitiful-query", bitifulQuery)
+...
+```
