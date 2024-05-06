@@ -5,7 +5,7 @@
     "dark": "https://bitiful-contents.s3.bitiful.net/images/bitiful-Docs-Logo-V2-dark.svg",
     "light": "https://bitiful-contents.s3.bitiful.net/images/bitiful-Docs-Logo-V2-light.svg"
   },
-  "favicon": "/favicon_v2.svg",
+  "favicon": "/favicon-docs.svg",
   "colors": {
     "primary": "#0D9373",
     "light": "#07C983",
