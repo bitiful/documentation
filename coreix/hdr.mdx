@@ -1,0 +1,40 @@
+---
+title: 'HDR 图片和视频'
+sidebarTitle: 'HDR 媒体处理方案'
+description: 'CoreIX 支持 HDR 图片和视频。'
+---
+
+# HDR 介绍
+
+百度百科 HDR 介绍：https://baike.baidu.com/item/HDR/2863820
+
+两颗皮蛋介绍 iPhone HDR：https://www.bilibili.com/video/BV1V14y1R7Rk/
+
+<Tip>
+
+当前 HDR 生态
+
+目前包括华为、苹果、小米、OPPO 等旗舰机型都已支持 HDR 照片和视频的拍摄录制，但除了各大主流视频 APP 之外，大多社交 APP 对 HDR 视频的支持都不好，更不要说 HDR 照片。
+
+</Tip>
+
+## CoreIX HDR 支持范围
+
+### 支持功能
+
+1. **HDR 视频截图**：系统若判断当前视频为 HDR 格式，则截出来的图片默认也带 HDR 效果（JPEG、PNG、Webp、Avif）；
+2. **HDR 照片处理**：HDR 照片支持所有的 裁剪、缩略图、压缩、格式转换 等操作；
+3. **HDR 映射为 SDR**：若将 cs 参数（ColorSpace）设置为 srgb 或 sdr，则系统会讲 HDR 图片映射为普通 RGB 效果，避免出现灰图。
+
+## HDR 演示
+
+### HDR 视频截图：
+
+<Check>最佳 HDR 浏览方案：该对比最好在支持 HDR 1000 以上的显示设备 和 软件 下观看，如：**M1/M2 Macbook Pro + Chrome 104+** 等</Check>
+
+| HDR 视频or照片 | CoreIX 截图默认输出 HDR | CoreIX 截图强转 SDR | 阿里云 OSS 丢失色彩和方向|
+| :--- | --- | --- | --- |
+| [彩虹.mov (iPhone 12 Pro Max 录制)](https://fanfan.s3.bitiful.net/rainbow.mov)| ![rainbow.mov.hdr.jpg](https://fanfan.s3.bitiful.net/rainbow.mov?frame=5000&w=1000)<br />[查看大图](https://fanfan.s3.bitiful.net/rainbow.mov?frame=5000&w=2000)| ![rainbow.mov.sdr.jpg](https://fanfan.s3.bitiful.net/rainbow.mov?frame=5000&w=1000&cs=srgb)<br />[查看大图](https://fanfan.s3.bitiful.net/rainbow.mov?frame=5000&w=2000&cs=srgb) | ![rainbow.mov.oss.jpg](https://oss.ladydaily.com/rainbow.mov?x-oss-process=video/snapshot,t_4950,f_jpg,scaletype_crop,w_1000)<br />[查看大图](https://oss.ladydaily.com/rainbow.mov?x-oss-process=video/snapshot,t_4950,f_jpg,scaletype_crop,w_2000)|
+| [食物.mov (iPhone 12 Pro Max 录制)](https://fanfan.s3.bitiful.net/hdr-img/IMG_2128.MOV)| ![IMG_2128.MOV.hdr.jpg](https://fanfan.s3.bitiful.net/hdr-img/IMG_2128.MOV?frame=5000&w=1000)<br />[查看大图](https://fanfan.s3.bitiful.net/hdr-img/IMG_2128.MOV?frame=5000&w=2000)| ![IMG_2128.MOV.sdr.jpg](https://fanfan.s3.bitiful.net/hdr-img/IMG_2128.MOV?frame=5000&w=1000&cs=srgb)<br />[查看大图](https://fanfan.s3.bitiful.net/hdr-img/IMG_2128.MOV?frame=5000&w=2000&cs=srgb) | ![IMG_2128.MOV.oss.jpg](https://oss.ladydaily.com/IMG_2128.MOV?x-oss-process=video/snapshot,t_4950,f_jpg,scaletype_crop,w_1000)<br />[查看大图](https://oss.ladydaily.com/IMG_2128.MOV?x-oss-process=video/snapshot,t_4950,f_jpg,scaletype_crop,w_2000)|
+
+<Info>当前只支持 8 bit 色深输出</Info>
