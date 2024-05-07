@@ -67,6 +67,9 @@
     },{
       "source": "/sdk",
       "destination": "/sdk/intro"
+    },{
+      "source": "/category/:slug*",
+      "destination": "/sdk/intro"
     }
   ],
   "navigation": [
