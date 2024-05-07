@@ -90,6 +90,7 @@
           "group": "CoreIX 媒体处理",
           "pages": [
             "coreix/basic",
+            "coreix/hdr",
             {
               "group": "处理参数",
               "pages": [
