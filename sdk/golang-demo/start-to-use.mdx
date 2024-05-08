@@ -12,7 +12,7 @@ github.com/aws/aws-sdk-go-v2/credentials v1.16.16
 github.com/aws/aws-sdk-go-v2/service/s3 v1.48.1
 ```
 
-```golang main.go
+```go main.go
 package main
 
 import (
@@ -66,7 +66,7 @@ func getS3Client(key, secret string) (*s3.Client, error) {
 ```
 
 ### 列出桶中对象
-```golang main.go
+```go main.go
 package main
 
 import (
@@ -141,7 +141,7 @@ func getS3Client(key, secret string) (*s3.Client, error) {
 
 ### 获取具备时效的预签名文件下载链接
 
-```golang main.go
+```go main.go
 package main
 
 import (
@@ -216,7 +216,7 @@ func getS3Client(key, secret string) (*s3.Client, error) {
 ### 在预签名链接中加入 CoreIX 媒体处理参数
 
 因 S3 协议的预签名会将所有 Url 参数（Args）包含在内统一做签名，所以这里需要用到 Middleware 处理：
-```golang main.go
+```go main.go
 package main
 
 import (

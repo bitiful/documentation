@@ -8,7 +8,7 @@ description: '本文介绍如何用 Boto3 连接 缤纷云 S4。'
 
 前置步骤：安装框架（https://boto3.amazonaws.com/v1/documentation/api/latest/guide/quickstart.html ）
 
-```python s4-demo.py
+```pytho3 s4-demo.py
 # import
 import boto3
 from botocore.client import Config
@@ -21,7 +21,7 @@ s3SecretKeyId = '子账户 secretKey' # ！！切记，创建子账户时，需�
 ```
 
 ### 连接到 S4 Endpoint
-```python s4-demo.py
+```pytho3 s4-demo.py
     s3client = boto3.client(
         's3',
         aws_access_key_id = s3accessKeyId,
@@ -32,14 +32,14 @@ s3SecretKeyId = '子账户 secretKey' # ！！切记，创建子账户时，需�
 ```
 
 ### 列出桶中对象
-```python s4-demo.py
+```pytho3 s4-demo.py
     buckets = s3client.list_buckets()
     for bucket in buckets['Buckets']:
         print(bucket["Name"])
 ```
 
 ### 用 Python 调用 S3 SDK（Boto3）实现一个下发“PutObject 预签名链接”以供 Web JS（axios 发起 PUT 请求）上传的前后端完整例子：
-```python s4-demo.py
+```pytho3 s4-demo.py
 import boto3
 from flask import Flask
 from flask import render_template_string
