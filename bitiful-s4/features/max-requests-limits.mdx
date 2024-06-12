@@ -1,0 +1,26 @@
+---
+title: '签名URL请求次数限制'
+description: 'S4 原生支持 x-bitiful-max-requests 限制签名后 URL 的访问次数。'
+---
+
+<Info>
+传统的对象存储（Tencent COS、Aliyun OSS、AWS S3）的预签名 URL 只支持时间限制，不支持次数限制，这大大降低了对象存储的安全性。
+</Info>
+
+缤纷云 S4 支持对 GetObject 和 PutObject 的预签名进行次数限制。
+
+## 如何使用
+
+只需在生成预签名 URL 时，加入 `x-bitiful-max-requests=10` 参数（可将后面的 10 修改成你需要限制的次数）
+
+系统会在第 11 次访问的时候返回 403 ReachTheMaxRequests 错误。
+
+## 范例参考
+
+缤纷云开源的「**缤纷快传**」较好地利用了这一特性
+
+开源地址：https://github.com/bitiful/send
+
+<Tip> 安全建议
+为 PutObject 签名时，将时间限制在较小范围（如 10分钟），并限制最大请求次数为：1 次，这样可以保障 PutObject 时的原子安全。
+</Tip>
