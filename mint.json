@@ -85,25 +85,6 @@
             "bitiful-s4/limits",
             "bitiful-s4/definitions"
           ]
-        },
-        {
-          "group": "CoreIX 媒体处理",
-          "pages": [
-            "coreix/basic",
-            "coreix/hdr",
-            {
-              "group": "处理参数",
-              "pages": [
-                "coreix/features/resize",
-                "coreix/features/crop",
-                "coreix/features/quality",
-                "coreix/features/sharp",
-                "coreix/features/blur",
-                "coreix/features/watermark-image",
-                "coreix/features/watermark"
-              ]
-            }
-          ]
         }
       ]
     },
@@ -122,6 +103,25 @@
         },
         "prices/compare",
         "prices/arrearage"
+      ]
+    },
+    {
+      "group": "CoreIX 媒体处理",
+      "pages": [
+        "coreix/basic",
+        "coreix/hdr",
+        {
+          "group": "处理参数",
+          "pages": [
+            "coreix/features/resize",
+            "coreix/features/crop",
+            "coreix/features/quality",
+            "coreix/features/sharp",
+            "coreix/features/blur",
+            "coreix/features/watermark-image",
+            "coreix/features/watermark"
+          ]
+        }
       ]
     },
     {
