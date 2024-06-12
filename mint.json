@@ -106,7 +106,7 @@
       ]
     },
     {
-      "group": "CoreIX 媒体处理",
+      "group": "媒体处理 CoreIX",
       "pages": [
         "coreix/basic",
         "coreix/hdr",
