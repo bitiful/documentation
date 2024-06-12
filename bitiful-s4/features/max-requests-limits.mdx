@@ -21,7 +21,9 @@ description: 'S4 原生支持 x-bitiful-max-requests 限制签名后 URL 的访�
 
 开源地址：https://github.com/bitiful/send
 
-<Tip> 安全建议
+<Tip>
+
+安全建议
 
 为 PutObject 签名时，将时间限制在较小范围（如 10分钟），并限制最大请求次数为：1 次，这样可以保障 PutObject 时的原子安全。
 
