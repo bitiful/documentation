@@ -13,11 +13,9 @@ description: '介绍缤纷云 S4 对象存储。'
 - [Backblaze.com B2](https://www.backblaze.com/cloud-storage) + [Cloudinary.com](https://cloudinary.com/)
 
 ## S4 的重要特性
-<Tip>
-缤纷云 S4 的存储桶均为 **目录桶**，约相当于 Amazon AWS 最新推出的：[Directory Buckets](https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/userguide/directory-buckets-overview.html)。
-
-AWS 基于它构建了最新的高性能 S3 产品：[S3 Express One Zone](https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/userguide/s3-express-one-zone.html)
-</Tip>
+<Warning>
+缤纷云 S4 重磅推出 [**上下行同步传输 Simul-Transfer**](/bitiful-s4/features/simul-transfer) 技术，可以大幅提升大文件的分享体验：。
+</Warning>
 - **低成本**：相比 亚马逊S3 和 阿里云OSS，缤纷云S4的使用成本最多可 **降低 80%**（查看：[表格对比](https://docs.qq.com/sheet/DQ3VwTlJQY1l5dU9G)）。
 - **高性能**：
     - 元数据性能高 —— 缤纷云S4 基于[Directory Buckets](https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/userguide/directory-buckets-overview.html)；
@@ -29,6 +27,11 @@ AWS 基于它构建了最新的高性能 S3 产品：[S3 Express One Zone](https
     - 支持内容感知的图片主体内容推测；
 - **兼容S3**：亚马逊 S3 是世界范围内用户最多的对象存储服务之一，绝大多数场景可以像使用 S3 一样使用 缤纷云 S4。
 - **不分层**：无论是 OSS 还是 S3，都将服务分割成 —— “标准、低频、归档”等以应对不同场景，这不仅会大大增加选型难度，同时会带来容易忽略的大量“隐性”费用，S4 使用一个类型应对所有场景。
+<Tip>
+缤纷云 S4 的存储桶均为 **目录桶**，约相当于 Amazon AWS 最新推出的：[Directory Buckets](https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/userguide/directory-buckets-overview.html)。
+
+AWS 基于它构建了最新的高性能 S3 产品：[S3 Express One Zone](https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/userguide/s3-express-one-zone.html)
+</Tip>
 
 ## 值得注意的限制
 
