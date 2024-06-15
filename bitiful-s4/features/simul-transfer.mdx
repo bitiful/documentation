@@ -3,7 +3,65 @@ title: '同步传输'
 description: '利用 Simul-Transfer 同步传输技术，轻松实现「即传即下」'
 ---
 
-## 操作演示
+## 介绍
+### 什么是 Simul-Transfer 同步传输
+缤纷云基于自身独有的流式架构，首次为「对象存储」原生带来了全新世代的「同步传输技术」（Simul-Transfer）。
+
+它让分享的文件在 **刚开始上传的一瞬间便可以被下载**，同样的带宽环境下，最多可 **节省1倍的传输时间**。
+
+### 性能如何
+它原生植根于缤纷云独有的流式架构中。不会造成任何的性能损失，也没有任何的功能妥协。并能够完整支持 缤纷云 S4 所有的功能特性，如：防盗链、预签名、Range 请求 等。
+
+<Info>
+因 S3 协议的限制，目前暂不支持 Multipart Uploads。
+</Info>
+
+### 和基于 P2P技术 的点对点传输有何不同
+以广受好评的 AirDrop 为例，它有几点硬伤：
+1. 分享者和接收者需要同时在线，两者成功连线后，同时启动才可以成功传输；
+2. 所有接收者下载的时候，都会争抢分享者的上传带宽，即：越多人接收，人均速度越慢；
+3. 对网络要求高：许多苹果的资深用户都知道，AirDrop 经常失灵。
+
+### 如何运作
+- 传统的对象存储会在文件写入时不会有任何动作，写入完毕之后，元数据才会感知，进而对下载请求做出响应。
+- 缤纷云新一代对象存储，从上传第一个字节开始，底层的流式架构便可让全局感知，从而让用户从 **上传的第一秒即可开始下载**。
+
+**缺乏 Simul-Transfer 同步传输技术时**
+<Frame>
+    <video
+        autoplay
+        controls
+        className="w-full aspect-video"
+        poster="https://bitiful-contents.s3.bitiful.net/videos/without-simul-transfer.mp4?frame=1&w=1280"
+        src="https://bitiful-contents.s3.bitiful.net/videos/without-simul-transfer.mp4"
+    ></video></Frame>
+
+**具备 Simul-Transfer 同步传输技术时**
+<Frame>
+    <video
+        autoplay
+        controls
+        className="w-full aspect-video"
+        poster="https://bitiful-contents.s3.bitiful.net/videos/with-simul-transfer.mp4?frame=1&w=1280"
+        src="https://bitiful-contents.s3.bitiful.net/videos/with-simul-transfer.mp4"
+    ></video></Frame>
+
+## 如何体验
+### 方法一：体验开源 DEMO：白板
+**多人协作场景**
+> 在线DEMO: https://tldraw-bitiful-demo.ladydaily.com/
+> Github: https://github.com/bitiful/tldraw-for-s4
+<Frame>
+    <video
+        autoplay
+        controls
+        className="w-full aspect-video"
+        poster="https://bitiful-contents.s3.bitiful.net/videos/tldraw-bitiful-no-wait-demo-fast.mp4?frame=1&w=1280"
+        src="https://bitiful-contents.s3.bitiful.net/videos/tldraw-bitiful-no-wait-demo-fast.mp4"
+    ><track src="https://bitiful-contents.s3.bitiful.net/videos/tldraw-bitiful-no-wait-demo-fast.vtt" kind="subtitles" srclang="cn" label="Chinese" default>
+    </video></Frame>
+
+### 方法二：注册缤纷云
 <Frame>
     <video
         autoplay
@@ -11,10 +69,8 @@ description: '利用 Simul-Transfer 同步传输技术，轻松实现「即传�
         className="w-full aspect-video"
         poster="https://bitiful-contents.s3.bitiful.net/videos/bitiful-s4-simul-transfer.mp4?frame=1&w=1280"
         src="https://bitiful-contents.s3.bitiful.net/videos/bitiful-s4-simul-transfer.mp4"
-    ></video></Frame>
+    ><track src="https://bitiful-contents.s3.bitiful.net/videos/bitiful-s4-simul-transfer.vtt" kind="subtitles" srclang="cn" label="Chinese">
+    </video></Frame>
 
-<Info>
-目前暂不支持 Multipart Uploads
-</Info>
 
 TODO
