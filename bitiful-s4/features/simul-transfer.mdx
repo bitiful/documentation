@@ -10,13 +10,8 @@ description: '利用 Simul-Transfer 同步传输技术，轻松实现「即传�
 
 ### 性能如何
 它原生植根于缤纷云独有的流式架构中，所以
-- **没有任何性能损失**：从上传开始的那一刻开始，便支持 `与普通对象同等的并发、速率水平`<sup>[1]</sup>
-- **没有任何的功能妥协**：完整支持 缤纷云 S4 `所有的功能特性`<sup>[2]</sup>，如：防盗链、预签名、Range 请求 等。
-
-<Info>
-[1]: 同步下载速率: 在下载进度与上传进度同步后，每个下载线程的速率不会超过上传速度<br/>
-[2]: 因 S3 协议的限制，目前暂不支持 Multipart Uploads
-</Info>
+- **没有任何性能损失**：从上传开始的那一刻开始，便支持 `与普通对象同等的并发、速率水平`<sup>**[1]**</sup>
+- **没有任何的功能妥协**：完整支持 缤纷云 S4 `所有的功能特性`<sup>**[2]**</sup>，如：防盗链、预签名、Range 请求 等。
 
 ### 如何运作
 - 传统的对象存储会在文件写入时不会有任何动作，**写入完毕之后，元数据才会感知**，进而对下载请求做出响应。
@@ -71,3 +66,8 @@ description: '利用 Simul-Transfer 同步传输技术，轻松实现「即传�
         poster="https://bitiful-contents.s3.bitiful.net/videos/bitiful-s4-simul-transfer.mp4?frame=1&w=1280"
         src="https://bitiful-contents.s3.bitiful.net/videos/bitiful-s4-simul-transfer.mp4"
     ></video></Frame>
+
+<Info>
+[1]: 同步下载速率: 在下载进度与上传进度同步后，每个下载线程的速率不会超过上传速度<br/>
+[2]: 因 S3 协议的限制，目前暂不支持 Multipart Uploads
+</Info>
