@@ -24,10 +24,10 @@ description: '利用 Simul-Transfer 同步传输技术，轻松实现「即传�
 3. 对网络要求高：许多苹果的资深用户都知道，AirDrop 经常失灵。
 
 ### 如何运作
-- 传统的对象存储会在文件写入时不会有任何动作，写入完毕之后，元数据才会感知，进而对下载请求做出响应。
+- 传统的对象存储会在文件写入时不会有任何动作，**写入完毕之后，元数据才会感知**，进而对下载请求做出响应。
 - 缤纷云新一代对象存储，从上传第一个字节开始，底层的流式架构便可让全局感知，从而让用户从 **上传的第一秒即可开始下载**。
 
-**缺乏 Simul-Transfer 同步传输技术时**
+**without Simul-Transfer: 必须等待上传结束后才能开始下载**
 <Frame>
     <video
         autoplay
@@ -37,7 +37,7 @@ description: '利用 Simul-Transfer 同步传输技术，轻松实现「即传�
         src="https://bitiful-contents.s3.bitiful.net/videos/without-simul-transfer.mp4"
     ></video></Frame>
 
-**具备 Simul-Transfer 同步传输技术时**
+**with Simul-Transfer: 上传开始后，下载也同步开始**
 <Frame>
     <video
         autoplay
@@ -50,7 +50,7 @@ description: '利用 Simul-Transfer 同步传输技术，轻松实现「即传�
 ## 如何体验
 ### 方法一：体验开源 DEMO：白板
 **多人协作场景**
-> 在线DEMO: https://tldraw-bitiful-demo.ladydaily.com/
+> 在线DEMO: https://tldraw-bitiful-demo.ladydaily.com/<br>
 > Github: https://github.com/bitiful/tldraw-for-s4
 <Frame>
     <video
