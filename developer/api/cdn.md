@@ -4,11 +4,6 @@ sidebarTitle: '静态 CDN'
 description: '介绍缤纷云 S4 的静态 CDN API。'
 ---
 
-<Warning>
-**注意**
-当前处于测试阶段，暂不收费。收费时间及标准会另行通知，请您及时关注相应通知。
-</Warning>
-
 ## 流量
 
 <Tip>
