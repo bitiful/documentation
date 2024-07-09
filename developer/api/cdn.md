@@ -33,10 +33,15 @@ curl "https://api.bitiful.com/cdn/data/<-- cdn domain -->/traffic_origin?start_t
 ## 请求
 
 <Tip>
+
 **参数说明**
+
 start_time   起始时间，timestamp，秒
+
 end_time     截止时间，timestamp，秒
+
 period       统计宽度，hourly / daily / monthly 3 个值可选
+
 </Tip>
 
 ### 边缘请求数
@@ -55,10 +60,15 @@ curl "https://api.bitiful.com/cdn/data/<-- cdn domain -->/request_origin?start_t
 仅支持 3 天内日志
 
 <Tip>
+
 **参数说明**
+
 start_time - 起始时间，timestamp，纳秒，用作分页
+
 codes      - 过滤 httpcode，英文逗号分隔
+
 limit      - 一次性返回条数，最大值 1000
+
 </Tip>
 
 ```shell
