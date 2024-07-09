@@ -25,14 +25,20 @@ period     - 统计宽度，hourly / daily / monthly 3 个值可选
 
 ### 边缘流量
 ```shell
-curl "https://api.bitiful.com/cdn/data/<-- cdn domain -->/traffic?start_time=1719763200&end_time=1720108800&period=<-- hourly / daily / monthly -->" \
-     -H 'Authorization: <-- API Token from: https://console.bitiful.com/apiToken -->'
+curl --get "https://api.bitiful.com/cdn/data/{cdn-domain}/traffic" \ 
+    -d "start_time=1719763200" \
+    -d "end_time=1720108800" \
+    -d "period={hourly | daily | monthly}" \
+    -H "Authorization: {API Token from: https://console.bitiful.com/apiToken}"
 ```
 
 ### 回源流量
 ```shell
-curl "https://api.bitiful.com/cdn/data/<-- cdn domain -->/traffic_origin?start_time=1719763200&end_time=1720108800&period=<-- hourly / daily / monthly -->" \
-     -H 'Authorization: <-- API Token from: https://console.bitiful.com/apiToken -->'
+curl --get "https://api.bitiful.com/cdn/data/{cdn-domain}/traffic_origin" \ 
+    -d "start_time=1719763200" \
+    -d "end_time=1720108800" \
+    -d "period={hourly | daily | monthly}" \
+    -H "Authorization: {API Token from: https://console.bitiful.com/apiToken}"
 ```
 
 ## 请求
@@ -51,14 +57,20 @@ period       统计宽度，hourly / daily / monthly 3 个值可选
 
 ### 边缘请求数
 ```shell
-curl "https://api.bitiful.com/cdn/data/<-- cdn domain -->/request?start_time=1719763200&end_time=1720108800&period=<-- hourly / daily / monthly -->" \
-     -H 'Authorization: <-- API Token from: https://console.bitiful.com/apiToken -->'
+curl --get "https://api.bitiful.com/cdn/data/{cdn-domain}/request" \ 
+    -d "start_time=1719763200" \
+    -d "end_time=1720108800" \
+    -d "period={hourly | daily | monthly}" \
+    -H "Authorization: {API Token from: https://console.bitiful.com/apiToken}"
 ```
 
 ### 回源请求数
 ```shell
-curl "https://api.bitiful.com/cdn/data/<-- cdn domain -->/request_origin?start_time=1719763200&end_time=1720108800&period=<-- hourly / daily / monthly -->" \
-     -H 'Authorization: <-- API Token from: https://console.bitiful.com/apiToken -->'
+curl --get "https://api.bitiful.com/cdn/data/{cdn-domain}/request_origin" \ 
+    -d "start_time=1719763200" \
+    -d "end_time=1720108800" \
+    -d "period={hourly | daily | monthly}" \
+    -H "Authorization: {API Token from: https://console.bitiful.com/apiToken}"
 ```
 
 ## CDN 实时日志
@@ -77,6 +89,9 @@ limit      - 一次性返回条数，最大值 1000
 </Tip>
 
 ```shell
-curl "https://api.bitiful.com/cdn/data/<-- cdn domain -->/logs?start_time=1720281600000000000&codes=200,403&limit=100" \
-     -H 'Authorization: <-- API Token from: https://console.bitiful.com/apiToken -->'
+curl --get "https://api.bitiful.com/cdn/data/<-- cdn domain -->/logs"
+    -d "start_time=1720281600000000000" \
+    -d "codes=200,403" \
+    -d "limit=100" \
+    -H 'Authorization: {API Token from: https://console.bitiful.com/apiToken}'
 ```
