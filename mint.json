@@ -43,7 +43,7 @@
     },
     {
       "name": "API & SDK",
-      "url": "sdk"
+      "url": "developer"
     },
     {
       "name": "方案与实践",
@@ -153,14 +153,21 @@
       ]
     },
     {
-      "group": "SDK 接入 S4",
+      "group": "S4 SDK",
       "pages": [
-        "sdk/intro",
-        "sdk/php-demo/start-to-use",
-        "sdk/golang-demo/start-to-use",
-        "sdk/java-demo/start-to-use",
-        "sdk/python3-demo/start-to-use",
-        "sdk/android-demo/start-to-use"
+        "developer/sdk/intro",
+        "developer/sdk/php-demo/start-to-use",
+        "developer/sdk/golang-demo/start-to-use",
+        "developer/sdk/java-demo/start-to-use",
+        "developer/sdk/python3-demo/start-to-use",
+        "developer/sdk/android-demo/start-to-use"
+      ]
+    },
+    {
+      "group": "缤纷云 API",
+      "pages": [
+        "developer/api/s4",
+        "developer/api/cdn"
       ]
     }
   ],
