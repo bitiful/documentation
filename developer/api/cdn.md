@@ -15,11 +15,11 @@ description: '介绍缤纷云 S4 的静态 CDN API。'
 
 **参数说明**
 
-start_time - 起始时间，timestamp，秒
+**start_time** - 起始时间，timestamp，秒
 
-end_time   - 截止时间，timestamp，秒
+**end_time**   - 截止时间，timestamp，秒
 
-period     - 统计宽度，hourly / daily / monthly 3 个值可选
+**period**     - 统计宽度，hourly / daily / monthly 3 个值可选
 
 </Tip>
 
@@ -47,11 +47,11 @@ curl --get "https://api.bitiful.com/cdn/data/{cdn-domain}/traffic_origin" \
 
 **参数说明**
 
-start_time   起始时间，timestamp，秒
+**start_time**   起始时间，timestamp，秒
 
-end_time     截止时间，timestamp，秒
+**end_time**     截止时间，timestamp，秒
 
-period       统计宽度，hourly / daily / monthly 3 个值可选
+**period**       统计宽度，hourly / daily / monthly 3 个值可选
 
 </Tip>
 
@@ -80,11 +80,11 @@ curl --get "https://api.bitiful.com/cdn/data/{cdn-domain}/request_origin" \
 
 **参数说明**
 
-start_time - 起始时间，timestamp，纳秒，用作分页
+**start_time**   起始时间，timestamp，纳秒，用作分页
 
-codes      - 过滤 httpcode，英文逗号分隔
+**codes**        过滤 httpcode，英文逗号分隔
 
-limit      - 一次性返回条数，最大值 1000
+**limit**        一次性返回条数，最大值 1000
 
 </Tip>
 
