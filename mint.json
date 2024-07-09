@@ -65,8 +65,8 @@
       "source": "/intro",
       "destination": "/bitiful-s4/intro"
     },{
-      "source": "/sdk",
-      "destination": "/sdk/intro"
+      "source": "/sdk/:slug*",
+      "destination": "/developer/sdk/:slug*"
     },{
       "source": "/category/:slug*",
       "destination": "/bitiful-s4/intro"
