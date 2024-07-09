@@ -12,10 +12,15 @@ description: '介绍缤纷云 S4 的静态 CDN API。'
 ## 流量
 
 <Tip>
+
 **参数说明**
+
 start_time - 起始时间，timestamp，秒
+
 end_time   - 截止时间，timestamp，秒
+
 period     - 统计宽度，hourly / daily / monthly 3 个值可选
+
 </Tip>
 
 ### 边缘流量
