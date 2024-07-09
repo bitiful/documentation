@@ -4,6 +4,10 @@ sidebarTitle: '静态 CDN'
 description: '介绍缤纷云 S4 的静态 CDN API。'
 ---
 
+## 获取 API Token
+
+前往控制台获取：[https://console.bitiful.com/apiToken](https://console.bitiful.com/apiToken)
+
 ## 流量
 
 <Tip>
@@ -77,7 +81,7 @@ curl --get "https://api.bitiful.com/cdn/data/{cdn-domain}/request_origin" \
 
 **start_time**   起始时间，timestamp，纳秒，用作分页
 
-**codes**        过滤 httpcode，英文逗号分隔
+**codes**        过滤 httpcode，2XX / 3XX / 4XX / 5XX / ALL 选其一，默认为 ALL
 
 **limit**        一次性返回条数，最大值 1000
 
@@ -86,7 +90,7 @@ curl --get "https://api.bitiful.com/cdn/data/{cdn-domain}/request_origin" \
 ```shell
 curl --get "https://api.bitiful.com/cdn/data/<-- cdn domain -->/logs"
     -d "start_time=1720281600000000000" \
-    -d "codes=200,403" \
+    -d "codes={2XX | 3XX | 4XX | 5XX | ALL}" \
     -d "limit=100" \
     -H 'Authorization: {API Token from: https://console.bitiful.com/apiToken}'
 ```
