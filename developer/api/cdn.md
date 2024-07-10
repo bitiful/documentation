@@ -63,7 +63,7 @@ curl --get -H "Authorization: {API Token from: https://console.bitiful.com/apiTo
 
 **参数说明**
 
-**start_time**   起始时间，timestamp，纳秒，用作分页
+**start_time**   起始时间，timestamp，纳秒，用作分页，例如：1723046499000000000
 
 **codes**        过滤 httpcode，2XX / 3XX / 4XX / 5XX / ALL 选其一，默认为 ALL
 
@@ -72,5 +72,8 @@ curl --get -H "Authorization: {API Token from: https://console.bitiful.com/apiTo
 </Tip>
 
 ```shell
-curl -H 'Authorization: {API Token from: https://console.bitiful.com/apiToken} "https://api.bitiful.com/cdn/data/{cdn-domain}/logs?start_time={start_time}&codes=2XX&limit=100"
+curl -H 'Authorization: {API Token from: https://console.bitiful.com/apiToken} "https://api.bitiful.com/cdn/data/{cdn-domain}/logs?start_time={start_time}&codes={codes}&limit={limit}"
 ```
+
+
+
