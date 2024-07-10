@@ -24,20 +24,12 @@ description: '介绍缤纷云 S4 的静态 CDN API。'
 
 ### 边缘流量
 ```shell
-curl --get "https://api.bitiful.com/cdn/data/{cdn-domain}/traffic" \ 
-    -d "start_time=1719763200" \
-    -d "end_time=1720108800" \
-    -d "period={hourly | daily | monthly}" \
-    -H "Authorization: {API Token from: https://console.bitiful.com/apiToken}"
+curl --get -H "Authorization: {API Token from: https://console.bitiful.com/apiToken}" "https://api.bitiful.com/cdn/data/{cdn-domain}/traffic?start_time={start_time}&end_time={end_time}&period={period}"
 ```
 
 ### 回源流量
 ```shell
-curl --get "https://api.bitiful.com/cdn/data/{cdn-domain}/traffic_origin" \ 
-    -d "start_time=1719763200" \
-    -d "end_time=1720108800" \
-    -d "period={hourly | daily | monthly}" \
-    -H "Authorization: {API Token from: https://console.bitiful.com/apiToken}"
+curl --get -H "Authorization: {API Token from: https://console.bitiful.com/apiToken}" "https://api.bitiful.com/cdn/data/{cdn-domain}/traffic_origin?start_time={start_time}&end_time={end_time}&period={period}"
 ```
 
 ## 请求
@@ -56,20 +48,12 @@ curl --get "https://api.bitiful.com/cdn/data/{cdn-domain}/traffic_origin" \
 
 ### 边缘请求数
 ```shell
-curl --get "https://api.bitiful.com/cdn/data/{cdn-domain}/request" \ 
-    -d "start_time=1719763200" \
-    -d "end_time=1720108800" \
-    -d "period={hourly | daily | monthly}" \
-    -H "Authorization: {API Token from: https://console.bitiful.com/apiToken}"
+curl --get -H "Authorization: {API Token from: https://console.bitiful.com/apiToken} "https://api.bitiful.com/cdn/data/{cdn-domain}/request?start_time={start_time}&end_time={end_time}&period={period}"
 ```
 
 ### 回源请求数
 ```shell
-curl --get "https://api.bitiful.com/cdn/data/{cdn-domain}/request_origin" \ 
-    -d "start_time=1719763200" \
-    -d "end_time=1720108800" \
-    -d "period={hourly | daily | monthly}" \
-    -H "Authorization: {API Token from: https://console.bitiful.com/apiToken}"
+curl --get -H "Authorization: {API Token from: https://console.bitiful.com/apiToken} "https://api.bitiful.com/cdn/data/{cdn-domain}/request_origin?start_time={start_time}&end_time={end_time}&period={period}"
 ```
 
 ## CDN 实时日志
@@ -88,9 +72,5 @@ curl --get "https://api.bitiful.com/cdn/data/{cdn-domain}/request_origin" \
 </Tip>
 
 ```shell
-curl --get "https://api.bitiful.com/cdn/data/<-- cdn domain -->/logs"
-    -d "start_time=1720281600000000000" \
-    -d "codes={2XX | 3XX | 4XX | 5XX | ALL}" \
-    -d "limit=100" \
-    -H 'Authorization: {API Token from: https://console.bitiful.com/apiToken}'
+curl -H 'Authorization: {API Token from: https://console.bitiful.com/apiToken} "https://api.bitiful.com/cdn/data/{cdn-domain}/logs?start_time={start_time}&codes=2XX&limit=100"
 ```
