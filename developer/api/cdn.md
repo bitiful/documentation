@@ -48,12 +48,12 @@ curl --get -H "Authorization: {API Token from: https://console.bitiful.com/apiTo
 
 ### 边缘请求数
 ```shell
-curl --get -H "Authorization: {API Token from: https://console.bitiful.com/apiToken} "https://api.bitiful.com/cdn/data/{cdn-domain}/request?start_time={start_time}&end_time={end_time}&period={period}"
+curl --get -H "Authorization: {API Token from: https://console.bitiful.com/apiToken}" "https://api.bitiful.com/cdn/data/{cdn-domain}/request?start_time={start_time}&end_time={end_time}&period={period}"
 ```
 
 ### 回源请求数
 ```shell
-curl --get -H "Authorization: {API Token from: https://console.bitiful.com/apiToken} "https://api.bitiful.com/cdn/data/{cdn-domain}/request_origin?start_time={start_time}&end_time={end_time}&period={period}"
+curl --get -H "Authorization: {API Token from: https://console.bitiful.com/apiToken}" "https://api.bitiful.com/cdn/data/{cdn-domain}/request_origin?start_time={start_time}&end_time={end_time}&period={period}"
 ```
 
 ## CDN 实时日志
@@ -72,7 +72,7 @@ curl --get -H "Authorization: {API Token from: https://console.bitiful.com/apiTo
 </Tip>
 
 ```shell
-curl -H 'Authorization: {API Token from: https://console.bitiful.com/apiToken} "https://api.bitiful.com/cdn/data/{cdn-domain}/logs?start_time={start_time}&codes={codes}&limit={limit}"
+curl -H "Authorization: {API Token from: https://console.bitiful.com/apiToken}" "https://api.bitiful.com/cdn/data/{cdn-domain}/logs?start_time={start_time}&codes={codes}&limit={limit}"
 ```
 
 
