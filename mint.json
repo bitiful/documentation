@@ -156,6 +156,12 @@
       ]
     },
     {
+      "group": "生态方案",
+      "pages": [
+        "best-practice/solutions/rclone"
+      ]
+    },
+    {
       "group": "S4 SDK",
       "pages": [
         "developer/sdk/intro",
