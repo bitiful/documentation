@@ -1,0 +1,83 @@
+---
+title: "将缤纷云 S4 挂载到本地"
+---
+
+## 目标
+
+Bitifs <sup>BETA</sup>  是缤纷云官方推出的 S4 对象存储挂载工具，可以在 Windows、macOS 和 Linux 上利用它将对象存储映射成本地文件夹。
+
+**本指南介绍如何设置 BitiFS 以将您 S4 挂载到本地。**
+
+<Tip>
+  请确保您已 [注册缤纷云账号](https://console.bitiful.com/) 并完成 [实名认证](https://console.bitiful.com/users)。
+</Tip>
+
+## 前置条件
+
+- 已经[创建](/bitiful-s4/handbook/quick-start) S4 存储桶
+- 创建了子账户，并创建 access_key
+- 确保为 `子账户` 赋予了 `相应存储桶` 所有权限
+
+## 分系统设置说明
+
+<AccordionGroup>
+  <Accordion title="Windows 版本" icon="download">
+    <Tip>
+      请注意：Windows 需要提前安装 FUSE 支持 [Winfsp](https://github.com/billziss-gh/winfsp/releases)
+    </Tip>
+    #### 下载
+
+    AMD64: https://tools.bitiful.com/bitifs/bitifs.exe
+
+    #### 安装使用
+
+    #### CMD 设置 AK/SK：
+
+    ```
+    set AWS_ACCESS_KEY_ID={ak}
+    set AWS_SECRET_ACCESS_KEY={sk}
+    ```
+
+    #### Powershell 设置 AK/SK:
+
+    ```
+    $env:AWS_ACCESS_KEY_ID={ak}
+    $env:AWS_SECRET_ACCESS_KEY={sk}
+    ```
+
+    然后执行：`./bitifs.exe bucketname B:` 挂载
+  </Accordion>
+  <Accordion title="macOS 版本" icon="download">
+    <Tip>
+      请注意：macOS 需要提前安装 FUSE 支持 [macFUSE](https://github.com/macfuse/macfuse/releases)
+    </Tip>
+    #### 下载
+
+    Intel 芯片: [https://tools.bitiful.com/bitifs/bitifs_macos_amd64](https://tools.bitiful.com/bitifs/bitifs_linux_amd64)
+    Apple 芯片: [https://tools.bitiful.com/bitifs/bitifs_macos_arm64](https://tools.bitiful.com/bitifs/bitifs_linux_arm64)
+
+    #### 设置 AK/SK:
+
+    ```
+    AWS_ACCESS_KEY_ID={ak}
+    AWS_SECRET_ACCESS_KEY={sk}
+    ```
+
+    然后执行：`mkdir -p ~/bitiful-mount && ./bitifs bitifsmount ~/bitiful-mount` 挂载
+  </Accordion>
+  <Accordion title="Linux 版本" icon="download">
+    #### 下载
+
+    AMD64: https://tools.bitiful.com/bitifs/bitifs_linux_amd64
+    ARM64: https://tools.bitiful.com/bitifs/bitifs_linux_arm64
+
+    #### 设置 AK/SK:
+
+    ```
+    export AWS_ACCESS_KEY_ID={ak}
+    export AWS_SECRET_ACCESS_KEY={sk}
+    ```
+
+    然后执行：`mkdir -p ~/bitiful-mount && ./bitifs bitifsmount ~/bitiful-mount` 挂载
+  </Accordion>
+</AccordionGroup>

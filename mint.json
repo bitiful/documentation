@@ -158,6 +158,7 @@
     {
       "group": "生态方案",
       "pages": [
+        "best-practice/solutions/bitifs",
         "best-practice/solutions/rclone"
       ]
     },
