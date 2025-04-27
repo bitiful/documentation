@@ -1,13 +1,16 @@
 ---
-title: '在客户端中安全地上传文件'
-description: '本文介绍如何用预签名 URL 安全地让客户端端具备高性能的大文件上传能力。'
+title: "在客户端中安全地上传文件"
+description: "本文介绍如何用预签名 URL 安全地让客户端端具备高性能的大文件上传能力。"
 ---
+
 ## 为何不建议直接用 Javascript SDK 等客户端 SDK 来上传文件？
 
 1. 容易被反编译后暴露 ak / sk
 2. 不够灵活
 
-<Warning>安全建议：永远不要使用 API 下发 ak / sk</Warning>
+<Warning>
+  安全建议：永远不要使用 API 下发 ak / sk
+</Warning>
 
 ## 更好的方案
 
@@ -30,6 +33,13 @@ description: '本文介绍如何用预签名 URL 安全地让客户端端具备�
     Javascript 脚本利用 网络请求组件（如 axios）来将本地文件 PUT 到上面提到的「预签名 PutObject 链接」
   </Step>
 </Steps>
+
+<Card title="预签名 URL API" icon="laptop-code">
+  <Tip>
+    缤纷云开源了全功能预签名 API 本地部署项目。它无状态，可以作为微服务快速结合到当前的系统中。
+  </Tip>
+  Github: https://github.com/bitiful/s3-presigned-api-server
+</Card>
 
 ### 不同语言后端接口生成 PutObject 预签名链接示例：
 
@@ -69,6 +79,8 @@ def get_upload_url():
     )
     return {'url': url}
 ```
+
+
 ```javascript main.js
 // 参考 1：https://juejin.cn/post/7019216042220077092
 // 参考 2：https://northflank.com/guides/connect-nodejs-to-minio-with-tls-using-aws-s3
@@ -103,6 +115,8 @@ app.get("/s3_upload_url", (req, res, next) => {
   });
 });
 ```
+
+
 ```rust main.rs
 // 参考：https://developer.qiniu.com/kodo/12572/aws-sdk-rust-examples
 // [dependencies]
@@ -172,6 +186,8 @@ async fn get_url(key: &str) -> anyhow::Result<String> {
     Ok(request.uri().to_string())
 }
 ```
+
+
 ```go main.go
 // go get github.com/aws/aws-sdk-go
 
@@ -250,6 +266,8 @@ func handleS3UploadURL(w http.ResponseWriter, r *http.Request) {
     w.Write(jsonResponse)
 }
 ```
+
+
 ```php main.php
 # composer require aws/aws-sdk-php
 
@@ -307,9 +325,11 @@ try {
     http_response_code(500);
 }
 ```
+
 </CodeGroup>
 
 ### 前端上传示例：
+
 ```html upload_demo.web.html
 <!DOCTYPE html>
 <html>
@@ -369,4 +389,6 @@ try {
 </html>
 ```
 
-<Tip>上面的 Javascript 脚本在发起 Put 请求时将「Content-Type」设置为空值，建议使用缤纷云独有的 [MIME 自动检测](/best-practice/auto-detect-mime) 功能。</Tip>
+<Tip>
+  上面的 Javascript 脚本在发起 Put 请求时将「Content-Type」设置为空值，建议使用缤纷云独有的 [MIME 自动检测](/best-practice/auto-detect-mime) 功能。
+</Tip>
