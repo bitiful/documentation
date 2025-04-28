@@ -1,6 +1,5 @@
 ---
 title: "使用 Bitifs 将缤纷云 S4 挂载到本地"
-mode: "wide"
 ---
 
 ## 目标
@@ -61,8 +60,8 @@ Bitifs <sup>BETA</sup>  是缤纷云官方推出的 S4 对象存储挂载工具�
     #### 设置 AK/SK:
 
     ```
-    AWS_ACCESS_KEY_ID={ak}
-    AWS_SECRET_ACCESS_KEY={sk}
+    export AWS_ACCESS_KEY_ID={ak}
+    export AWS_SECRET_ACCESS_KEY={sk}
     ```
 
     然后执行：`mkdir -p ~/bitiful-mount && ./bitifs bitifsmount ~/bitiful-mount` 挂载

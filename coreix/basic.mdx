@@ -1,7 +1,8 @@
 ---
-title: 'CoreIX 概述'
-sidebarTitle: '概述'
-description: '介绍缤纷云 S4 自带的媒体处理功能 CoreIX。'
+title: "CoreIX 概述"
+sidebarTitle: "概述"
+description: "介绍缤纷云 S4 自带的媒体处理功能 CoreIX。"
+mode: "wide"
 ---
 
 S4 支持处理存储的图片文件，您可以通过在 Url 末尾（或在 GetObject 接口中）携带图片处理的相关参数的方式使用。
@@ -14,48 +15,40 @@ S4 支持处理存储的图片文件，您可以通过在 Url 末尾（或在 Ge
 ## CoreIX 特点
 
 1. **高性能**：比国内主流对象存储中图片处理性能平均高 100%；
-
 2. **支持颜色管理**：支持范围 sRGB、Adobe RGB、Display P3、Prophoto、CMYK；
-
 3. **可处理超大图片**：与竞品普遍最大只能处理 20MB 的图片不同，CoreIX 允许实时处理**高达 200MB** 的图片；
-
 4. **客户端协商机制**：当设定输出格式为 fm=webp 时，系统将通过 Accept 判断客户端是否支持 webp 图片；
 
 ## 图片处理功能
 
 1. CoreIX 关心图片的最终分享效果，包括准确度与访问速度。所以在每次执行`手动参数`前，都会对图片做必要的自动优化，以最大程度达到`处理效果`与`节省流量`的最佳平衡。
-
 2. CoreIX 在生成分享图时做实时处理，所有操作均不会造成对存储桶中原图的修改。
 
 ### 自动优化：
 
-* **自适应方向**：可依据原图的 Exif 信息对图片做自动的方向调整处理，支持带 Exif 信息的 Jpeg、PNG、Webp、Avif、Heif 和 主流相机 Raw 图；
-
-* **自动删减 Exif**：在快速分享场景中，Exif 没有实际作用，去掉 Exif 可减少相应传输流量，此举最多可节省约 `500 KiB` 容量；
-
-* **自动颜色管理**：CoreIX 生成缩略图时，会自动进行必要的颜色空间转换，然后删除 ICC profile，此举对于特殊色彩空间的图片最多可节省约 `2.5 MiB` 容量；
-
-* **自动转换Tinysrgb**：对于包含 sRGB 的原图，在生成小号缩略图时，CoreIX 会自动用 Tinysrgb 替代，此举通常可节省 `3 KiB` 容量；
-
-* **自动支持 HDR**：在对 HDR 视频进行截图（取帧）操作时，CoreIX 将默认自动输出 HDR 图片，指定 `cs` 参数为 srgb 时将自动把色彩空间映射为 SDR，避免出现灰图；
+- **自适应方向**：可依据原图的 Exif 信息对图片做自动的方向调整处理，支持带 Exif 信息的 Jpeg、PNG、Webp、Avif、Heif 和 主流相机 Raw 图；
+- **自动删减 Exif**：在快速分享场景中，Exif 没有实际作用，去掉 Exif 可减少相应传输流量，此举最多可节省约 `500 KiB` 容量；
+- **自动颜色管理**：CoreIX 生成缩略图时，会自动进行必要的颜色空间转换，然后删除 ICC profile，此举对于特殊色彩空间的图片最多可节省约 `2.5 MiB` 容量；
+- **自动转换Tinysrgb**：对于包含 sRGB 的原图，在生成小号缩略图时，CoreIX 会自动用 Tinysrgb 替代，此举通常可节省 `3 KiB` 容量；
+- **自动支持 HDR**：在对 HDR 视频进行截图（取帧）操作时，CoreIX 将默认自动输出 HDR 图片，指定 `cs` 参数为 srgb 时将自动把色彩空间映射为 SDR，避免出现灰图；
 
 ### 手动参数：
 
-| 限制项                                      | 相关参数                      | 作用说明                                                                                                                  | 范围         |
-| :--------------------------------------- | ------------------------- | --------------------------------------------------------------------------------------------------------------------- | ---------- |
-| [缩略宽高](/coreix/features/resize)          | - w: 图片宽度<br />- h: 图片高度  | 将图片缩放至指定大小。                                                                                                           | 全部         |
-| [缩放倍数](/coreix/features/resize)          | - dpr: 倍数值                | 可简易设置 2x 3x 大小缩略尺寸。                                                                                                   | 全部         |
-| [缩略模式](/coreix/features/resize)          | - mode: crop / clip       | 当设定w、h全部指定且与原图比例不符时。<br />默认使用 crop 裁剪缩略模式。                                                                           | 全部         |
-| [保留位置](/coreix/features/resize)          | - pos: 缩略裁剪模式情况下保留的部分     | 缩略裁剪后提取的保留部分。                                                                                                         | 全部         |
-| [自定义裁剪](/coreix/features/crop)           | - rect: 裁剪坐标与大小           | 裁剪指定位置和大小的矩形图片。                                                                                                       | 静图         |
-| [质量变化](/coreix/features/quality)         | - q: 质量百分比                | 调整 JPG、GIF（动图）、WebP（动、静图）、Avif 格式图片的质量。                                                                               | 全部         |
-| [图像锐化](/coreix/features/sharp)           | - sharp: 锐化程度             | 对图片进行锐化效果处理。                                                                                                          | 静图         |
-| [图像模糊](/coreix/features/blur)            | - blur: 模糊程度              | 对图片增加模糊效果。                                                                                                            | 静图         |
-| [文字水印](/coreix/features/watermark)       | - txt: 水印的文字内容            | [详细参数](features/watermark)                                                                                            | 静图         |
-| [图片水印](/coreix/features/watermark-image) | - mark: 水印图片的桶内路径         | [详细参数](features/watermark-image)                                                                                      | 静图         |
-| 静帧提取                                     | - frame: 毫秒数（视频）或 帧数（GIF） | 格式支持：MP4、MKV；<br />色彩支持：SDR 视频 / BT.2020/2100 色域 HDR 视频<br />\* 注意：frame 只能对已经存入 S4 对象存储的文件生效<br />（镜像回源场景下回源成功后才会生效） | 动图<br />视频 |
-| 色彩空间                                     | - cs: ColorSpace          | 设定希望输出的色彩空间，支持：tinysrgb、srgb、adobe rgb                                                                                | 静图         |
-| [格式转换](/coreix/features/format)          | - fm/fmt: 格式代号            | 图片格式：jpeg、png、tpng、webp、bmp、avif、gif、tiff<br />- 其他格式：blurhash（输出 blurhash 代码）、json（输出图片信息）                           | 全部         |
+| 限制项                                      | 相关参数                      | 作用说明                                                                                                      | 范围     |
+| :--------------------------------------- | ------------------------- | --------------------------------------------------------------------------------------------------------- | ------ |
+| [缩略宽高](/coreix/features/resize)          | - w: 图片宽度  - h: 图片高度      | 将图片缩放至指定大小。                                                                                               | 全部     |
+| [缩放倍数](/coreix/features/resize)          | - dpr: 倍数值                | 可简易设置 2x 3x 大小缩略尺寸。                                                                                       | 全部     |
+| [缩略模式](/coreix/features/resize)          | - mode: crop / clip       | 当设定w、h全部指定且与原图比例不符时。  默认使用 crop 裁剪缩略模式。                                                                   | 全部     |
+| [保留位置](/coreix/features/resize)          | - pos: 缩略裁剪模式情况下保留的部分     | 缩略裁剪后提取的保留部分。                                                                                             | 全部     |
+| [自定义裁剪](/coreix/features/crop)           | - rect: 裁剪坐标与大小           | 裁剪指定位置和大小的矩形图片。                                                                                           | 静图     |
+| [质量变化](/coreix/features/quality)         | - q: 质量百分比                | 调整 JPG、GIF（动图）、WebP（动、静图）、Avif 格式图片的质量。                                                                   | 全部     |
+| [图像锐化](/coreix/features/sharp)           | - sharp: 锐化程度             | 对图片进行锐化效果处理。                                                                                              | 静图     |
+| [图像模糊](/coreix/features/blur)            | - blur: 模糊程度              | 对图片增加模糊效果。                                                                                                | 静图     |
+| [文字水印](/coreix/features/watermark)       | - txt: 水印的文字内容            | [详细参数](features/watermark)                                                                                | 静图     |
+| [图片水印](/coreix/features/watermark-image) | - mark: 水印图片的桶内路径         | [详细参数](features/watermark-image)                                                                          | 静图     |
+| 静帧提取                                     | - frame: 毫秒数（视频）或 帧数（GIF） | 格式支持：MP4、MKV；  色彩支持：SDR 视频 / BT.2020/2100 色域 HDR 视频  \* 注意：frame 只能对已经存入 S4 对象存储的文件生效  （镜像回源场景下回源成功后才会生效） | 动图  视频 |
+| 色彩空间                                     | - cs: ColorSpace          | 设定希望输出的色彩空间，支持：tinysrgb、srgb、adobe rgb                                                                    | 静图     |
+| [格式转换](/coreix/features/format)          | - fm/fmt: 格式代号            | 图片格式：jpeg、png、tpng、webp、bmp、avif、gif、tiff  - 其他格式：blurhash（输出 blurhash 代码）、json（输出图片信息）                   | 全部     |
 
 <Check>
   **自2024年1月1日起，将支持 GIF / WEBP 动图支持高性能缩略、裁剪处理**
@@ -71,6 +64,6 @@ S4 支持处理存储的图片文件，您可以通过在 Url 末尾（或在 Ge
 原图：https://fanfan.s3.bitiful.net/girl.jpeg
 ```
 
-加上处理参数后：[https://fanfan.s3.bitiful.net/girl.jpeg? **`w=800&h=500&pos=top`**](https://fanfan.s3.ladydaily.com/girl.jpeg?w=800\&h=500\&pos=top)
+加上处理参数后：[**`https://fanfan.s3.bitiful.net/girl.jpeg? w=800&h=500&pos=top`**](https://fanfan.s3.ladydaily.com/girl.jpeg?w=800&h=500&pos=top)
 
-![girl.resize.jpg](https://fanfan.s3.bitiful.net/girl.jpeg?w=800\&h=500\&pos=top)
+![girl.resize.jpg](https://fanfan.s3.bitiful.net/girl.jpeg?w=800&h=500&pos=top)
