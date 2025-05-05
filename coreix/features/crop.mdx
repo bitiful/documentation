@@ -3,7 +3,7 @@ title: '自定义裁剪'
 description: '图片自定义裁剪可以按坐标从原图中提取任意区域。本文介绍自定义裁剪的参数说明及使用示例。'
 ---
 
-以下例子中，默认原图均为：https://fanfan.s3.bitiful.net/girl.jpeg
+以下例子中，默认原图均为：https://demo.bitiful.com/girl.jpeg
 
 ## 参数说明
 
@@ -23,17 +23,17 @@ description: '图片自定义裁剪可以按坐标从原图中提取任意区域
 <AccordionGroup>
     <Accordion title="演示：左上角顶边，截取原图 500 宽、500 高 的区域" icon="hand-back-point-right">
         <Accordion title="处理逻辑示例" icon="hand-back-point-right">
-        <Frame>![crop-mode-demo-1.png](https://fanfan.s3.bitiful.net/static/docs/rect-demo-1.png?w=200&fmt=webp&q=90)</Frame>
+        <Frame>![crop-mode-demo-1.png](https://demo.bitiful.com/static/docs/rect-demo-1.png?w=200&fmt=webp&q=90)</Frame>
         </Accordion>
-    加上参数后 URL：[https://fanfan.s3.bitiful.net/girl.jpeg? **rect=0,0,500,500**](https://fanfan.s3.bitiful.net/girl.jpeg?rect=0,0,500,500)
-    <Frame>![girl.resize.jpg](https://fanfan.s3.bitiful.net/girl.jpeg?rect=0,0,500,500)</Frame>
+    加上参数后 URL：[https://demo.bitiful.com/girl.jpeg? **rect=0,0,500,500**](https://demo.bitiful.com/girl.jpeg?rect=0,0,500,500)
+    <Frame>![girl.resize.jpg](https://demo.bitiful.com/girl.jpeg?rect=0,0,500,500)</Frame>
     </Accordion>
     <Accordion title="演示：左上角顶边，截取原图 1000 宽、1000 高 的区域，同时，设定 w=500" icon="hand-back-point-right">
     由于 参数 rect 的优先级高于 w 和 h，于是：
     1. 所以系统会优先按照参数 `rect=0,0,1000,1000` 提取原图左上角开始的 1000 x 1000 区域图像；
     2. 然后将 1000 x 1000 的正方形图像按照参数 `w=500` 将 rect 处理结果缩略至 500 x 500；
     **所以**：按照[图片缩略逻辑](resize.md#用例说明)单独设定 w=500，系统会按**`rect 结果图像的宽高比`**（而非`原图的宽高比`）自动设定缩略高度。
-    加上参数后 URL：[https://fanfan.s3.bitiful.net/girl.jpeg? **rect=0,0,1000,1000 & w=500**](https://fanfan.s3.bitiful.net/girl.jpeg?rect=0,0,1000,1000&w=500)
-    <Frame>![girl.resize.jpg](https://fanfan.s3.bitiful.net/girl.jpeg?rect=0,0,1000,1000&w=500)</Frame>
+    加上参数后 URL：[https://demo.bitiful.com/girl.jpeg? **rect=0,0,1000,1000 & w=500**](https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=500)
+    <Frame>![girl.resize.jpg](https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=500)</Frame>
     </Accordion>
 </AccordionGroup>
