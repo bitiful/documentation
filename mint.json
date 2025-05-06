@@ -48,7 +48,11 @@
     {
       "name": "方案与实践",
       "url": "best-practice"
-    }
+    },
+    {
+      "name": "更新记录",
+      "url": "changelog"
+    },
   ],
   "redirects": [
     {
