@@ -1,14 +1,171 @@
 ---
 title: "产品更新"
 description: "我们一直在进步"
+mode: "wide"
 ---
 
-<Update label="12/16/2024" description="CoreIX">
-  Add your changelog here
+<Update label="2024/04/18" description="上新">
+  ## **🌍 缤纷云全球CDN节点上线**
 
-  <Tip>
-    亮点：答复提升性能
-  </Tip>
+  <Frame>
+    ![Global Cdn](/images/global-cdn.png)
+  </Frame>
+  ### 一键轻松切换
 
+  现在可以通过简单地修改CDN配置，完成「**仅大陆节点**」和「**全球节点**」的切换。
 
+  <Frame>
+    ![切换节点](/switch-nodes.png)
+  </Frame>
+  ### 自动优化跨境回源（当前免费）
+
+  海外节点在回源S4存储桶时会进行全自动的跨境优化（自定义网站回源暂不支持）。
+
+  <Warning>
+    请务必保持控制台中正确的 CNAME 记录。
+  </Warning>
+</Update>
+
+<Update label="2024/03/20" description="上新">
+  ## 🕥 存储 & CDN 实时访问日志上线！
+
+  为了让客户进一步观测自己的请求数据，我们上线了实时访问日志。
+
+  这几乎是业界首次直接免费提供（不用开通额外服务、不用考虑计费）实时访问日志。
+
+  在海量的访问下，要免费开放并维持这一能力并不容易，希望能与各位客户一起提高与进步。
+
+  目前提供的功能还比较简单，但我们相信这是一个好的开始～
+
+  <Frame>
+    ![实时日志](/live-tail.png)
+  </Frame>
+  ### **基于流式数据架构的近实时观测能力**
+
+  得益于缤纷云先进的流式数据架构，让我们有能力为用户提供各种近乎实时的观测数据。
+
+  例如：在桶列表当中，对象的总容量与总数的数据更新近乎总是在1分钟内，这使我们更容易对总体情况进行把握和预测。
+
+  <Frame>
+    ![实时统计](/Live-Summary.png)
+  </Frame>
+</Update>
+
+<Update label="2024/02/23" description="上新">
+  ## 原文件保护功能增加「默认Style」功能
+
+  源文件保护功能，可以在非「预签名」情况下最大程度保护您的原创作品。
+
+  设定了指定MIME源文件保护后，您的用户在匿名访问的情况下访问该媒体（未经处理）的原文件会报错：403 OriginalFileProtected。
+
+  在这种情况下，用户访问该媒体的方法只有：
+
+  1. 使用预签名Url访问（使用预签名Url方式在S4当中一直拥有最高权限）；
+  2. 使用您设定的某个Style访问（例如：[https://bucket.s3.bitiful.net/image.jpg\!style:](https://bucket.s3.bitiful.net/image.jpg!style:{{styleName}}))
+
+  这无疑为您的媒体内容提供了巨大的保护能力。
+
+  ### 更优雅的源文件保护（设定默认Style）
+
+  但为用户返回「403 OriginalFileProtected」的报错信息未必是最优雅的方案。
+
+  现在：缤纷云S4允许您为保护内容设定一个已存在的默认Style。
+
+  当您的用户触发源文件保护的时候，系统不会返回「403 OriginalFileProtected」的错误信息，而是按照上面指定的默认Style对媒体进行处理，然后返回给用户。
+
+  <Frame>
+    ![默认Style](/default-style.png)
+  </Frame>
+</Update>
+
+<Update label="2024/01/19" description="上新">
+  ## 缤纷云 服务运行状态监控页（status page）上线
+
+  ### 独立架构
+
+  缤纷云服务状态监控页面测试上线啦。
+
+  它运行在完全独立的基础设施当中，可以在缤纷云服务遇到问题时依然保持观测能力。
+
+  访问：https://stack-status.com/
+
+  <Frame>
+    ![服务可用性监控](/monitor.png)
+  </Frame>
+</Update>
+
+<Update label="2024/01/13" description="上新">
+  🧪 实验特性
+
+  ## 缤纷云S4对象存储访问节点现已支持HTTP/3（QUIC）
+
+  ## 概念
+
+  QUIC (HTTP 3) 通常被称为下一代网络通信。它运行在 OSI 模型的第四层，过去代表"快速 UDP 互联网连接"（现在起草的规范指出"QUIC"是协议的实际名称，而不是其他任何内容的缩写）。它也被称为 HTTP/3，进一步巩固了其作为 HTTP/2 继承者的地位。
+
+  ### 基于 UDP
+
+  QUIC协议最关键的一点是使用UDP进行通信；仅此一项就可以通过放弃使用传统的基于 TCP 的安排（需要任何两方同步，然后是 SYN-ACK 和确认）来降低客户端和服务器之间的延迟。
+
+  ### 缤纷云S4对象存储访问端点全面支持HTTP/3（QUIC）
+
+  若您希望体验HTTP/3，并且您的桶域名 https://xxx.s3.bitiful.net 在访问时还没有看到h3协议：
+
+  请与群中客服联系。
+
+  <Frame>
+    ![HTTP/3](/http3.png)
+  </Frame>
+</Update>
+
+<Update label="2024/01/10" description="上新">
+  强大的 CoreIX 变得更强
+
+  ## 🌟 CoreIX 支持 Blurhash 和 Thumbhash
+
+  缤纷云 CoreIX 上线实时的 Blurhash & Thumbhash 功能。
+
+  这是缩略图预加载的最佳实践，效果出类拔萃。
+
+  从现在开始，立即使用简单的 `fmt=blurhash` 或 `fmt=thumbhash` 获得全新的预加载效果。👇👇👇
+
+  <Frame>
+    ![blurhash](/WhyBlurHash.png)
+  </Frame>
+</Update>
+
+<Update label="2024/01/08" description="重构">
+  ## 🖥 全新的缤纷云控制台已经上线！
+
+  更美观、更方便，适配更多的屏幕尺寸。
+
+  <Frame>
+    ![缤纷云全新控制台。](/new-console.png)
+  </Frame>
+</Update>
+
+<Update label="2024/01/05" description="上新">
+  强大的缤纷云媒体引擎
+
+  ## ‼️ CoreIX 支持高级文字水印
+
+  如下图，依靠强大的 [文字水印参数](/coreix/basic.md) 实现艺术一般的水印效果。
+
+  只需要设定几个参数，CoreIX 会在 0.1 秒内 呈现给您的用户。
+
+  <Frame>
+    ![只需要设定几个参数，缤纷云的处理引擎就会在0.1秒内呈现给您的用户。](/txt-mark.png)
+  </Frame>
+</Update>
+
+<Update label="2024/01/01" description="上新">
+  今天缤纷云正式发布了
+
+  ## 🎁 缤纷云 S4 智能对象存储 正式发布
+
+  你好，2024年，你好，缤纷云。
+
+  <Frame>
+    ![Hello World](/images/hello.jpeg)
+  </Frame>
 </Update>
