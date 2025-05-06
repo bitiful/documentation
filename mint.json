@@ -183,6 +183,12 @@
         "developer/api/s4",
         "developer/api/cdn"
       ]
+    },
+    {
+      "group": "更新记录",
+      "pages": [
+        "changelog/overview"
+      ]
     }
   ],
   "footerSocials": {
