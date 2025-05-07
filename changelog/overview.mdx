@@ -4,6 +4,31 @@ description: "我们一直在进步"
 mode: "wide"
 ---
 
+<Update label="2024/05/08" description="上新">
+  ## **✏️ S4 对象存储生产支持 Move 操作（原子 Rename）**
+
+  <Frame>
+    ![原子 Rename](/Rename.png)
+  </Frame>
+  ### Rename 性能提升 1000 倍
+
+  传统的对象存储（Tencent COS、Aliyun OSS、AWS S3）均不支持原生的 Move 操作，在 Rename 场景需要 借助 `Copy + 校验`达到 Move 目的。
+
+  <Warning>
+    单个大文件的 `Copy + 校验` 过程很可能 **长达 10 秒** 以上，在部分场景中会 **严重降低整体性能**。而 Move 操作耗时可 **低至 1 毫秒**。
+  </Warning>
+  原子 Rename （Move）拥有 **巨大优势**：
+
+  - **强一致** - Move 前后 **没有任何中间状态**，操作成功后全局立即生效；
+  - **强可靠** - 没有 Copy 过程，**完全不会影响原数据的安全**；
+  - **低成本** - 没有 Copy 过程，**不会占用双倍的存储容量**；
+  - **高兼容** - 使用 **控制台** 和 简单的 **CopyObject 接口**，可 Rename 任意大小对象；
+
+  <Info>
+    例如：阿里云 OSS **控制台** 和 **CopyObject **不能 [重命名大于 1 GB 对象](https://help.aliyun.com/zh/oss/developer-reference/copyobject)
+  </Info>
+</Update>
+
 <Update label="2024/04/18" description="上新">
   ## **🌍 缤纷云全球CDN节点上线**
 
