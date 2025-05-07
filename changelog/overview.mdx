@@ -14,9 +14,9 @@ mode: "wide"
 
   传统的对象存储（Tencent COS、Aliyun OSS、AWS S3）均不支持原生的 Move 操作，在 Rename 场景需要 借助 `Copy + 校验`达到 Move 目的。
 
-  <Warning>
+<Warning>
 单个大文件的 `Copy + 校验` 过程很可能 **长达 10 秒** 以上，在部分场景中会 **严重降低整体性能**。而 Move 操作耗时可 **低至 1 毫秒**。
-  </Warning>
+</Warning>
   原子 Rename （Move）拥有 **巨大优势**：
 
   - **强一致** - Move 前后 **没有任何中间状态**，操作成功后全局立即生效；
@@ -46,9 +46,9 @@ mode: "wide"
 
   海外节点在回源S4存储桶时会进行全自动的跨境优化（自定义网站回源暂不支持）。
 
-  <Warning>
+<Warning>
 请务必保持控制台中正确的 CNAME 记录。
-  </Warning>
+</Warning>
 </Update>
 
 <Update label="2024/03/20" description="上新">
