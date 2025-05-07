@@ -15,7 +15,7 @@ mode: "wide"
   传统的对象存储（Tencent COS、Aliyun OSS、AWS S3）均不支持原生的 Move 操作，在 Rename 场景需要 借助 `Copy + 校验`达到 Move 目的。
 
   <Warning>
-    单个大文件的 `Copy + 校验` 过程很可能 **长达 10 秒** 以上，在部分场景中会 **严重降低整体性能**。而 Move 操作耗时可 **低至 1 毫秒**。
+单个大文件的 `Copy + 校验` 过程很可能 **长达 10 秒** 以上，在部分场景中会 **严重降低整体性能**。而 Move 操作耗时可 **低至 1 毫秒**。
   </Warning>
   原子 Rename （Move）拥有 **巨大优势**：
 
@@ -25,7 +25,7 @@ mode: "wide"
   - **高兼容** - 使用 **控制台** 和 简单的 **CopyObject 接口**，可 Rename 任意大小对象；
 
   <Info>
-    例如：阿里云 OSS **控制台** 和 **CopyObject **不能 [重命名大于 1 GB 对象](https://help.aliyun.com/zh/oss/developer-reference/copyobject)
+例如：阿里云 OSS **控制台** 和 **CopyObject **不能 [重命名大于 1 GB 对象](https://help.aliyun.com/zh/oss/developer-reference/copyobject)
   </Info>
 </Update>
 
@@ -47,7 +47,7 @@ mode: "wide"
   海外节点在回源S4存储桶时会进行全自动的跨境优化（自定义网站回源暂不支持）。
 
   <Warning>
-    请务必保持控制台中正确的 CNAME 记录。
+请务必保持控制台中正确的 CNAME 记录。
   </Warning>
 </Update>
 
