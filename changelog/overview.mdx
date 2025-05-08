@@ -4,6 +4,25 @@ description: "我们一直在进步"
 mode: "wide"
 ---
 
+<Update label="2024/06/13" description="独创">
+  ## **🔐 S4 对象存储支持签名URL请求次数限制**
+
+  <Frame>
+    ![S4 请求次数限制](/requests-limit.png)
+  </Frame>
+  ### 推出 x-bitiful-max-requests 参数
+
+  利用 S4 该特性可进一步保护你的上传下载,例如：
+  1. 在需要 `限制下载次数` 的场景（例如：分享文件），杜绝黑产嗅探到真实下载地址无限下载；
+  2. 保护你的 **上传链接** 不被重放攻击
+
+  <Warning>
+    在缺乏 **次数限制** 的情况下，黑产可以在极短的时间内对 上传URL 进行重放攻击，达到上传违规文件的目的。
+  </Warning>
+
+  ›› [进一步查看](/bitiful-s4/features/max-requests-limits)
+</Update>
+
 <Update label="2024/05/08" description="上新">
   ## **✏️ S4 对象存储生产支持 Move 操作（原子 Rename）**
 
@@ -14,7 +33,10 @@ mode: "wide"
 
   传统的对象存储（Tencent COS、Aliyun OSS、AWS S3）均不支持原生的 Move 操作，在 Rename 场景需要 借助 `Copy + 校验`达到 Move 目的。
 
-<Warning>单个大文件的 `Copy + 校验` 过程很可能 **长达 10 秒** 以上，在部分场景中会 **严重降低整体性能**。而 Move 操作耗时可 **低至 1 毫秒**。</Warning>
+  <Warning>
+    单个大文件的 `Copy + 校验` 过程很可能 **长达 10 秒** 以上，在部分场景中会 **严重降低整体性能**。而 Move 操作耗时可 **低至 5 毫秒内**。
+  </Warning>
+  
   原子 Rename （Move）拥有 **巨大优势**：
 
   - **强一致** - Move 前后 **没有任何中间状态**，操作成功后全局立即生效；
@@ -22,7 +44,9 @@ mode: "wide"
   - **低成本** - 没有 Copy 过程，**不会占用双倍的存储容量**；
   - **高兼容** - 使用 **控制台** 和 简单的 **CopyObject 接口**，可 Rename 任意大小对象；
 
-<Info>例如：阿里云 OSS **控制台** 和 **CopyObject** 不能 [重命名大于 1 GB 对象](https://help.aliyun.com/zh/oss/developer-reference/copyobject)</Info>
+  <Info>
+    例如：阿里云 OSS **控制台** 和 **CopyObject** 不能 [重命名大于 1 GB 对象](https://help.aliyun.com/zh/oss/developer-reference/copyobject)
+  </Info>
 </Update>
 
 <Update label="2024/04/18" description="上新">
@@ -42,7 +66,9 @@ mode: "wide"
 
   海外节点在回源S4存储桶时会进行全自动的跨境优化（自定义网站回源暂不支持）。
 
-<Warning>请务必保持控制台中正确的 CNAME 记录。</Warning>
+  <Warning>
+    请务必保持控制台中正确的 CNAME 记录。
+  </Warning>
 </Update>
 
 <Update label="2024/03/20" description="上新">
