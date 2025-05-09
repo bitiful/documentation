@@ -4,18 +4,38 @@ description: "我们一直在进步"
 mode: "wide"
 ---
 
+<Update label="2024/08/29" description="更新">
+  ## **📄 媒体处理 Style 支持可变参数**
+
+  <Frame>
+    
+
+    ![CoreIX Style 动态参数](/style-dynamic.png)
+  </Frame>
+  在设置 Style 的参数时，现在可以通过在 **参数前增加 \* 符号** 使该值 **可被 Url 参数自定义**。
+
+  以上图的参数举例：
+
+  - w（宽度像素） 是 **不可变参数**，代表设置到 Style 后，该参数 **固定为 1200**，不可被 Url 参数 改变；
+  - txt（水印文字）是 **可变参数**，代表设置到 Style 后，该参数 **默认为 @Bitiful**，但可以被 Url参数 改变。
+
+  <Warning>
+    建议 <u>不要</u> 将图片处理的 **格式**、**宽度**、**高度** 等 <u>影响文件大小</u> 的参数设置为 **可变参数**。
+  </Warning>
+</Update>
+
 <Update label="2024/07/12" description="上新">
   ## **📄 CoreIX 支持获取文件元数据信息功能**
 
   <Frame>
     ![对象信息](/Rainbow.MOV.png)
   </Frame>
-  ## 将 fmt 参数设置为 info 即可获取对象信息
+  ## 将 fmt 参数设置为 info 即可获取对象元数据信息
 
   ›› 例子：https://demo.bitiful.com/girl.jpeg?fmt=info
 
   <Warning>
-    当 **fmt=info** 时，CoreIX 的其他参数将不会生效。这是为了确保最终输出的是 **原始对象的信息**。
+    当 **fmt=info** 时，CoreIX 的其他参数将不会生效。这是为了确保最终输出的是 **原始对象的元数据**。
   </Warning>
 </Update>
 
