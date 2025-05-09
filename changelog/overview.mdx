@@ -4,6 +4,24 @@ description: "我们一直在进步"
 mode: "wide"
 ---
 
+<Update label="2024/06/21" description="独创">
+  ## **🔐 缤纷云发布 Simul-Transfer 技术，让文件分享 0 等待**
+
+  <Frame><video
+        autoplay
+        muted
+        controls
+        className="w-full aspect-video"
+        poster="https://bitiful-contents.s3.bitiful.net/videos/with-simul-transfer.mp4?frame=1&w=1280"
+        src="https://bitiful-contents.s3.bitiful.net/videos/with-simul-transfer.mp4"
+    ></video></Frame>
+  ## 上下行同步传输技术
+
+  缤纷云基于自身独有的 **流式架构**，再次首创为 **「对象存储」** 原生带来了全新的 **「同步传输技术」Simul-Transfer**。它让分享的文件在 **上传开始的一瞬间便可以被下载**。
+
+  ›› [进一步查看](/bitiful-s4/features/simul-transfer)
+</Update>
+
 <Update label="2024/06/13" description="独创">
   ## **🔐 S4 对象存储支持签名URL请求次数限制**
 
@@ -13,13 +31,13 @@ mode: "wide"
   ### 推出 x-bitiful-max-requests 参数
 
   利用 S4 该特性可进一步保护你的上传下载,例如：
+
   1. 在需要 `限制下载次数` 的场景（例如：分享文件），杜绝黑产嗅探到真实下载地址无限下载；
   2. 保护你的 **上传链接** 不被重放攻击
 
   <Warning>
     在缺乏 **次数限制** 的情况下，黑产可以在极短的时间内对 上传URL 进行重放攻击，达到上传违规文件的目的。
   </Warning>
-
   ›› [进一步查看](/bitiful-s4/features/max-requests-limits)
 </Update>
 
@@ -36,7 +54,6 @@ mode: "wide"
   <Warning>
     单个大文件的 `Copy + 校验` 过程很可能 **长达 10 秒** 以上，在部分场景中会 **严重降低整体性能**。而 Move 操作耗时可 **低至 5 毫秒内**。
   </Warning>
-  
   原子 Rename （Move）拥有 **巨大优势**：
 
   - **强一致** - Move 前后 **没有任何中间状态**，操作成功后全局立即生效；
