@@ -1,22 +1,71 @@
 ---
-title: "产品更新"
+title: "更新"
 description: "我们一直在进步"
 mode: "wide"
 ---
 
-<Update label="2024/10/11" description="优化">
-  ## **📄 大幅优化 CDN 部署时间**
+<Update label="2025/05/14" description="上新">
+  ##  ☀️ 全新「证书中心」正式上线
+
+  <Frame>
+    ![证书中心](/certs-center.png)
+  </Frame>
+  **支持域名证书全流程自动处理：签发、续期、托管、更换**
+
+  完全不用再担心证书过期，[赶紧来体验](https://console.bitiful.com/certs/manage)。
+</Update>
+
+<Update label="2024/12/20" description="优化">
+  ## 🙅‍♀️ 拒绝被滥用，S4 可自动检测 M2TS 和 M4S 类型
+
+  <Frame>
+    ![fake ts](/fake-ts.png)
+  </Frame>
+  年初发生了一起震惊开发者圈的 **供应链滥用事件**:
+
+  <Warning>
+    [npm 被上传了 748 个武林外传的视频 ts 切片文件](https://www.sonatype.com/blog/npm-flooded-with-748-packages-that-store-movies)
+  </Warning>
+  攻击者利用 **typescript** 和 **mpeg2-ts** 后缀相同的特点，将大量视频切片上传到 npm 后盗链下载，消耗了大量宝贵的公益资源。
+
+  针对该类情况，缤纷云 S4 的 [**媒体类型自动检测系统**](/best-practice/auto-detect-mime) 优化了对视频切片的判断策略，善加利用可以 **有效杜绝** 此类攻击。
+</Update>
+
+<Update label="2024/11/10" description="优惠">
+  ## 🎉 双 11 充值折扣券上线
+
+  <Frame>
+    ![2024 双 11](/20241111.jpg)
+  </Frame>
+  缤纷云 11.11 大额充值券
+
+  充值用券：
+
+  - 使用 BTF20241111A 送 **20%**，充100起送
+  - 使用 BTF20241111B 送 **30%**，充500起送
+  - 使用 BTF20241111C 送 **50%**，充100起送 (限首充)
+    (长按 券代码 可复制)
+
+  时间：2024年11月10日 ～ 2024年12月10日
+</Update>
+
+<Update label="2024/10/21" description="优化">
+  ## 💳 上线支付宝支付
+
+  支付系统上线 **支付宝**。
+</Update>
+
+<Update label="2024/10/15" description="优化">
+  ## 🚀 大幅优化 CDN 部署时间
 
   <Frame>
     ![CDN部署速度大幅提升](/cdn-10x-faster.jpg)
   </Frame>
-  
-  目前 **99%** 的 CDN 部署时间都在 **30s** 内。
-  此举会大幅改善曾被诟病的 CDN 配置 **长达数分钟** 的修改时间。
+  将 CDN 的部署时间从 **数分钟** 大幅优化至 **30s** 内，大大改善 CDN 的配置体验。
 </Update>
 
 <Update label="2024/09/19" description="上新">
-  ## **🧑‍💻 上线部分 CDN 与 数据 API**
+  ## 🧑‍💻 上线部分 CDN 与 数据 API
 
   ### S4 上线：
 
