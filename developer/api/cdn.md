@@ -4,7 +4,7 @@ sidebarTitle: '静态 CDN'
 description: '介绍缤纷云 S4 的静态 CDN API。'
 ---
 
-## 获取 API Token
+## 获取控制台 API Token
 
 前往控制台获取：[https://console.bitiful.com/apiToken](https://console.bitiful.com/apiToken)
 
