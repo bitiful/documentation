@@ -140,6 +140,12 @@
       ]
     },
     {
+      "group": "证书中心",
+      "pages": [
+        "certs-center/intro"
+      ]
+    },
+    {
       "group": "内容分发 CDN",
       "pages": [
         "cdn/intro"

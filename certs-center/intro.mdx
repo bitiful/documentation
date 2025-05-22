@@ -1,0 +1,61 @@
+---
+title: "快速开始"
+description: "介绍缤纷云证书中心，及自动证书。"
+---
+
+## 介绍
+
+缤纷云证书中心统一纳管了平台内所有的证书，支持 自定义证书 和 自动证书 两种。
+
+<Info>
+  #### 使用限制
+1. 自定义证书暂时无法支持自动更新
+2. 目前每个账户只支持 5 个免费自动证书
+3. 自动证书目前只支持 LE-RSA 单域名证书
+</Info>
+
+## 重要特性
+
+<Note>
+  自动证书目前免费。
+</Note>
+
+- 域名证书 **全自动创建、续期**（ACME）
+- 更换证书自动绑定至 **关联的** S4 存储桶 和 CDN 项目
+- 支持 Let's Ecrypt、Google Trust Service（目前只支持 LE）
+- 支持 **RSA** 与 **ECDSA** 两种主要证书（早期只支持 RSA）
+- 支持 [内容证书 API](/developer/api/certs) 将自动证书融入到其他基础设施中
+
+## 快速开始
+
+<Tip>
+  请确保您已 [注册缤纷云账号](https://console.bitiful.com/) 并完成 [实名认证](https://console.bitiful.com/users)（可立即享受相应 [免费额度](/prices/basic)）。
+</Tip>
+
+<Steps>
+  <Step title="注册/登录">
+    注册并登录 [缤纷云S4控制台](https://console.bitiful.com/)，点击左侧的 **CDN** 进入 [静态加速管理](https://console.bitiful.com/cdn/list)
+  </Step>
+  <Step title="申请自动证书">
+    <Frame>
+      <video autoplay controls className="w-full aspect-video" poster="https://bitiful-contents.s3.bitiful.net/videos%2Fbitiful-auto-certs-high.mp4?frame=1&w=1280" src="https://bitiful-contents.s3.bitiful.net/videos%2Fbitiful-auto-certs-high.mp4" />
+    </Frame>
+    1. 点击右上角 **申请自动证书**；
+    2. 输入要配置自动证书的域名，如：cdn.minute.cn（**无需备案**）；
+    3. 前往域名 DNS 托管平台（例如：易名网）设置 **验证 CNAME 记录**；
+    4. 自取一个 **容易记忆** 的证书备注名称（账户内不可重复）
+    5. 点击 **验证** 提示 **CNAME 已配置** 后，点击 **确认申请**
+    6. 请 **不要关闭申请窗口**，耐心等待一会儿，直到申请完成。
+  </Step>
+  <Step title="应用证书">
+    自动证书可应用于：
+
+    1. **存储桶** 中绑定的自有域名；
+    2. **CDN** 中的加速域名；
+    3. 借助 [内容证书 API](/developer/api/certs) 将自动证书安全、方便地融入到自有基础设施中。
+
+    <Warning>
+      请确保 **存储桶和 CDN 绑定域名** 存在于目标证书范围内。
+    </Warning>
+  </Step>
+</Steps>

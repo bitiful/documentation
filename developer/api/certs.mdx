@@ -1,6 +1,6 @@
 ---
 title: "S4 证书 API"
-sidebarTitle: "证书"
+sidebarTitle: "证书管理"
 description: "介绍缤纷云证书中心的 API。"
 ---
 
@@ -27,7 +27,7 @@ curl -H "Authorization: {API Token from: https://console.bitiful.com/apiToken}" 
 **返回示例**：
 
 ```json
-// curl -H "Authorization: {API-Token}" "https://api.bitiful.com/cert/data/cdn.butterix.com-rsa-auto/content"
+// curl -H "Authorization: {API-Token}" "https://api.bitiful.com/cert/data/usercontents.somecdn.com-rsa-auto/content"
 {
     "crt": "-----BEGIN CERTIFICATE-----\n<证书内容>\n-----END CERTIFICATE-----",
     "key": "-----BEGIN PRIVATE KEY-----\n<私钥内容>\n-----END PRIVATE KEY-----",
