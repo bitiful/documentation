@@ -181,7 +181,8 @@
       "group": "缤纷云 API",
       "pages": [
         "developer/api/s4",
-        "developer/api/cdn"
+        "developer/api/cdn",
+        "developer/api/certs"
       ]
     },
     {
