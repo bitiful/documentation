@@ -47,8 +47,8 @@ S4 支持处理存储的图片文件，您可以通过在 Url 末尾（或在 Ge
 | [文字水印](/coreix/features/watermark)       | - txt: 水印的文字内容            | [详细参数](features/watermark)                                                                                | 静图     |
 | [图片水印](/coreix/features/watermark-image) | - mark: 水印图片的桶内路径         | [详细参数](features/watermark-image)                                                                          | 静图     |
 | 静帧提取                                     | - frame: 毫秒数（视频）或 帧数（GIF） | 格式支持：MP4、MKV；  色彩支持：SDR 视频 / BT.2020/2100 色域 HDR 视频  \* 注意：frame 只能对已经存入 S4 对象存储的文件生效  （镜像回源场景下回源成功后才会生效） | 动图  视频 |
-| 色彩空间                                     | - cs: ColorSpace          | 设定希望输出的色彩空间，支持：tinysrgb、srgb、adobe rgb                                                                    | 静图     |
-| [格式转换](/coreix/features/format)          | - fm/fmt: 格式代号            | 图片格式：jpeg、png、tpng、webp、bmp、avif、gif、tiff  - 其他格式：blurhash（输出 blurhash 代码）、json（输出图片信息）                   | 全部     |
+| [色彩空间](/coreix/features/colorspace)       | - cs: ColorSpace          | 设定希望输出的色彩空间，支持：tinysrgb、srgb、adobe rgb                                                                    | 静图     |
+| [格式转换](/coreix/features/format)          | - fmt: 格式代号            | 图片格式：jpeg、png、tpng、webp、bmp、avif、gif、tiff  - 其他格式：blurhash（输出 blurhash 代码）、json（输出图片信息）                   | 全部     |
 
 <Check>
   **自2024年1月1日起，将支持 GIF / WEBP 动图支持高性能缩略、裁剪处理**

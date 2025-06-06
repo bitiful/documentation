@@ -1,0 +1,50 @@
+---
+title: "色彩管理支持"
+sidebarTitle: "色彩管理"
+description: "CoreIX 支持色彩管理，包括 不同色彩模式 和 主流色彩空间 的支持（P3、CMYK、HDR、Adobe RGB、ProPhoto RGB 等）。"
+mode: "wide"
+---
+
+## 色彩空间介绍
+
+色彩空间定义了颜色在数字图像中的表示方式。CoreIX 支持处理多种专业色彩空间：
+
+- **P3 色域**：用于数字影院和高端显示设备的广色域标准
+- **CMYK 色彩空间**：印刷行业标准，使用青、品红、黄、黑四色
+- **HDR（高动态范围）**：提供更广的亮度范围和更丰富的色彩表现
+- **sRGB**：标准网络和显示设备使用的色彩空间
+- **tinysrgb**：轻量级 sRGB 实现，适用于资源受限环境
+
+## CoreIX 色彩空间支持
+
+### 支持功能
+
+1. **色彩空间识别**：自动检测图像的原始色彩空间
+2. **色彩空间转换**：支持将图像转换到目标色彩空间（如 **P3** / **CMYK** / **Adobe RGB** → **sRGB** 的输出）
+3. **HDR 映射**：将 **HDR** 内容正确映射到 **SDR** 显示设备
+4. **色域保留**：在处理过程中保持原始色域的完整性
+
+<Warning>
+  该方法只能用于静态图片
+</Warning>
+
+### 相关参数总览
+
+| 参数   | 含义             | 作用说明                                         |
+| :--- | -------------- | -------------------------------------------- |
+| `cs` | 指定 **输出的色彩空间** | - 取值范围：<br />keep、p3、srgb、tinysrgb（默认为 keep） |
+
+## 色彩空间处理演示
+
+### 不同色彩空间处理效果对比
+
+| 色彩空间 | 保持 ICC (cs=keep) | 删除 ICC (cs=strip) | **智能映射 ICC** (cs=srgb)  |
+| :-------------- | :--------------- | :-------------- | :----------------- |
+| **P3 色域**<br />[查看原图](https://coreix-demo.s3.bitiful.net/p3_files/p3.jpg)        | ![P3原图](https://coreix-demo.s3.bitiful.net/p3_files/p3.jpg?w=500&cs=keep)     | ![P3缩略图](https://coreix-demo.s3.bitiful.net/p3_files/p3.jpg?w=500&cs=strip)        | ![P3→sRGB](https://coreix-demo.s3.bitiful.net/p3_files/p3.jpg?w=500&cs=srgb)        |
+| **CMYK 色彩**<br />[查看原图](https://coreix-demo.s3.bitiful.net/cmyk_files/cmyk2.jpg) | ![CMYK原图](https://coreix-demo.s3.bitiful.net/cmyk_files/cmyk2.jpg?w=500&cs=keep)<br /> **700 KiB** | ![CMYK缩略图](https://coreix-demo.s3.bitiful.net/cmyk_files/cmyk2.jpg?w=500&cs=strip)  <br /> **62 KiB**| ![CMYK→sRGB](https://coreix-demo.s3.bitiful.net/cmyk_files/cmyk2.jpg?w=500&cs=srgb) <br /> **60 KiB**|
+| **HDR 图像**<br />[查看原图](https://demo.bitiful.com/hdr-img/trees.avif)              | ![HDR原图](https://demo.bitiful.com/hdr-img/trees.avif?w=500&cs=keep)              | ![HDR缩略图](https://demo.bitiful.com/hdr-img/trees.avif?w=500&cs=strip)              | ![HDR→sRGB](https://demo.bitiful.com/hdr-img/trees.avif?w=500&cs=srgb)              |
+
+<Info>
+  - **tinysrgb 说明**：CoreIX 提供轻量级 tinysrgb 实现，在保持 sRGB 标准兼容性的同时减少 40% 内存使用，适合移动设备和低资源环境;
+  - **HDR 视频截帧说明**：[HDR 内容实践](/coreix/features/colorspace)
+</Info>

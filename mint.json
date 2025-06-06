@@ -134,7 +134,8 @@
             "coreix/features/sharp",
             "coreix/features/blur",
             "coreix/features/watermark-image",
-            "coreix/features/watermark"
+            "coreix/features/watermark",
+            "coreix/features/colorspace"
           ]
         }
       ]
