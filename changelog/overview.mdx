@@ -5,15 +5,17 @@ mode: "wide"
 ---
 
 <Update label="2025/06/30" description="上新">
-  ## 🎁 流量、请求数资源包以及折扣活动上线
+  ## 🎁 流量、请求数资源包以及折扣活动上线 🆙
 
-  <Frame>![resource-bundle.png](/images/resource-bundle.png)</Frame>
-
+  <Frame>
+    ![resource-bundle.png](/images/resource-bundle.png)
+  </Frame>
   ### 资源包特点：
 
   1. 购买相应的资源包后可直接抵扣消耗的资源；
   2. 资源包抵扣时没有最低计算单位的限制（例如：用余额抵扣请求数消费时最低单位是“千次请求”）
-  3. 可用余额购买资源包，若之前使用优惠券充值，相当于折上折。
+  3. 可用余额购买资源包，若之前使用优惠券充值，相当于折上折；
+  4. 转回“按量计费”后，所有资源包抵扣量依然参与本月阶梯计算。
 
   ### 特别折扣
 
@@ -22,21 +24,54 @@ mode: "wide"
   购买地址：https://console.bitiful.com/billing/resource （右上角 **购买资源包**）
 </Update>
 
-<Update label="2025/05/14" description="上新">
-  ## ☀️ 全新「证书中心」正式上线
+<Update label="2025/07/01" description="更新">
+  ## 📢 按量计费价格调整预告
 
-  <Frame>
-    ![证书中心](/certs-center.png)
-  </Frame>
-  **支持域名证书全流程自动处理：签发、续期、托管、更换**
+  预计从 7 月 20 日起，官网价格调整如下：
 
-  完全不用再担心证书过期，[赶紧来体验](https://console.bitiful.com/certs/manage)。
+  #### CDN 海外节点流量单价调整为（大陆地区价格不变）：
 
-  ### 使用演示
+  | 流量（GB）           | 单价        |
+  | ---------------- | --------- |
+  | `0 ~ 10`         | **免费**    |
+  | `11 ~ 1000 `     | 0.24 元/GB |
+  | `1001 ~ 10000`   | 0.19 元/GB |
+  | `10001 ~ 100000` | 0.16 元/GB |
+  | `100000 + `      | 0.12 元/GB |
 
-  <Frame>
-    <video autoplay controls className="w-full aspect-video" poster="https://bitiful-contents.s3.bitiful.net/videos%2Fbitiful-auto-certs-high.mp4?frame=1&w=1280" src="https://bitiful-contents.s3.bitiful.net/videos%2Fbitiful-auto-certs-high.mp4" />
-  </Frame>
+  #### CDN 全局请求单价调整为：
+
+  <Tip>
+    CDN 请求包低至 **0.09元/亿次**：
+    https://console.bitiful.com/billing/resource
+  </Tip>
+  | 请求（万次）   | 单价         |
+  | -------- | ---------- |
+  | `0 ~ 10` | **免费**     |
+  | `11+`    | 0.035 元/万次 |
+
+  #### S4 出口流量单价上调：
+
+  <Tip>
+    S4 流量包低至 **0.072元/GB**： https://console.bitiful.com/billing/resource
+  </Tip>
+  | 流量（GB）           | 单价        | 变动    |
+  | ---------------- | --------- | ----- |
+  | `0 ~ 10`         | **免费**    | -     |
+  | `11 ~ 1000 `     | 0.18 元/GB | ↑ 50% |
+  | `1001 ~ 10000`   | 0.14 元/GB | ↑ 40% |
+  | `10001 ~ 100000` | 0.12 元/GB | ↑ 33% |
+  | `100000 + `      | 0.10 元/GB | ↑ 20% |
+
+  #### S4 回源流量单价下调：
+
+  | 流量（GB）           | 单价         | 变动      |
+  | ---------------- | ---------- | ------- |
+  | `0 ~ 10`         | **免费**     | -       |
+  | `11 ~ 1000 `     | 0.1 元/GB   | ↓ 16.7% |
+  | `1001 ~ 10000`   | 0.085 元/GB | ↓ 15%   |
+  | `10001 ~ 100000` | 0.07 元/GB  | ↓ 20%   |
+  | `100000 + `      | 0.05 元/GB  | ↓ 37.5% |
 </Update>
 
 <Update label="2025/05/23" description="上新">
