@@ -1,0 +1,46 @@
+---
+title: "视频和动图截帧"
+description: "使用 frame 参数从视频或动态图像中提取静态帧"
+---
+
+## 参数说明
+
+**frame** 参数允许从视频文件或动态图像(如GIF)中提取特定时间点或位置的静态帧。这对于缩略图生成、视频预览或提取动画中特定场景非常有用。
+
+### 基本用法
+
+| **参数**    | **类型** | **默认值** | **说明** |
+| :-------- | :----- | :------ | :----- |
+| **frame** | 整数     | `1`     | 提取帧的位置 |
+
+## 详细说明
+
+**frame** 参数在不同媒体类型下有不同的含义：
+
+#### 视频文件
+
+当处理视频文件时，**frame** 参数表示 **时间点**，单位为 **毫秒**：
+
+- `frame=0` - 提取视频的第一帧
+- `frame=5000` - 提取视频开始后5秒处的帧
+- `frame=60000` - 提取视频开始后1分钟处的帧
+
+#### 动态图像(GIF、动态 WebP 等)
+
+当处理动态图像时，**frame** 参数表示 **帧的序号**，从1开始计数：
+
+- `frame=1` - 提取动态图像的第一帧(默认值)
+- `frame=2` - 提取动态图像的第二帧
+- `frame=n` - 提取动态图像的第n帧
+
+<Warning>
+  如果指定的帧数超出动态图像的实际帧数，将返回最后一帧。
+</Warning>
+
+### 示例用法
+
+原视频：https://demo.bitiful.com/rainbow.mov
+截取 **第 5000 毫秒** 的关键帧作为图片 [https://demo.bitiful.com/rainbow.mov?frame=5000&w=1000&cs=srgb](https://demo.bitiful.com/rainbow.mov?frame=5000&w=1000&cs=srgb)
+<Frame>
+![rainbow.mov.sdr.jpg](https://demo.bitiful.com/rainbow.mov?frame=5000&w=1000&cs=srgb)
+</Frame>

@@ -1,0 +1,48 @@
+---
+title: '图像 BlurHash 与 ThumbHash 哈希占位技术：'
+sidebarTitle: '✨ 图像哈希占位'
+description: 'BlurHash 和 ThumbHash 为图像提供惊艳又轻量的预加载效果，让图片访问体验更上三层楼！'
+mode: "wide"
+---
+
+传统的图像加载方式往往会导致用户等待或看到空白页面。BlurHash 和 ThumbHash 通过轻量级哈希值预先生成模糊占位图，为用户提供即时反馈，大幅提升加载体验。
+
+缤纷云 **CoreIX 原生支持** 获取 [BlurHash](https://evanw.github.io/thumbhash/) 和 [ThumbHash](https://blurha.sh/) 两种图像占位哈希技术，通过 [fmt=blurhash](/coreix/features/fmt) 或 [fmt=thumbhash](/coreix/features/fmt) 参数即可获取。
+
+## 图像预加载占位方案对比
+
+| **特性** | **高斯模糊图** | **BlurHash** | **ThumbHash** | **主色值** |
+| :--- | :--- | :--- | :--- | :--- |
+| 占数据库容量 | 较大 ( 200 ~ 5k 字节) | 极小 (30+ 字节) | 极小 (20+ 字节) | 最短 (7-9 字符) |
+| 模糊质量 | 最高 | 较高 | 很高 | 无任何细节 |
+| 性能影响 | 数据库性能影响较大 | 极小 | 极小 | 极小 |
+| 综合评价 | 模糊质量最好<br />存储容量很大<br />效率一般 | 模糊质量较好<br />存储容量小<br />效率很高  | 模糊质量很好<br />存储容量更小<br />效率很高 | 纯色无细节<br />存储容量最小<br />效率最高 |
+
+<Tip>
+  我们非常感谢 [BlurHash](https://evanw.github.io/thumbhash/) 和 [ThumbHash](https://blurha.sh/) 的开源，但原始库对图片格式支持 **非常有限**，更无法简单支持 **视频**、**动图**。得益于缤纷云 CoreIX 绝佳的 **视频**、**图片格式** 和 **色彩模式** 兼容能力，你可以简单我们的接口在 0.1 秒内获得大量的 **额外兼容性**，包括：
+  1. P3、Adobergb、CMYK 等色域或色彩模式的照片；
+  2. 大量 RAW 格式原片；
+  3. 借助 [frame 截图参数](/coreix/features/frame) 支持获取 `视频` 和 `动图` 的哈希占位图
+</Tip>
+
+## 方案预览
+<Frame>
+  ![blurhash-sample](https://bitiful-contents.s3.bitiful.net/images/hash-placeholder.png?w=1200&fmt=webp)
+  <em>BlurHash 示例：左侧为原图，右侧为其 BlurHash 生成的模糊占位图</em>
+</Frame>
+
+## 如何使用
+
+### 原理与步骤
+
+1. 只需在图像URL后添加相应参数：
+    - BlurHash: `fmt=blurhash`
+    - ThumbHash: `fmt=thumbhash`
+2. 将得到的 `占位哈希值` 直接存入数据库
+3. 在客户端请求数据时，直接将 `占位哈希值` 输出到接口结果（例如 json）中
+4. 客户端根据接口中相关字段提供的 `占位哈希值` Decode 出模糊图片，填充至图片容器（例如 html 中的 img 标签）—— 这一步无需网络，处理时间大约是亚毫秒级，用户看到预加载的占位模糊图不会有任何延迟感
+5. 再通过相关 URL 远程加载清晰的缩略图或原图
+
+<Warning>
+  结合 crop 和 resize（图像缩略、裁剪）参数，可获取原图某一部分的模糊hash
+</Warning>

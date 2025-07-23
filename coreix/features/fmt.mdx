@@ -1,58 +1,70 @@
 ---
-title: '图片格式转换'
-description: '图片格式转换参数为 fmt，可指定图片的输出格式。'
+title: "图片格式转换"
+description: "图片格式转换参数为 fmt，可指定图片的输出格式。"
 ---
 
 # 图片格式转换
+
 ## 参数说明
-<Warning>该参数影响图片的输出格式，可能会改变文件大小、质量和兼容性</Warning>
+
+<Warning>
+  该参数影响图片的输出格式，可能会改变文件大小、质量和兼容性
+</Warning>
 
 ### 相关参数总览
 
-| 参数 | 含义 | 作用说明 |
-| :--- | --- | --- |
-| ` fmt ` | 指定**图片输出格式** | - 取值：<br />jpg、png、webp、avif、gif等多种格式<br />- 作用：<br />根据需求转换图片格式，平衡文件大小、质量和兼容性 |
+| 参数    | 含义           | 作用说明                                                                           |
+| :---- | ------------ | ------------------------------------------------------------------------------ |
+| `fmt` | 指定**图片输出格式** | - 取值：<br />jpg、png、webp、avif、gif等多种格式<br />- 作用：<br />根据需求转换图片格式，平衡文件大小、质量和兼容性 |
 
 ### 支持的格式及说明
 
-| 格式参数 | 对应格式 | 特点说明 |
-| :--- | --- | --- |
-| `jpg`/`jpeg` | JPEG | 有损压缩格式，适合照片，不支持透明度 |
-| `png` | PNG | 无损压缩格式，支持透明度，文件较大 |
-| `webp` | WebP | 谷歌开发的现代格式，同时支持有损和无损压缩，支持透明度和动画，兼顾质量和体积 |
-| `avif` | AVIF | 新一代图像格式，提供更高压缩率，保持高质量，支持透明度和HDR |
-| `gif` | GIF | 支持简单动画和透明度的格式，色彩有限（256色） |
-| `tiff` | TIFF | 专业级无损图像格式，支持多层和高色彩深度，文件较大 |
-| `bmp` | BMP | 无压缩位图格式，文件较大，兼容性好 |
-| `heic`/`heif` | HEIC | 苹果推广的高效图像格式，压缩率高，支持透明度和多图层 |
+| 格式参数          | 对应格式 | 特点说明                                   |
+| :------------ | ---- | -------------------------------------- |
+| `jpg`/`jpeg`  | JPEG | 有损压缩格式，适合照片，不支持透明度                     |
+| `png`         | PNG  | 无损压缩格式，支持透明度，文件较大                      |
+| `webp`        | WebP | 谷歌开发的现代格式，同时支持有损和无损压缩，支持透明度和动画，兼顾质量和体积 |
+| `avif`        | AVIF | 新一代图像格式，提供更高压缩率，保持高质量，支持透明度和HDR        |
+| `gif`         | GIF  | 支持简单动画和透明度的格式，色彩有限（256色）               |
+| `tiff`        | TIFF | 专业级无损图像格式，支持多层和高色彩深度，文件较大              |
+| `bmp`         | BMP  | 无压缩位图格式，文件较大，兼容性好                      |
+| `heic`/`heif` | HEIC | 苹果推广的高效图像格式，压缩率高，支持透明度和多图层             |
 
 此外还支持以下特殊格式：
 
-| 格式参数 | 对应格式 | 特点说明 |
-| :--- | --- | --- |
-| `tpng` | PNG (优化) | 使用图像量化优化的PNG格式，减小文件体积(参考：TinyPNG) |
-| `jp2`/`jp2k`/`jpeg2000` | JPEG 2000 | JPEG的后继者，支持有损和无损压缩，压缩效率更高 |
-| `blurhash` | BlurHash | 图像占位符格式，将图像编码为简短字符串，用于加载预览 |
-| `thumbhash` | ThumbHash | 类似BlurHash的图像哈希格式，生成小缩略图哈希值 |
-| `info` | INFO | 返回图像元数据信息而非图像内容 |
+| 格式参数                    | 对应格式      | 特点说明                              |
+| :---------------------- | --------- | --------------------------------- |
+| `tpng`                  | PNG (优化)  | 使用图像量化优化的PNG格式，减小文件体积(参考：TinyPNG) |
+| `jp2`/`jp2k` | JPEG 2000 | JPEG的后继者，支持有损和无损压缩，压缩效率更高         |
+| `blurhash`              | [BlurHash](bitiful-s4/features/hash-placeholder)  | 图像占位符格式，将图像编码为简短字符串，用于加载预览        |
+| `thumbhash`             | [ThumbHash](bitiful-s4/features/hash-placeholder) | 类似 BlurHash 的图像哈希格式，生成小缩略图哈希值       |
+| `info`                  | INFO      | 返回图像元数据信息而非图像内容                   |
 
 ### 效果演示
 
 原始图像：
 
-<Frame>![original.jpg](https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=300&q=90)</Frame>
+<Frame>
+  ![original.jpg](https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=300&q=90)
+</Frame>
 
-转换为WebP格式：[https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=300 **`&fmt=webp`**](https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=300&fmt=webp)
+转换为WebP格式：[**`https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=300 &fmt=webp`**](https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=300&fmt=webp)
 
-<Frame>![girl.webp](https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=300&fmt=webp)</Frame>
+<Frame>
+  ![girl.webp](https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=300&fmt=webp)
+</Frame>
 
-转换为PNG格式（保留完整质量）：[https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=300 **`&fmt=png`**](https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=300&fmt=png)
+转换为PNG格式（保留完整质量）：[**`https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=300 &fmt=png`**](https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=300&fmt=png)
 
-<Frame>![girl.png](https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=300&fmt=png)</Frame>
+<Frame>
+  ![girl.png](https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=300&fmt=png)
+</Frame>
 
-转换为AVIF格式（最高压缩率）：[https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=300 **`&fmt=avif`**](https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=300&fmt=avif)
+转换为AVIF格式（最高压缩率）：[**`https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=300 &fmt=avif`**](https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=300&fmt=avif)
 
-<Frame>![girl.avif](https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=300&fmt=avif)</Frame>
+<Frame>
+  ![girl.avif](https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=300&fmt=avif)
+</Frame>
 
 ### 格式选择指南
 

@@ -98,7 +98,8 @@
           "pages": [
             "bitiful-s4/features/move-object",
             "bitiful-s4/features/max-requests-limits",
-            "bitiful-s4/features/simul-transfer"
+            "bitiful-s4/features/simul-transfer",
+            "bitiful-s4/features/hash-placeholder"
           ]
         }
       ]
@@ -136,6 +137,7 @@
             "coreix/features/watermark-image",
             "coreix/features/watermark",
             "coreix/features/colorspace",
+            "coreix/features/frame",
             "coreix/features/fmt"
           ]
         }
