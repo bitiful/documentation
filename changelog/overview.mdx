@@ -4,9 +4,32 @@ description: "我们一直在进步"
 mode: "wide"
 ---
 
+https://www.creght.cn/
+
+<Update label="2025/09/11" description="增强/调整">
+  ## 媒体处理更新
+
+  ### S4 对象存储更新
+
+  进一步 **完善 S3 协议 V4 上传校验兼容性**，现在应当可以良好兼容最新的 `Java S3 SDK 2.30.30+` 和 `.Net S3 SDK 4.0.0+`，
+
+  即 —— **`SDK 不再需要禁用 Payload Signing 属性`**。
+
+  如果你的 SDK 场景仍然存在疑似问题，欢迎加入我们的技术支持群组咨询，我们将尽力提供技术支持。
+
+  ### 其他调整
+
+  由于使用率较低，且大陆出现了较为优秀的同类服务（[**Creght**](https://www.creght.cn/)）。目前 **Framer 加速服务将关闭新建入口**，现有网站访问会继续维持到 2027 年中旬。
+
+  预计从 10 月份起不再优化该服务的可靠性问题，有大陆的相关需求 [**可转移至：https://www.creght.cn/**](https://www.creght.cn/)
+</Update>
+
 <Update label="2025/08/31" description="重构">
   ## CoreIX V2 上线 🎉
+
   ![CoreIXV2](https://demo.bitiful.com/docs/CoreIXV2.svg?w=1200&fmt=tpng)
+
+  
   **做全球最好的图片实时处理 API** —— 这是开发 CoreIX 的初衷
 
   基于 **2 年的技术储备**，我们进行 **全面重构**，带来了全新的 **CoreIX V2 版本**。
@@ -32,13 +55,19 @@ mode: "wide"
   4. **大幅提升总体吞吐量的同时功耗降低 75%**
 
   ### 大光比照片 Tone Mapping 处理效果
-  | 不做处理 | CoreIXV1 | CoreIXV2 | 其他友商 |
-  | --- | --- | --- | --- |
-  | ![raw](https://demo.bitiful.com/tone-mapping/proraw_direct.jpeg) | ![raw](https://demo.bitiful.com/tone-mapping/proraw_old_postprocessing.jpeg) | ![raw](https://demo.bitiful.com/tone-mapping/proraw_new_postprocessing.jpeg) | ![raw](https://demo.bitiful.com/tone-mapping/notsupported.png) |
-  | 丢失暗部细节 | **暗部色彩崩坏**<br />**天空全面过曝** | **压制高光的**<br />**还原窗帘光泽** | 格式处理失败 |
 
-  <Check>横向对比：[国内主流图片实时处理系统性能横向对比](https://tools.bitiful.com/coreix-bench/)</Check>
-  <Warning>基于此次性能全面提升，所有普通处理将全部免费。高级处理（Raw格式、视频处理、动图 等）价格方案及收费时间预计10月份公布</Warning>
+  | 不做处理                                                             | CoreIXV1                                                                     | CoreIXV2                                                                     | 其他友商                                                           |
+  | ---------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | -------------------------------------------------------------- |
+  | ![raw](https://demo.bitiful.com/tone-mapping/proraw_direct.jpeg) | ![raw](https://demo.bitiful.com/tone-mapping/proraw_old_postprocessing.jpeg) | ![raw](https://demo.bitiful.com/tone-mapping/proraw_new_postprocessing.jpeg) | ![raw](https://demo.bitiful.com/tone-mapping/notsupported.png) |
+  | 丢失暗部细节                                                           | **暗部色彩崩坏**<br />**天空全面过曝**                                                   | **压制高光的**<br />**还原窗帘光泽**                                                    | 格式处理失败                                                         |
+
+  <Check>
+    横向对比：[国内主流图片实时处理系统性能横向对比](https://tools.bitiful.com/coreix-bench/)
+  </Check>
+  
+  <Warning>
+    基于此次性能全面提升，所有普通处理将全部免费。高级处理（Raw格式、视频处理、动图 等）价格方案及收费时间预计10月份公布
+  </Warning>
 </Update>
 
 <Update label="2025/07/26" description="增强">
