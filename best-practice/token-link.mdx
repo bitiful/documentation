@@ -64,8 +64,7 @@ function creatLink() {
     $tokenKey = "**testsecretkey**"; # 缤纷云后台设置的 鉴权Key
     $domain = "http://tests3origin.dogecast.com";
     $fileName = "/image.jpg";
-    $md5RawString = $tokenKey.$fileName.
-        "?_ts=".$deadLine;
+    $md5RawString = $tokenKey.$fileName.$deadLine;
     $md5Result = md5($md5RawString);
     $tokenLink = $domain.$fileName.
         "?_btf_tk=".$md5Result.
@@ -100,7 +99,7 @@ func createLink() string {
 	tokenKey := "testsecretkey" // 缤纷云后台设置的 鉴权Key
 	domain := "http://tests3origin.dogecast.com"
 	fileName := "/image.jpg"
-	rawString := fmt.Sprintf("%s%s?_ts=%d", tokenKey, fileName, deadLine)
+	rawString := fmt.Sprintf("%s%s%d", tokenKey, fileName, deadLine)
 	hasher := md5.New()
 	hasher.Write([]byte(rawString))
 	md5Result := hex.EncodeToString(hasher.Sum(nil))
@@ -124,7 +123,7 @@ def create_link():
     tokenKey = "testsecretkey" # 缤纷云后台设置的 鉴权Key
     domain = "http://tests3origin.dogecast.com"
     fileName = "/image.jpg"
-    rawString = f"{tokenKey}{fileName}?_ts={deadLine}"
+    rawString = f"{tokenKey}{fileName}{deadLine}"
     md5Result = hashlib.md5(rawString.encode()).hexdigest()
     tokenLink = f"{domain}{fileName}?_btf_tk={md5Result}&_ts={deadLine}"
     return tokenLink
@@ -142,7 +141,7 @@ function createLink() {
     let tokenKey = "testsecretkey"; // 缤纷云后台设置的 鉴权Key
     let domain = "http://tests3origin.dogecast.com";
     let fileName = "/image.jpg";
-    let rawString = tokenKey + fileName + "?_ts=" + deadLine;
+    let rawString = tokenKey + fileName + deadLine;
     let md5Result = crypto.createHash('md5').update(rawString).digest('hex');
     let tokenLink = domain + fileName + "?_btf_tk=" + md5Result + "&_ts=" + deadLine;
     return tokenLink;
@@ -170,7 +169,7 @@ public class Main {
         String tokenKey = "testsecretkey"; // 缤纷云后台设置的 鉴权Key
         String domain = "http://tests3origin.dogecast.com";
         String fileName = "/image.jpg";
-        String rawString = tokenKey + fileName + "?_ts=" + deadline;
+        String rawString = tokenKey + fileName + deadline;
         String md5Result = getMd5(rawString);
         String tokenLink = domain + fileName + "?_btf_tk=" + md5Result + "&_ts=" + deadline;
         return tokenLink;
@@ -209,7 +208,7 @@ fn create_link() -> String {
     let token_key = "testsecretkey"; // 缤纷云后台设置的 鉴权Key
     let domain = "http://tests3origin.dogecast.com";
     let file_name = "/image.jpg";
-    let raw_string = format!("{}{}?_ts={}", token_key, file_name, deadline);
+    let raw_string = format!("{}{}{}", token_key, file_name, deadline);
     let mut hasher = Md5::new();
     hasher.input_str(&raw_string);
     let md5_result = hasher.result_str();
@@ -249,7 +248,7 @@ func createLink() -> String {
     let tokenKey = "testsecretkey"
     let domain = "http://tests3origin.dogecast.com"
     let fileName = "/image.jpg"
-    let rawString = "\(tokenKey)\(fileName)?_ts=\(deadline)"
+    let rawString = "\(tokenKey)\(fileName)\(deadline)"
     let md5Result = MD5(string: rawString)
     let tokenLink = "\(domain)\(fileName)?_btf_tk=\(md5Result)&_ts=\(deadline)"
     return tokenLink
@@ -269,7 +268,7 @@ fun createLink(): String {
     val tokenKey = "testsecretkey"
     val domain = "http://tests3origin.dogecast.com"
     val fileName = "/image.jpg"
-    val rawString = "$tokenKey$fileName?_ts=$deadline"
+    val rawString = "$tokenKey$fileName$deadline"
     val md = MessageDigest.getInstance("MD5")
     md.update(rawString.toByteArray())
     val md5Result = md.digest().joinToString("") { "%02x".format(it) }
