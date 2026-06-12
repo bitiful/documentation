@@ -1,16 +1,18 @@
 ---
-title: 'HDR 图片和视频'
-sidebarTitle: 'HDR 媒体处理方案'
-description: 'CoreIX 支持 HDR 图片和视频。'
+title: "HDR 图片和视频"
+sidebarTitle: "HDR 媒体处理方案"
+description: "CoreIX 支持 HDR 图片和视频。"
 ---
 
 ## HDR 介绍
 
-百度百科 HDR 介绍：https://baike.baidu.com/item/HDR/2863820
+百度百科 HDR 介绍：[https://baike.baidu.com/item/HDR/2863820](https://baike.baidu.com/item/HDR/2863820)
 
-两颗皮蛋介绍 iPhone HDR：https://www.bilibili.com/video/BV1V14y1R7Rk/
+两颗皮蛋介绍 iPhone HDR：[https://www.bilibili.com/video/BV1V14y1R7Rk/](https://www.bilibili.com/video/BV1V14y1R7Rk/)
 
-<Tip>目前包括华为、苹果、小米、OPPO 等旗舰机型都已支持 HDR 照片和视频的拍摄录制，但除了各大主流视频 APP 之外，大多社交 APP 对 HDR 视频的支持都不好，更不要说 HDR 照片。</Tip>
+<Tip>
+  目前包括华为、苹果、小米、OPPO 等旗舰机型都已支持 HDR 照片和视频的拍摄录制，但除了各大主流视频 APP 之外，大多社交 APP 对 HDR 视频的支持都不好，更不要说 HDR 照片。
+</Tip>
 
 ## CoreIX HDR 支持范围
 
@@ -25,17 +27,17 @@ description: 'CoreIX 支持 HDR 图片和视频。'
 ### HDR 视频截图：
 
 <Check>
+  最佳 HDR 浏览方案：
 
-最佳 HDR 浏览方案：
-
-- 支持 `HDR 600+` 峰值亮度的显示设备，如：Apple Silicon MacBook Pro 16'、LG - 32GQ950
-- 支持 `HDR10` 和 `杜比视界` 的浏览器，如：Google Chrome 100+
-
+  - 支持 `HDR 600+` 峰值亮度的显示设备，如：Apple Silicon MacBook Pro 16'、LG - 32GQ950
+  - 支持 `HDR10` 和 `杜比视界` 的浏览器，如：Google Chrome 100\+
 </Check>
 
-| HDR 资源 | CoreIX 截图默认输出 HDR | CoreIX 截图强转 SDR | 阿里云 OSS 丢失色彩和方向|
-| :--- | --- | --- | --- |
-| [彩虹.mov (iPhone 录制)](https://demo.bitiful.com/hdr-img/rainbow.mov)| ![rainbow.mov.hdr.jpg](https://demo.bitiful.com/hdr-img/rainbow.mov?frame=5000&w=1000)<br />[查看大图](https://demo.bitiful.com/hdr-img/rainbow.mov?frame=5000&w=2000)| ![rainbow.mov.sdr.jpg](https://demo.bitiful.com/hdr-img/rainbow.mov?frame=5000&w=1000&cs=srgb)<br />[查看大图](https://demo.bitiful.com/hdr-img/rainbow.mov?frame=5000&w=2000&cs=srgb) | ![rainbow.mov.oss.jpg](https://oss.ladydaily.com/hdr-img/rainbow.mov?x-oss-process=video/snapshot,t_4950,f_jpg,scaletype_crop,w_1000)<br />[查看大图](https://oss.ladydaily.com/hdr-img/rainbow.mov?x-oss-process=video/snapshot,t_4950,f_jpg,scaletype_crop,w_2000)|
-| [食物.mov (iPhone 录制)](https://demo.bitiful.com/hdr-img/foods.mov)| ![foods.mov.hdr.jpg](https://demo.bitiful.com/hdr-img/foods.mov?frame=5000&w=1000)<br />[查看大图](https://demo.bitiful.com/hdr-img/foods.mov?frame=5000&w=2000)| ![foods.mov.sdr.jpg](https://demo.bitiful.com/hdr-img/foods.mov?frame=5000&w=1000&cs=srgb)<br />[查看大图](https://demo.bitiful.com/hdr-img/foods.mov?frame=5000&w=2000&cs=srgb) | ![foods.mov.oss.jpg](https://oss.ladydaily.com/foods.mov?x-oss-process=video/snapshot,t_4950,f_jpg,scaletype_crop,w_1000)<br />[查看大图](https://oss.ladydaily.com/foods.mov?x-oss-process=video/snapshot,t_4950,f_jpg,scaletype_crop,w_2000)|
+| HDR 资源 | CoreIX 截图默认输出 HDR | CoreIX 截图强转 SDR | 阿里云 OSS 丢失色彩和方向 |
+| :-- | --- | --- | --- |
+| [彩虹.mov (iPhone 录制)](https://demo.bitiful.com/hdr-img/rainbow.mov) | <img src="https://demo.bitiful.com/hdr-img/rainbow.mov?frame=5000&w=1000" alt="rainbow.mov.hdr.jpg" /><br />[查看大图](https://demo.bitiful.com/hdr-img/rainbow.mov?frame=5000&w=2000) | <img src="https://demo.bitiful.com/hdr-img/rainbow.mov?frame=5000&w=1000&cs=srgb" alt="rainbow.mov.sdr.jpg" /><br />[查看大图](https://demo.bitiful.com/hdr-img/rainbow.mov?frame=5000&w=2000&cs=srgb) | <img src="https://oss.ladydaily.com/hdr-img/rainbow.mov?x-oss-process=video/snapshot,t_4950,f_jpg,scaletype_crop,w_1000" alt="rainbow.mov.oss.jpg" /><br />[查看大图](https://oss.ladydaily.com/hdr-img/rainbow.mov?x-oss-process=video/snapshot,t_4950,f_jpg,scaletype_crop,w_2000) |
+| [食物.mov (iPhone 录制)](https://demo.bitiful.com/hdr-img/foods.mov) | <img src="https://demo.bitiful.com/hdr-img/foods.mov?frame=5000&w=1000" alt="foods.mov.hdr.jpg" /><br />[查看大图](https://demo.bitiful.com/hdr-img/foods.mov?frame=5000&w=2000) | <img src="https://demo.bitiful.com/hdr-img/foods.mov?frame=5000&w=1000&cs=srgb" alt="foods.mov.sdr.jpg" /><br />[查看大图](https://demo.bitiful.com/hdr-img/foods.mov?frame=5000&w=2000&cs=srgb) | <img src="https://oss.ladydaily.com/hdr-img/foods.mov?x-oss-process=video/snapshot,t_4950,f_jpg,scaletype_crop,w_1000" alt="foods.mov.oss.jpg" /><br />[查看大图](https://oss.ladydaily.com/hdr-img/foods.mov?x-oss-process=video/snapshot,t_4950,f_jpg,scaletype_crop,w_2000) |
 
-<Info>HDR 处理和映射功能由 [色彩空间 ColorSpace 参数](/coreix/features/colorspace) 实现，当前只支持 8 bit 色深输出</Info>
+<Info>
+  HDR 处理和映射功能由 [色彩空间 ColorSpace 参数](/coreix/features/colorspace) 实现，当前只支持 8 bit 色深输出
+</Info>
