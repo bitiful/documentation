@@ -10,33 +10,32 @@ mode: "wide"
 S4 对象存储中的媒体内容可以简单地通过在 Url 末尾（或在 GetObject 接口中）携带相关 **处理参数** 轻松获得 **CoreIX** 的 **所有丰富功能**。
 
 <Warning>
-  **注意**
-  当前处于测试阶段，暂不收费。收费时间及标准会另行通知，请您及时关注相应通知。
+  **注意** 当前处于测试阶段，暂不收费。收费时间及标准会另行通知，请您及时关注相应公告。
 </Warning>
 
 ## CoreIX 独有特点
 
-1. **超高性能**：性能最多可达国内主流图片处理性能的 **10 倍**；
-2. **独家支持颜色管理**：国内唯一可准确处理 **CMYK 色彩模式** 的实时媒体引擎；
+1. **超高性能**：性能最多可达国内主流图片处理性能的 **10 倍** 以上；
+2. **独家支持颜色管理**：国内唯一可准确高性能处理 **CMYK 色彩模式** 的实时媒体引擎；
 3. **独家超大图处理**：CoreIX 允许高性能处理 **高达 200MB** 的图片；
-4. **独家支持 HDR 视频截图**：可以输出 **HDR 图片**，也可映射为 **SDR 图片**；
+4. **独家全流程 HDR 管线支持**：可以输出 **HDR 图片**，也可映射为 **SDR 图片**；
 5. **独家画面感知能力**：在必须裁剪画面时可 **自动保留画面主体**；
 6. **独家原生支持 SVG**：可以将 SVG 转成光栅图，也可作为 **水印图**；
 7. **独家哈希占位支持**：原生支持 **Thumbhash** 和 **Blurhash** 码输出；
-8. **独家原生支持 RAW 格式**：兼容主流 RAW 格式，并自动进行恰当的 **Post-processing**；
+8. **独家原生支持 RAW 格式**：兼容主流 RAW 格式，支持`镜头畸变矫正`、`Tone Mapping`、`原生高 bit HDR`；
 9. **独家支持量化压缩**：CoreIX 支持 `fmt=tpng` 参数，可原生获得类似 TinyPNG 的处理效果；
 10. **独家 OCR 内置**：CoreIX 会 **自动优化图片并识别文字内容**，无需编写复杂的代码调用第三方 API；
+11. **独家 Live Photo 完整支持**：CoreIX 能支持 iOS 和主流安卓实况照片方案的`静图/视频提取`以及`转换/合成`
 
 ### 高度集成的自动优化：
 
 - **自适应方向**：可依据原图的 Exif 信息对图片做自动的方向调整处理，支持带 Exif 信息的 Jpeg、PNG、Webp、Avif、Heif 和 主流相机 Raw 图；
 - **自动删减 Exif**：在快速分享场景中，Exif 没有实际作用，去掉 Exif 可减少相应传输流量，此举最多可节省约 `500 KiB` 容量；
 - **自动颜色管理**：CoreIX 生成缩略图时，会自动进行必要的颜色空间转换，然后删除 ICC profile，此举对于特殊色彩空间的图片最多可节省约 `2.5 MiB` 容量；
-- ****
 - **可转换 Tinysrgb**：对于包含 sRGB 的原图，在生成小号缩略图时，CoreIX 会自动用 Tinysrgb 替代，此举通常可节省 `3 KiB` 容量；
 - **自动支持 HDR**：在对 HDR 视频进行截图（取帧）操作时，CoreIX 将默认自动输出 HDR 图片，指定 `cs` 参数为 srgb 时将自动把色彩空间映射为 SDR，避免出现灰图；
 - **高度集成**：所有参数
-- **客户端协商机制**：当设定输出格式为 fm=webp 时，系统将通过 Accept 判断客户端是否支持 webp 图片；
+- **~~客户端协商机制~~**~~：当设定输出格式为 fm=webp 时，系统将通过 Accept 判断客户端是否支持 webp 图片；~~（鉴于 HTML type 标签的完善普及，以及 webp、avif 等格式已被大范围原生支持，该特性已正式下线）
 
 ## 图片处理功能
 
@@ -45,21 +44,21 @@ S4 对象存储中的媒体内容可以简单地通过在 Url 末尾（或在 Ge
 
 ### 手动参数：
 
-| 限制项                                      | 相关参数                      | 作用说明                                                                                                      | 范围     |
-| :--------------------------------------- | ------------------------- | --------------------------------------------------------------------------------------------------------- | ------ |
-| [缩略宽高](/coreix/features/resize)          | - w: 图片宽度<br />- h: 图片高度  | 将图片缩放至指定大小。                                                                                               | 全部     |
-| [缩放倍数](/coreix/features/resize)          | - dpr: 倍数值                | 可简易设置 2x 3x 大小缩略尺寸。                                                                                       | 全部     |
-| [缩略模式](/coreix/features/resize)          | - mode: crop / clip       | 当设定w、h全部指定且与原图比例不符时。  默认使用 crop 裁剪缩略模式。                                                                   | 全部     |
-| [保留位置](/coreix/features/resize)          | - pos: 缩略裁剪模式情况下保留的部分     | 缩略裁剪后提取的保留部分。                                                                                             | 全部     |
-| [自定义裁剪](/coreix/features/crop)           | - rect: 裁剪坐标与大小           | 裁剪指定位置和大小的矩形图片。                                                                                           | 静图     |
-| [质量变化](/coreix/features/quality)         | - q: 质量百分比                | 调整 JPG、GIF（动图）、WebP（动、静图）、Avif 格式图片的质量。                                                                   | 全部     |
-| [图像锐化](/coreix/features/sharp)           | - sharp: 锐化程度             | 对图片进行锐化效果处理。                                                                                              | 静图     |
-| [图像模糊](/coreix/features/blur)            | - blur: 模糊程度              | 对图片增加模糊效果。                                                                                                | 静图     |
-| [文字水印](/coreix/features/watermark)       | - txt: 水印的文字内容            | [详细参数](features/watermark)                                                                                | 静图     |
-| [图片水印](/coreix/features/watermark-image) | - mark: 水印图片的桶内路径         | [详细参数](features/watermark-image)                                                                          | 静图     |
-| [视频截图](/coreix/features/frame)                                     | - frame: 毫秒数（视频）或 帧数（GIF） | 格式支持：MP4、MKV；  色彩支持：SDR 视频 / BT.2020/2100 色域 HDR 视频  \* 注意：frame 只能对已经存入 S4 对象存储的文件生效  （镜像回源场景下回源成功后才会生效） | 动图  视频 |
-| [色彩空间](/coreix/features/colorspace)       | - cs: ColorSpace          | 设定希望输出的色彩空间，支持：tinysrgb、srgb、adobe rgb                                                                    | 静图     |
-| [格式转换](/coreix/features/fmt)          | - fmt: 格式代号            | 图片格式：jpeg、png、tpng、webp、bmp、avif、gif、tiff  - 其他格式：blurhash、thumbhash、json（输出图片、视频信息）                   | 全部     |
+| 限制项 | 相关参数 | 作用说明 | 范围 |
+| :-- | --- | --- | --- |
+| [缩略宽高](/coreix/features/resize) | - w: 图片宽度<br />- h: 图片高度 | 将图片缩放至指定大小。 | 全部 |
+| [缩放倍数](/coreix/features/resize) | - dpr: 倍数值 | 可简易设置 2x 3x 大小缩略尺寸。 | 全部 |
+| [缩略模式](/coreix/features/resize) | - mode: crop / clip | 当设定w、h全部指定且与原图比例不符时。  默认使用 crop 裁剪缩略模式。 | 全部 |
+| [保留位置](/coreix/features/resize) | - pos: 缩略裁剪模式情况下保留的部分 | 缩略裁剪后提取的保留部分。 | 全部 |
+| [自定义裁剪](/coreix/features/crop) | - rect: 裁剪坐标与大小 | 裁剪指定位置和大小的矩形图片。 | 静图 |
+| [质量变化](/coreix/features/quality) | - q: 质量百分比 | 调整 JPG、GIF（动图）、WebP（动、静图）、Avif 格式图片的质量。 | 全部 |
+| [图像锐化](/coreix/features/sharp) | - sharp: 锐化程度 | 对图片进行锐化效果处理。 | 静图 |
+| [图像模糊](/coreix/features/blur) | - blur: 模糊程度 | 对图片增加模糊效果。 | 静图 |
+| [文字水印](/coreix/features/watermark) | - txt: 水印的文字内容 | [详细参数](features/watermark) | 静图 |
+| [图片水印](/coreix/features/watermark-image) | - mark: 水印图片的桶内路径 | [详细参数](features/watermark-image) | 静图 |
+| [视频截图](/coreix/features/frame) | - frame: 毫秒数（视频）或 帧数（GIF） | 格式支持：MP4、MKV；  色彩支持：SDR 视频 / BT.2020/2100 色域 HDR 视频  \* 注意：frame 只能对已经存入 S4 对象存储的文件生效  （镜像回源场景下回源成功后才会生效） | 动图  视频 |
+| [色彩空间](/coreix/features/colorspace) | - cs: ColorSpace | 设定希望输出的色彩空间，支持：tinysrgb、srgb、adobe rgb | 静图 |
+| [格式转换](/coreix/features/fmt) | - fmt: 格式代号 | 图片格式：jpeg、png、tpng、webp、bmp、avif、gif、tiff  - 其他格式：blurhash、thumbhash、json（输出图片、视频信息） | 全部 |
 
 <Check>
   **自2024年1月1日起，将支持 GIF / WEBP 动图支持高性能缩略、裁剪处理**
@@ -71,7 +70,7 @@ S4 对象存储中的媒体内容可以简单地通过在 Url 末尾（或在 Ge
 
 #### 示例 URL 如下：
 
-```
+```text
 原图：https://demo.bitiful.com/girl.jpeg
 ```
 
