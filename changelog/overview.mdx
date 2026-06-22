@@ -27,17 +27,13 @@ mode: "wide"
      - 架构提升：使得 **高比特色深图像** 能在 CoreIX 中得到接近无损的准确处理；
      - 大幅提升 AVIF 超大图的编码性能（输出大型 AVIF 图片无需再降级成 JPEG/PNG 了）
 
-  ### GainMap HDR 照片处理效果（图源自 小红书APP）
+  ### 一张 2022 年的尼康 Raw 图片
 
   在 HDR 的软硬件环境下可以看到下面图片亮度的区别（推荐如：MacBook Pro、iPhone、iPad）
 
-  | 保留完整亮度 | 保留 70% 亮度 | 去掉 HDR |
-  | :-: | --- | :-: |
-  | <img src="https://demo.bitiful.com/hdr-img/oppo_hdr.jpg?w=840" alt="HDR" /> | <img src="https://demo.bitiful.com/hdr-img/oppo_hdr.jpg?w=840&hdr-rate=70%25" alt="HDR" /> | <img src="https://demo.bitiful.com/hdr-img/oppo_hdr.jpg?w=840&hdr-rate=0" alt="HDR" /> |
-
-  | 完整亮度水印 | 70% 亮度水印 | SDR 亮度水印 |
-  | :-: | --- | :-: |
-  | <img src="https://demo.bitiful.com/hdr-img/oppo_hdr.jpg?w=840&txt=HDR%E6%B0%B4%E5%8D%B0&txt-pos=0.5,0.2&txt-size=0.3&mark-hdr-rate=100%25" alt="HDR" /> | <img src="https://demo.bitiful.com/hdr-img/oppo_hdr.jpg?w=840&txt=HDR%E6%B0%B4%E5%8D%B0&txt-pos=0.5,0.2&txt-size=0.3&mark-hdr-rate=70%25" alt="HDR" /> | <img src="https://demo.bitiful.com/hdr-img/oppo_hdr.jpg?w=840&txt=HDR%E6%B0%B4%E5%8D%B0&txt-pos=0.5,0.2&txt-size=0.3&mark-hdr-rate=0%25" alt="HDR" /> |
+  | CoreIX 3.0 | CoreIX 2.5 |
+  | :-: | :-: |
+  | <img src="https://demo.bitiful.com/raw/nikon.nef?w=1280" alt="HDR" /> | <img src="https://demo.bitiful.com/raw/nikon.nef?w=1280&hdr-rate=0%25" alt="HDR" /> |
 
   <Check>
     横向对比：[国内主流图片实时处理系统性能横向对比](https://tools.bitiful.com/coreix-bench/)
