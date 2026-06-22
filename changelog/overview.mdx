@@ -4,6 +4,46 @@ description: "我们一直在进步"
 mode: "wide"
 ---
 
+<Update label="2026/06/22" description="增强">
+  ## CoreIX V3.0 上线
+
+  ![CoreIXV2](https://demo.bitiful.com/docs/CoreIXV3.0.svg?w=1200&fmt=tpng)
+
+  本次更新，大幅优化了 CoreIX 的 HDR 处理管线，不仅兼容度大大提升，且在业界中首次具备实时 `输入/输出 10 bit ~ 16 bit 色深` 的原生 HDR 图片。下面是我们
+
+  以下是 CoreIX V3.0 大幅提升的具体介绍：
+
+  1. **全新特性**： 业界首次推出完整的 **实况照片** 处理管线，全面兼容 **live photo(APPLE)/motion photo（OPPO/VIVO/XIAOMI/HUAWEI）** 的提取、互转、合成。欲了解更详细的信息，请加入我们的“企业微信群组”。
+  2. **HDR 管线 兼容性/特性 优化**：
+     - 支持 **`高 bit 色深 HDR`** 与 **`8bit GainMap HDR JPEG`** 准确互转；
+     - 支持 **`AVIF 12bit / HEIC 10 bit / PNG 16 bit / Jpeg XL 16 bit HDR`** 输出；
+     - 将 **`Raw 格式`** 的 HDR 解析能力从 **Apple ProRaw** 扩展至数十款老设备的 Raw 格式；
+  3. **准确度**
+     - 大幅优化 **`HDR 视频截帧转 JPEG`** 的色彩准确度；
+     - 大幅优化 **hdr-rate** 参数作用于 **原生 HDR 方案图像** 中的准确度（_mark-hdr-rate 参数依旧只能调整 GainMap 方案图像中的水印亮度_）；
+     - 大幅提升 **实况照片中视频** 的水印渲染的准确度(使得实况照片也能具备良好地在线文字/图片水印效果)；
+     - 优化 GIF 动图透明通道的处理准确度。
+  4. **性能优化**；
+     - 架构提升：使得 **高比特色深图像** 能在 CoreIX 中得到接近无损的准确处理；
+     - 大幅提升 AVIF 超大图的编码性能（输出大型 AVIF 图片无需再降级成 JPEG/PNG 了）
+
+  ### GainMap HDR 照片处理效果（图源自 小红书APP）
+
+  在 HDR 的软硬件环境下可以看到下面图片亮度的区别（推荐如：MacBook Pro、iPhone、iPad）
+
+  | 保留完整亮度 | 保留 70% 亮度 | 去掉 HDR |
+  | :-: | --- | :-: |
+  | <img src="https://demo.bitiful.com/hdr-img/oppo_hdr.jpg?w=840" alt="HDR" /> | <img src="https://demo.bitiful.com/hdr-img/oppo_hdr.jpg?w=840&hdr-rate=70%25" alt="HDR" /> | <img src="https://demo.bitiful.com/hdr-img/oppo_hdr.jpg?w=840&hdr-rate=0" alt="HDR" /> |
+
+  | 完整亮度水印 | 70% 亮度水印 | SDR 亮度水印 |
+  | :-: | --- | :-: |
+  | <img src="https://demo.bitiful.com/hdr-img/oppo_hdr.jpg?w=840&txt=HDR%E6%B0%B4%E5%8D%B0&txt-pos=0.5,0.2&txt-size=0.3&mark-hdr-rate=100%25" alt="HDR" /> | <img src="https://demo.bitiful.com/hdr-img/oppo_hdr.jpg?w=840&txt=HDR%E6%B0%B4%E5%8D%B0&txt-pos=0.5,0.2&txt-size=0.3&mark-hdr-rate=70%25" alt="HDR" /> | <img src="https://demo.bitiful.com/hdr-img/oppo_hdr.jpg?w=840&txt=HDR%E6%B0%B4%E5%8D%B0&txt-pos=0.5,0.2&txt-size=0.3&mark-hdr-rate=0%25" alt="HDR" /> |
+
+  <Check>
+    横向对比：[国内主流图片实时处理系统性能横向对比](https://tools.bitiful.com/coreix-bench/)
+  </Check>
+</Update>
+
 <Update label="2026/05/10" description="公告">
   ## 📢 政策调整预告
 
