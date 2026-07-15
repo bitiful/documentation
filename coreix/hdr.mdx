@@ -26,18 +26,18 @@ description: "CoreIX 支持 HDR 图片和视频。"
 
 ### HDR 视频截图：
 
-<Check>
+<Note>
   最佳 HDR 浏览方案：
 
   - 支持 `HDR 600+` 峰值亮度的显示设备，如：Apple Silicon MacBook Pro 16'、LG - 32GQ950
   - 支持 `HDR10` 和 `杜比视界` 的浏览器，如：Google Chrome 100\+
-</Check>
+</Note>
 
 | HDR 资源 | CoreIX 截图默认输出 HDR | CoreIX 截图强转 SDR | 阿里云 OSS 丢失色彩和方向 |
 | :-- | --- | --- | --- |
-| [彩虹.mov (iPhone 录制)](https://demo.bitiful.com/hdr-img/rainbow.mov) | <img src="https://demo.bitiful.com/hdr-img/rainbow.mov?frame=5000&w=1000" alt="rainbow.mov.hdr.jpg" /><br />[查看大图](https://demo.bitiful.com/hdr-img/rainbow.mov?frame=5000&w=2000) | <img src="https://demo.bitiful.com/hdr-img/rainbow.mov?frame=5000&w=1000&cs=srgb" alt="rainbow.mov.sdr.jpg" /><br />[查看大图](https://demo.bitiful.com/hdr-img/rainbow.mov?frame=5000&w=2000&cs=srgb) | <img src="https://oss.ladydaily.com/hdr-img/rainbow.mov?x-oss-process=video/snapshot,t_4950,f_jpg,scaletype_crop,w_1000" alt="rainbow.mov.oss.jpg" /><br />[查看大图](https://oss.ladydaily.com/hdr-img/rainbow.mov?x-oss-process=video/snapshot,t_4950,f_jpg,scaletype_crop,w_2000) |
-| [食物.mov (iPhone 录制)](https://demo.bitiful.com/hdr-img/foods.mov) | <img src="https://demo.bitiful.com/hdr-img/foods.mov?frame=5000&w=1000" alt="foods.mov.hdr.jpg" /><br />[查看大图](https://demo.bitiful.com/hdr-img/foods.mov?frame=5000&w=2000) | <img src="https://demo.bitiful.com/hdr-img/foods.mov?frame=5000&w=1000&cs=srgb" alt="foods.mov.sdr.jpg" /><br />[查看大图](https://demo.bitiful.com/hdr-img/foods.mov?frame=5000&w=2000&cs=srgb) | <img src="https://oss.ladydaily.com/hdr-img/foods.mov?x-oss-process=video/snapshot,t_4950,f_jpg,scaletype_crop,w_1000" alt="foods.mov.oss.jpg" /><br />[查看大图](https://oss.ladydaily.com/hdr-img/foods.mov?x-oss-process=video/snapshot,t_4950,f_jpg,scaletype_crop,w_2000) |
+| [彩虹.mov (iPhone 录制)](https://demo.bitiful.com/hdr-img/rainbow.mov) | <img src="https://demo.bitiful.com/hdr-img/rainbow.mov?frame=5000&w=1200" alt="rainbow.mov.hdr.jpg" /><br />[查看大图](https://demo.bitiful.com/hdr-img/rainbow.mov?frame=5000&w=2000) | <img src="https://demo.bitiful.com/hdr-img/rainbow.mov?frame=5000&w=1200&hdr-rate=0" alt="rainbow.mov.sdr.jpg" /><br />[查看大图](https://demo.bitiful.com/hdr-img/rainbow.mov?frame=5000&w=2000&hdr-rate=0) | <img src="https://oss.ladydaily.com/hdr-img/rainbow.mov?x-oss-process=video/snapshot,t_4950,f_jpg,scaletype_crop,w_1200" alt="rainbow.mov.oss.jpg" /><br />[查看大图](https://oss.ladydaily.com/hdr-img/rainbow.mov?x-oss-process=video/snapshot,t_4950,f_jpg,scaletype_crop,w_2000) |
+| [食物.mov (iPhone 录制)](https://demo.bitiful.com/hdr-img/foods.mov) | <img src="https://demo.bitiful.com/hdr-img/foods.mov?frame=5000&w=1200" alt="foods.mov.hdr.jpg" /><br />[查看大图](https://demo.bitiful.com/hdr-img/foods.mov?frame=5000&w=2000) | <img src="https://demo.bitiful.com/hdr-img/foods.mov?frame=5000&w=1200&hdr-rate=0" alt="foods.mov.sdr.jpg" /><br />[查看大图](https://demo.bitiful.com/hdr-img/foods.mov?frame=5000&w=2000&hdr-rate=0) | <img src="https://oss.ladydaily.com/hdr-img/foods.mov?x-oss-process=video/snapshot,t_4950,f_jpg,scaletype_crop,w_1200" alt="foods.mov.oss.jpg" /><br />[查看大图](https://oss.ladydaily.com/hdr-img/foods.mov?x-oss-process=video/snapshot,t_4950,f_jpg,scaletype_crop,w_2000) |
 
-<Info>
-  HDR 处理和映射功能由 [色彩空间 ColorSpace 参数](/coreix/features/colorspace) 实现，当前只支持 8 bit 色深输出
-</Info>
+<Callout icon="smile-wink" color="#00ff28">
+  2026 年 6 月起：HDR 处理支持最高 **16 bit** 色深输出
+</Callout>
