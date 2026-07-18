@@ -1,0 +1,225 @@
+{
+  "theme": "mint",
+  "name": "缤纷云文档",
+  "colors": {
+    "primary": "#0D9373",
+    "light": "#07C983",
+    "dark": "#0D9373"
+  },
+  "favicon": "/favicon-docs.svg",
+  "logo": {
+    "light": "https://bitiful-contents.s3.bitiful.net/images/bitiful-Docs-Logo-V2-light.svg",
+    "dark": "https://bitiful-contents.s3.bitiful.net/images/bitiful-Docs-Logo-V2-dark.svg"
+  },
+  "appearance": {
+    "default": "dark",
+    "strict": null
+  },
+  "background": {
+    "image": "https://bitiful-contents.s3.bitiful.net/images/bitiful-docs-blur-bg.svg",
+    "decoration": null
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "官网",
+        "href": "https://www.bitiful.com"
+      },
+      {
+        "label": "更新记录",
+        "href": "/changelog/overview"
+      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "控制台",
+      "href": "https://console.bitiful.com"
+    }
+  },
+  "footer": {
+    "socials": {
+      "website": "https://www.bitiful.com/"
+    }
+  },
+  "redirects": [
+    {
+      "source": "/docs/:slug*",
+      "destination": "/:slug*"
+    },
+    {
+      "source": "/BitifulS4/:slug*",
+      "destination": "/bitiful-s4/:slug*"
+    },
+    {
+      "source": "/bitiful-s4/what-is-bitiful-s4",
+      "destination": "/bitiful-s4/intro"
+    },
+    {
+      "source": "/intro",
+      "destination": "/bitiful-s4/intro"
+    },
+    {
+      "source": "/sdk",
+      "destination": "/developer/sdk/intro"
+    },
+    {
+      "source": "/sdk/:slug*",
+      "destination": "/developer/sdk/:slug*"
+    },
+    {
+      "source": "/category/:slug*",
+      "destination": "/bitiful-s4/intro"
+    }
+  ],
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "产品文档",
+        "groups": [
+          {
+            "group": "S4 对象存储",
+            "pages": [
+              "bitiful-s4/intro",
+              "bitiful-s4/handbook/quick-start",
+              {
+                "group": "产品说明",
+                "pages": [
+                  "bitiful-s4/use-case",
+                  "bitiful-s4/limits",
+                  "bitiful-s4/definitions"
+                ]
+              },
+              {
+                "group": "🏆 优势特性",
+                "pages": [
+                  "bitiful-s4/features/move-object",
+                  "bitiful-s4/features/max-requests-limits",
+                  "bitiful-s4/features/simul-transfer",
+                  "bitiful-s4/features/hash-placeholder"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "媒体处理 CoreIX",
+            "pages": [
+              "coreix/basic",
+              "coreix/hdr",
+              {
+                "group": "处理参数",
+                "pages": [
+                  "coreix/features/resize",
+                  "coreix/features/crop",
+                  "coreix/features/quality",
+                  "coreix/features/sharp",
+                  "coreix/features/blur",
+                  "coreix/features/watermark-image",
+                  "coreix/features/watermark",
+                  "coreix/features/colorspace",
+                  "coreix/features/frame",
+                  "coreix/features/trim",
+                  "coreix/features/fmt"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "证书中心",
+            "pages": [
+              "certs-center/intro"
+            ]
+          },
+          {
+            "group": "内容分发 CDN",
+            "pages": [
+              "cdn/intro"
+            ]
+          },
+          {
+            "group": "Framer 加速",
+            "pages": [
+              "framerplus/intro"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "计费与价格",
+        "groups": [
+          {
+            "group": "计费与价格",
+            "pages": [
+              "prices/basic",
+              {
+                "group": "计费细则",
+                "pages": [
+                  "prices/detail/storage-prices",
+                  "prices/detail/transfer-prices",
+                  "prices/detail/requests-prices",
+                  "prices/detail/processing-prices"
+                ]
+              },
+              "prices/compare",
+              "prices/arrearage"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API & SDK",
+        "groups": [
+          {
+            "group": "S4 SDK",
+            "pages": [
+              "developer/sdk/intro",
+              "developer/sdk/php-demo/start-to-use",
+              "developer/sdk/golang-demo/start-to-use",
+              "developer/sdk/java-demo/start-to-use",
+              "developer/sdk/python3-demo/start-to-use",
+              "developer/sdk/android-demo/start-to-use"
+            ]
+          },
+          {
+            "group": "缤纷云 API",
+            "pages": [
+              "developer/api/s4",
+              "developer/api/cdn",
+              "developer/api/certs"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "方案与实践",
+        "groups": [
+          {
+            "group": "最佳实践",
+            "pages": [
+              "best-practice/web-uploads",
+              "best-practice/auto-detect-mime",
+              "best-practice/token-link"
+            ]
+          },
+          {
+            "group": "生态方案",
+            "pages": [
+              "best-practice/solutions/bitifs",
+              "best-practice/solutions/rclone"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "更新记录",
+        "groups": [
+          {
+            "group": "更新记录",
+            "pages": [
+              "changelog/overview"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
