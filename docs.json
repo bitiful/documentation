@@ -16,7 +16,7 @@
     "strict": false
   },
   "background": {
-    "image": "https://bitiful-contents.s3.bitiful.net/images/bitiful-docs-blur-bg.svg",
+    "image": "https://bitiful-contents.s3.bitiful.net/images/bitiful-docs-blur-bg.svg"
   },
   "navbar": {
     "links": [
