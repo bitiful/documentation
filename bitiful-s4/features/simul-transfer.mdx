@@ -1,76 +1,69 @@
 ---
-title: '上下行同步传输技术'
-sidebarTitle: '🌟 上下行同步传输'
-description: '利用 Simul-Transfer 同步传输技术，让文件分享效率提升 100%'
+title: "上下行同步传输技术"
+sidebarTitle: "🌟 上下行同步传输"
+description: "利用 Simul-Transfer 同步传输技术，让文件分享效率提升 100%"
 ---
 
 ## 介绍
+
 ### 什么是 Simul-Transfer 同步传输
+
 缤纷云基于自身独有的流式架构，首次为 **「对象存储」** 原生带来了全新的 **「同步传输技术」Simul-Transfer**。它让分享的文件在 **上传开始的一瞬间便可以被下载**，同样的带宽环境下，最多可 **节省1倍的传输时间**。
 
 ### 性能如何
+
 它原生植根于缤纷云独有的流式架构中，所以
-- **没有任何性能损失**：从上传开始的那一刻开始，便支持 `与普通对象同等的并发、速率水平`<sup>[1]</sup>
-- **没有任何的功能妥协**：完整支持 缤纷云 S4 `所有的功能特性`<sup>[2]</sup>，如：防盗链、预签名、Range 请求 等。
+
+- **没有任何性能损失**：从上传开始的那一刻开始，便支持 `与普通对象同等的并发、速率水平`<sup>\[1\]</sup>
+- **没有任何的功能妥协**：完整支持 缤纷云 S4 `所有的功能特性`<sup>\[2\]</sup>，如：防盗链、预签名、Range 请求 等。
 
 ### 如何运作
+
 - 传统的对象存储会在文件写入时不会有任何动作，**写入完毕之后，元数据才会感知**，进而对下载请求做出响应。
 - 缤纷云新一代对象存储，从上传第一个字节开始，底层的流式架构便可让全局感知，从而让用户从 **上传的第一秒即可开始下载**。
 
 🤔 **without Simul-Transfer: 必须等待上传结束后才能开始下载**
+
 <Frame>
-    <video
-        autoplay
-        muted
-        controls
-        className="w-full aspect-video"
-        poster="https://bitiful-contents.s3.bitiful.net/videos/without-simul-transfer.mp4?frame=1&w=1280"
-        src="https://bitiful-contents.s3.bitiful.net/videos/without-simul-transfer.mp4"
-    ></video></Frame>
+  <video autoplay muted controls className="w-full aspect-video" poster="https://files.bitiful.com/videos/without-simul-transfer.mp4?frame=1&w=1280" src="https://files.bitiful.com/videos/without-simul-transfer.mp4" />
+</Frame>
 
 😊 **with Simul-Transfer: 上传开始后，下载也同步开始**
+
 <Frame>
-    <video
-        autoplay
-        muted
-        controls
-        className="w-full aspect-video"
-        poster="https://bitiful-contents.s3.bitiful.net/videos/with-simul-transfer.mp4?frame=1&w=1280"
-        src="https://bitiful-contents.s3.bitiful.net/videos/with-simul-transfer.mp4"
-    ></video></Frame>
+  <video autoplay muted controls className="w-full aspect-video" poster="https://files.bitiful.com/videos/with-simul-transfer.mp4?frame=1&w=1280" src="https://files.bitiful.com/videos/with-simul-transfer.mp4" />
+</Frame>
 
 ### 和基于 P2P技术 的点对点传输有何不同
+
 以广受好评的 AirDrop 为例，它有几点硬伤：
+
 1. 需要分享者和接收者 **两者同时在线**，成功连线后，并同时操作才可以成功传输
 2. 所有接收者下载的时候，都会争抢分享者的上传带宽，即: **接收者越多，人均速度越慢**
 3. 对网络要求高：许多苹果的资深用户都知道，**AirDrop 经常失灵**
 
 ## 如何体验
+
 ### 方法一：体验开源 DEMO：白板
+
 **多人协作场景**
-> 在线DEMO: https://tldraw-bitiful-demo.ladydaily.com/<br/>
-> Github: https://github.com/bitiful/tldraw-for-s4
+
+> 在线DEMO: [https://tldraw-bitiful-demo.ladydaily.com/](https://tldraw-bitiful-demo.ladydaily.com/)<br /> Github: [https://github.com/bitiful/tldraw-for-s4](https://github.com/bitiful/tldraw-for-s4)
+
 <Frame>
-    <video
-        controls
-        className="w-full aspect-video"
-        poster="https://bitiful-contents.s3.bitiful.net/videos/tldraw-bitiful-no-wait-demo.mp4?frame=1&w=1280"
-        src="https://bitiful-contents.s3.bitiful.net/videos/tldraw-bitiful-no-wait-demo.mp4"
-    ></video></Frame>
+  <video controls className="w-full aspect-video" poster="https://files.bitiful.com/videos/tldraw-bitiful-no-wait-demo.mp4?frame=1&w=1280" src="https://files.bitiful.com/videos/tldraw-bitiful-no-wait-demo.mp4" />
+</Frame>
 
 ### 方法二：注册缤纷云
+
 <Frame>
-    <video
-        controls
-        className="w-full aspect-video"
-        poster="https://bitiful-contents.s3.bitiful.net/videos/bitiful-s4-simul-transfer.mp4?frame=1&w=1280"
-        src="https://bitiful-contents.s3.bitiful.net/videos/bitiful-s4-simul-transfer.mp4"
-    ></video></Frame>
+  <video controls className="w-full aspect-video" poster="https://files.bitiful.com/videos/bitiful-s4-simul-transfer.mp4?frame=1&w=1280" src="https://files.bitiful.com/videos/bitiful-s4-simul-transfer.mp4" />
+</Frame>
 
 <Info>
-注意
+  注意
 
-[1]: 同步下载速率: 在下载进度与上传进度同步后，每个下载线程的速率不会超过上传速度
+  \[1\]: 同步下载速率: 在下载进度与上传进度同步后，每个下载线程的速率不会超过上传速度
 
-[2]: 因 S3 协议的限制，目前暂不支持 Multipart Uploads
+  \[2\]: 因 S3 协议的限制，目前暂不支持 Multipart Uploads
 </Info>
