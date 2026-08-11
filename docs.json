@@ -8,8 +8,8 @@
   },
   "favicon": "/favicon-docs.svg",
   "logo": {
-    "light": "https://bitiful-contents.s3.bitiful.net/images/bitiful-Docs-Logo-V2-light.svg",
-    "dark": "https://bitiful-contents.s3.bitiful.net/images/bitiful-Docs-Logo-V2-dark.svg"
+    "light": "https://files.bitiful.com/images/bitiful-Docs-Logo-V2-light.svg",
+    "dark": "https://files.bitiful.com/images/bitiful-Docs-Logo-V2-dark.svg"
   },
   "appearance": {
     "default": "dark",
