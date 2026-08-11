@@ -113,7 +113,8 @@
           "pages": [
             "prices/detail/storage-prices",
             "prices/detail/transfer-prices",
-            "prices/detail/requests-prices",
+            "prices/detail/requests-prices",,
+            "prices/detail/autocerts-prices",
             "prices/detail/processing-prices"
           ]
         },
