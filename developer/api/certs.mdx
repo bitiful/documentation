@@ -8,6 +8,16 @@ description: "介绍缤纷云证书中心的 API。"
 
 前往控制台获取：https://console.bitiful.com/apiToken
 
+## 获取证书列表
+
+暂无任何参数
+
+**请求示例**：
+
+```shell
+curl -H "Authorization: {API Token from: https://console.bitiful.com/apiToken}" "https://api.bitiful.com/cert/list"
+```
+
 ## 证书内容获取
 
 <Tip>
@@ -39,6 +49,17 @@ curl -H "Authorization: {API Token from: https://console.bitiful.com/apiToken}" 
   在自动获取证书的工作流中，请注意配合安全措施 **防止 API-Token 泄露**。
 </Warning>
 
-## 证书添加、列表
+## 证书添加
 
-coming soon.
+**请求示例**：
+
+```shell
+curl --request POST 'https://api.bitiful.com/cert/add' \
+  -H 'Authorization: {API Token from: https://console.bitiful.com/apiToken}' \
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+    "cert_name": "证书名称",
+    "cert_private_key": "-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----",
+    "cert_content": "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----"
+  }'
+```
