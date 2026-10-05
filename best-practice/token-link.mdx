@@ -33,27 +33,28 @@ description: '本文介绍如何在缤纷云 CDN 中使用高级防盗链。'
 
 ## 典型范例
 
-一个正确的典型高级防盗链 URL（带有额外参数 `fmt=info`）应该类似于：
+一个正确的典型高级防盗链 URL 应该类似于：
 
-> [http://tests3origin.dogecast.com/image.jpg?`_btf_tk`=d843dd7aa694772a35389d8df73fdeb1&`_ts`=1701091625&`fmt`=info](http://tests3origin.dogecast.com/image.jpg?_btf_tk=d843dd7aa694772a35389d8df73fdeb1&_ts=1701091625&fmt=info)
+> 常规 URL：[http://tests3origin.dogecast.com/image.jpg?`_btf_tk`=2e1864801d8cb957a9e40b59ca4321d7&`_ts`=1701091625](http://tests3origin.dogecast.com/image.jpg?_btf_tk=2e1864801d8cb957a9e40b59ca4321d7&_ts=1701091625)
+>
+> 参数 URL：[http://tests3origin.dogecast.com/image.jpg?`_btf_tk`=d843dd7aa694772a35389d8df73fdeb1&`_ts`=1701091625&`fmt`=info](http://tests3origin.dogecast.com/image.jpg?_btf_tk=d843dd7aa694772a35389d8df73fdeb1&_ts=1701091625&fmt=info)
 
 其中：
 - ts: 为 UTC 时间戳，意为：该 URL 的时效时间（**晚于该时间** 后链接将返回 403）
-- token: 用 **tokenKey** + **path** (本例为 /image.jpg) + **?** + **args** (本例为 \_ts=1701091625fmt=info) 计算 MD5
+- token（常规 URL）: 用 **tokenKey** + **path** (本例为 /image.jpg) + **ts** (本例为 1701091625) 计算 MD5
+- token（参数 URL）: 用 **tokenKey** + **path** (本例为 /image.jpg) + **?** + **args** (本例为 \_ts=1701091625fmt=info) 计算 MD5
 
 <Tip>
-  签名规则说明
+  参数 URL 签名规则说明
 
   - **args** 由 `_ts=时间戳` 开头，后面依次拼接其余参数（`_btf_tk` 本身不参与），参数之间 **不加** `&`；
   - URL 中的参数顺序须与签名时的顺序一致，参数之间正常使用 `&` 连接；
-  - 参数值如含特殊字符（如 `;`、`"`、空格、中文），须先 URL 编码，且签名与 URL 中使用 **同一种** 编码结果；
-  - 不带额外参数时，token 仍为 **tokenKey** + **path** + **ts 的值**（如 `testsecretkey/image.jpg1701091625`）。
+  - 参数值须先 URL 编码（如 `;`、`"`、空格、中文），且签名与 URL 中使用 **同一个** 编码结果。
 </Tip>
 
 ## 代码示例：
 
-下面是部分主流语言实现上述 **典型范例** 中的 `高级鉴权 URL` 的示例代码。
-它们应该可在各个 playground 中被正确执行。
+下面是部分主流语言实现上述 **典型范例** 中的 `高级鉴权 URL` 的示例代码，每个示例都会同时输出 **常规 URL** 和 **参数 URL**。 它们应该可在各个 playground 中被正确执行。
 
 <Warning>
 
@@ -70,21 +71,27 @@ description: '本文介绍如何在缤纷云 CDN 中使用高级防盗链。'
 
 ```php
 <?php
-function creatLink() {
+function createLink($fileName, $params = []) {
     $deadLine = time() + 60; # 链接在未来的 60秒 内有效
     $tokenKey = "testsecretkey"; # 缤纷云后台设置的 鉴权Key
     $domain = "http://tests3origin.dogecast.com";
-    $fileName = "/image.jpg";
-    $args = "fmt=info"; # 额外参数
-    $md5RawString = $tokenKey.$fileName."?_ts=".$deadLine.$args;
+    $args = "";
+    $query = "";
+    foreach ($params as $k => $v) {
+        $pair = $k . "=" . rawurlencode($v);
+        $args .= $pair;          # 签名：参数之间不加 &
+        $query .= "&" . $pair;   # URL：参数之间用 & 连接
+    }
+    $md5RawString = empty($params)
+        ? $tokenKey . $fileName . $deadLine
+        : $tokenKey . $fileName . "?_ts=" . $deadLine . $args;
     $md5Result = md5($md5RawString);
-    $tokenLink = $domain.$fileName.
-        "?_btf_tk=".$md5Result.
-        "&_ts=".$deadLine.
-        "&".$args;
-    return $tokenLink;
+    return $domain . $fileName . "?_btf_tk=" . $md5Result . "&_ts=" . $deadLine . $query;
 }
-echo creatLink();
+
+$path = "/image.jpg";
+echo "常规 URL：", createLink($path), "\n";
+echo "参数 URL：", createLink($path, ["fmt" => "info"]), "\n";
 ```
 
 ### Go 语言版本
@@ -104,25 +111,42 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"fmt"
+	"net/url"
+	"strings"
 	"time"
 )
 
-func createLink() string {
+type Param struct{ Key, Value string }
+
+func encode(v string) string {
+	return strings.ReplaceAll(url.QueryEscape(v), "+", "%20")
+}
+
+func createLink(fileName string, params []Param) string {
 	deadLine := time.Now().Unix() + 60 // 链接在未来的 60秒 内有效
 	tokenKey := "testsecretkey" // 缤纷云后台设置的 鉴权Key
 	domain := "http://tests3origin.dogecast.com"
-	fileName := "/image.jpg"
-	args := "fmt=info" // 额外参数
-	rawString := fmt.Sprintf("%s%s?_ts=%d%s", tokenKey, fileName, deadLine, args)
-	hasher := md5.New()
-	hasher.Write([]byte(rawString))
-	md5Result := hex.EncodeToString(hasher.Sum(nil))
-	tokenLink := fmt.Sprintf("%s%s?_btf_tk=%s&_ts=%d&%s", domain, fileName, md5Result, deadLine, args)
-	return tokenLink
+	args, query := "", ""
+	for _, p := range params {
+		pair := p.Key + "=" + encode(p.Value)
+		args += pair          // 签名：参数之间不加 &
+		query += "&" + pair   // URL：参数之间用 & 连接
+	}
+	var rawString string
+	if len(params) == 0 {
+		rawString = fmt.Sprintf("%s%s%d", tokenKey, fileName, deadLine)
+	} else {
+		rawString = fmt.Sprintf("%s%s?_ts=%d%s", tokenKey, fileName, deadLine, args)
+	}
+	sum := md5.Sum([]byte(rawString))
+	md5Result := hex.EncodeToString(sum[:])
+	return fmt.Sprintf("%s%s?_btf_tk=%s&_ts=%d%s", domain, fileName, md5Result, deadLine, query)
 }
 
 func main() {
-	fmt.Println(createLink())
+	path := "/image.jpg"
+	fmt.Println("常规 URL：", createLink(path, nil))
+	fmt.Println("参数 URL：", createLink(path, []Param{{"fmt", "info"}}))
 }
 ```
 
@@ -131,19 +155,25 @@ func main() {
 ```python
 import hashlib
 import time
+from urllib.parse import quote
 
-def create_link():
+def create_link(fileName, params=None):
+    params = params or {}
     deadLine = int(time.time()) + 60 # 链接在未来的 60秒 内有效
     tokenKey = "testsecretkey" # 缤纷云后台设置的 鉴权Key
     domain = "http://tests3origin.dogecast.com"
-    fileName = "/image.jpg"
-    args = "fmt=info" # 额外参数
-    rawString = f"{tokenKey}{fileName}?_ts={deadLine}{args}"
+    pairs = [f"{k}={quote(str(v), safe='')}" for k, v in params.items()]
+    if pairs:
+        rawString = f"{tokenKey}{fileName}?_ts={deadLine}{''.join(pairs)}"  # 签名：参数之间不加 &
+    else:
+        rawString = f"{tokenKey}{fileName}{deadLine}"
     md5Result = hashlib.md5(rawString.encode()).hexdigest()
-    tokenLink = f"{domain}{fileName}?_btf_tk={md5Result}&_ts={deadLine}&{args}"
-    return tokenLink
+    query = "".join("&" + p for p in pairs)  # URL：参数之间用 & 连接
+    return f"{domain}{fileName}?_btf_tk={md5Result}&_ts={deadLine}{query}"
 
-print(create_link())
+path = "/image.jpg"
+print("常规 URL：", create_link(path))
+print("参数 URL：", create_link(path, {"fmt": "info"}))
 ```
 
 ### JS 语言版本
@@ -151,47 +181,68 @@ print(create_link())
 ```javascript
 const crypto = require('crypto');
 
-function createLink() {
+function createLink(fileName, params = {}) {
     let deadLine = Math.floor(Date.now() / 1000) + 60; // 链接在未来的 60秒 内有效
     let tokenKey = "testsecretkey"; // 缤纷云后台设置的 鉴权Key
     let domain = "http://tests3origin.dogecast.com";
-    let fileName = "/image.jpg";
-    let args = "fmt=info"; // 额外参数
-    let rawString = tokenKey + fileName + "?_ts=" + deadLine + args;
+    let pairs = Object.entries(params).map(([k, v]) => `${k}=${encodeURIComponent(v)}`);
+    let rawString = pairs.length
+        ? tokenKey + fileName + "?_ts=" + deadLine + pairs.join("")  // 签名：参数之间不加 &
+        : tokenKey + fileName + deadLine;
     let md5Result = crypto.createHash('md5').update(rawString).digest('hex');
-    let tokenLink = domain + fileName + "?_btf_tk=" + md5Result + "&_ts=" + deadLine + "&" + args;
-    return tokenLink;
+    let query = pairs.map(p => "&" + p).join("");  // URL：参数之间用 & 连接
+    return domain + fileName + "?_btf_tk=" + md5Result + "&_ts=" + deadLine + query;
 }
 
-console.log(createLink());
+const path = "/image.jpg";
+console.log("常规 URL：", createLink(path));
+console.log("参数 URL：", createLink(path, { "fmt": "info" }));
 ```
 
 ### Java 语言版本
 
 ```Java
+import java.math.BigInteger;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.Instant;
-import java.security.MessageDigest;
-import java.nio.charset.StandardCharsets;
-import java.math.BigInteger;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class Main {
-    public static void main(String[] args) throws NoSuchAlgorithmException {
-        System.out.println(createLink());
+    public static void main(String[] args) {
+        String path = "/image.jpg";
+        Map<String, String> params = new LinkedHashMap<>();
+        params.put("fmt", "info");
+        System.out.println("常规 URL： " + createLink(path, Collections.emptyMap()));
+        System.out.println("参数 URL： " + createLink(path, params));
     }
 
-    public static String createLink() throws NoSuchAlgorithmException {
+    public static String createLink(String fileName, Map<String, String> params) {
         long deadline = Instant.now().getEpochSecond() + 60; // 链接在未来的 60秒 内有效
         String tokenKey = "testsecretkey"; // 缤纷云后台设置的 鉴权Key
         String domain = "http://tests3origin.dogecast.com";
-        String fileName = "/image.jpg";
-        String extraArgs = "fmt=info"; // 额外参数
-        String rawString = tokenKey + fileName + "?_ts=" + deadline + extraArgs;
+        StringBuilder extraArgs = new StringBuilder();
+        StringBuilder query = new StringBuilder();
+        for (Map.Entry<String, String> e : params.entrySet()) {
+            String pair = e.getKey() + "=" + encode(e.getValue());
+            extraArgs.append(pair);          // 签名：参数之间不加 &
+            query.append("&").append(pair);  // URL：参数之间用 & 连接
+        }
+        String rawString = params.isEmpty()
+            ? tokenKey + fileName + deadline
+            : tokenKey + fileName + "?_ts=" + deadline + extraArgs;
         String md5Result = getMd5(rawString);
-        String tokenLink = domain + fileName + "?_btf_tk=" + md5Result + "&_ts=" + deadline + "&" + extraArgs;
-        return tokenLink;
+        return domain + fileName + "?_btf_tk=" + md5Result + "&_ts=" + deadline + query;
     }
-    
+
+    public static String encode(String v) {
+        return URLEncoder.encode(v, StandardCharsets.UTF_8).replace("+", "%20");
+    }
+
     public static String getMd5(String input) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
@@ -219,23 +270,32 @@ extern crate crypto;
 use chrono::prelude::*;
 use crypto::digest::Digest;
 use crypto::md5::Md5;
+use urlencoding::encode;
 
-fn create_link() -> String {
+fn create_link(file_name: &str, params: &[(&str, &str)]) -> String {
     let deadline = Utc::now().timestamp() + 60; // 链接在未来的 60秒 内有效
     let token_key = "testsecretkey"; // 缤纷云后台设置的 鉴权Key
     let domain = "http://tests3origin.dogecast.com";
-    let file_name = "/image.jpg";
-    let args = "fmt=info"; // 额外参数
-    let raw_string = format!("{}{}?_ts={}{}", token_key, file_name, deadline, args);
+    let pairs: Vec<String> = params
+        .iter()
+        .map(|(k, v)| format!("{}={}", k, encode(v)))
+        .collect();
+    let raw_string = if pairs.is_empty() {
+        format!("{}{}{}", token_key, file_name, deadline)
+    } else {
+        format!("{}{}?_ts={}{}", token_key, file_name, deadline, pairs.concat()) // 签名：参数之间不加 &
+    };
     let mut hasher = Md5::new();
     hasher.input_str(&raw_string);
     let md5_result = hasher.result_str();
-    let token_link = format!("{}{}?_btf_tk={}&_ts={}&{}", domain, file_name, md5_result, deadline, args);
-    token_link
+    let query: String = pairs.iter().map(|p| format!("&{}", p)).collect(); // URL：参数之间用 & 连接
+    format!("{}{}?_btf_tk={}&_ts={}{}", domain, file_name, md5_result, deadline, query)
 }
 
 fn main() {
-    println!("{}", create_link());
+    let path = "/image.jpg";
+    println!("常规 URL： {}", create_link(path, &[]));
+    println!("参数 URL： {}", create_link(path, &[("fmt", "info")]));
 }
 ```
 
@@ -245,6 +305,7 @@ fn main() {
 [dependencies]
 chrono = "0.4"
 rust-crypto = "0.2"
+urlencoding = "2"
 ```
 
 ### swift 语言版本
@@ -262,42 +323,59 @@ func MD5(string: String) -> String {
     return digest.map { String(format: "%02x", $0) }.joined()
 }
 
-func createLink() -> String {
+func encode(_ v: String) -> String {
+    let allowed = CharacterSet(charactersIn: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_.~")
+    return v.addingPercentEncoding(withAllowedCharacters: allowed) ?? v
+}
+
+func createLink(_ fileName: String, _ params: [(String, String)] = []) -> String {
     let deadline = Int(Date().timeIntervalSince1970) + 60
     let tokenKey = "testsecretkey"
     let domain = "http://tests3origin.dogecast.com"
-    let fileName = "/image.jpg"
-    let args = "fmt=info" // 额外参数
-    let rawString = "\(tokenKey)\(fileName)?_ts=\(deadline)\(args)"
+    let pairs = params.map { "\($0.0)=\(encode($0.1))" }
+    let rawString = pairs.isEmpty
+        ? "\(tokenKey)\(fileName)\(deadline)"
+        : "\(tokenKey)\(fileName)?_ts=\(deadline)\(pairs.joined())"  // 签名：参数之间不加 &
     let md5Result = MD5(string: rawString)
-    let tokenLink = "\(domain)\(fileName)?_btf_tk=\(md5Result)&_ts=\(deadline)&\(args)"
-    return tokenLink
+    let query = pairs.map { "&\($0)" }.joined()  // URL：参数之间用 & 连接
+    return "\(domain)\(fileName)?_btf_tk=\(md5Result)&_ts=\(deadline)\(query)"
 }
 
-print(createLink())
+let path = "/image.jpg"
+print("常规 URL：", createLink(path))
+print("参数 URL：", createLink(path, [("fmt", "info")]))
 ```
 
 ### kotlin 语言版本
 
 ```kotlin
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 import java.security.MessageDigest
 import java.time.Instant
 
-fun createLink(): String {
+fun encode(v: String): String = URLEncoder.encode(v, StandardCharsets.UTF_8).replace("+", "%20")
+
+fun createLink(fileName: String, params: List<Pair<String, String>> = emptyList()): String {
     val deadline = Instant.now().epochSecond + 60
     val tokenKey = "testsecretkey"
     val domain = "http://tests3origin.dogecast.com"
-    val fileName = "/image.jpg"
-    val args = "fmt=info" // 额外参数
-    val rawString = "$tokenKey$fileName?_ts=$deadline$args"
+    val pairs = params.map { (k, v) -> "$k=${encode(v)}" }
+    val rawString = if (pairs.isEmpty()) {
+        "$tokenKey$fileName$deadline"
+    } else {
+        "$tokenKey$fileName?_ts=$deadline${pairs.joinToString("")}"  // 签名：参数之间不加 &
+    }
     val md = MessageDigest.getInstance("MD5")
     md.update(rawString.toByteArray())
     val md5Result = md.digest().joinToString("") { "%02x".format(it) }
-    val tokenLink = "$domain$fileName?_btf_tk=$md5Result&_ts=$deadline&$args"
-    return tokenLink
+    val query = pairs.joinToString("") { "&$it" }  // URL：参数之间用 & 连接
+    return "$domain$fileName?_btf_tk=$md5Result&_ts=$deadline$query"
 }
 
 fun main() {
-    println(createLink())
+    val path = "/image.jpg"
+    println("常规 URL： ${createLink(path)}")
+    println("参数 URL： ${createLink(path, listOf("fmt" to "info"))}")
 }
 ```
