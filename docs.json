@@ -1,5 +1,5 @@
 {
-  "theme": "mint",
+  "theme": "aspen",
   "name": "缤纷云文档",
   "colors": {
     "primary": "#0D9373",
@@ -220,5 +220,8 @@
         ]
       }
     ]
+  },
+  "fonts": {
+    "family": "Ubuntu"
   }
 }
