@@ -1,0 +1,38 @@
+---
+title: "人脸打码"
+description: "自动识别图片中的人脸并进行模糊或马赛克处理。"
+---
+
+系统自动检测图片中的所有人脸，并对人脸区域做模糊或马赛克处理，适用于隐私保护、内容合规等场景。
+
+## 参数说明
+
+| 参数 | 含义 | 默认值 | 取值 |
+| :-- | --- | :-: | --- |
+| `face-blur` | **人脸模糊**，值为强度。建议 30 以上 | – | 1 ~ 100 |
+| `face-pixel` | **人脸马赛克**，值为强度。建议 40 ~ 60 | – | 1 ~ 100 |
+| `face-pad` | **打码范围外扩**，按人脸尺寸的比例向外扩展 | 0.3 | 0 ~ 2 |
+| `face-shape` | **打码形状** | 模糊为 `ellipse`，马赛克为 `rect` | `ellipse` / `rect` |
+
+- `face-blur` 与 `face-pixel` 二选一，不能同时使用。
+- `face-pad`、`face-shape` 需配合上面两者之一使用。
+
+  [https://demo.bitiful.com/girl.jpeg?face-blur=50](https://demo.bitiful.com/girl.jpeg?face-blur=50)
+
+  [https://demo.bitiful.com/girl.jpeg?face-pixel=50&face-pad=0.5&w=800](https://demo.bitiful.com/girl.jpeg?face-pixel=50&amp;face-pad=0.5&amp;w=800)
+
+## 处理特性
+
+- **强度与尺寸无关**：强度按人脸宽度的比例计算，同一强度在原图和缩略图上的观感一致。
+- **宁多勿漏**：检测以不漏打为优先，侧脸、小脸、部分遮挡的脸都会处理；人像海报、模特假人等也可能被打码。
+- **失败不放行**：人脸检测失败时返回错误，不会输出未打码的图片。
+- **先打码后缩放**：打码在原图上完成，再执行缩放，缩略图中不会残留可辨认的人脸。
+- **HDR 图片**：HDR 信息在同一区域同步处理，输出仍是 HDR。
+
+<Warning>
+  人脸打码只支持输出静态图片。源为动图，或输出为视频时，会返回错误。
+</Warning>
+
+<Tip>
+  只需要获取人脸位置而不打码时，使用 `fmt=faces`，见 [图片分析](/analysis)。
+</Tip>

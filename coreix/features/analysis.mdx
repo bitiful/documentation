@@ -1,0 +1,118 @@
+---
+title: "图片分析"
+description: "提取图片的调色板、感知哈希、人脸位置、内容标签、美学评分与特征向量。"
+---
+
+通过 `fmt` 的以下取值，可以让系统返回对图片的分析结果，而不是图片本身。
+
+| fmt 值 | 返回内容 | 格式 | 典型用途 |
+| :-- | --- | :-: | --- |
+| `palette` | **调色板**：主要颜色及占比 | JSON | 主题配色、占位背景 |
+| `phash` | **感知哈希** | 文本 | 重复图片检测 |
+| `faces` | **人脸位置** | JSON | 人脸定位、自定义裁剪 |
+| `tags` | **内容标签**：场景与物体 | JSON | 自动分类、检索 |
+| `aesthetics` | **美学评分** | JSON | 优质图片筛选、封面挑选 |
+| `featureprint` | **特征向量** | JSON | 相似图片搜索 |
+
+- 分析在**处理后的图片**上进行，`w`、`rect` 等参数会先生效。
+- 动图取第一帧；视频会先截帧；实况照片取静图部分。
+
+## 调色板
+
+[https://demo.bitiful.com/girl.jpeg?fmt=palette&colors=5](https://demo.bitiful.com/girl.jpeg?fmt=palette&amp;colors=5)
+
+| 参数 | 含义 | 默认值 | 取值 |
+| :-- | --- | :-: | --- |
+| `colors` | 提取的颜色数量 | 6 | 1 ~ 16 |
+
+```json
+    {
+      "colors": [
+        { "hex": "#c8a27e", "rgb": [200, 162, 126], "ratio": 0.3124 },
+        { "hex": "#2f3b4a", "rgb": [47, 59, 74], "ratio": 0.2218 }
+      ],
+      "dominant": "#c8a27e",
+      "average": "#8f8479"
+    }
+```
+
+`colors` 按占比从高到低排列；`dominant` 为占比最高的颜色，`average` 为全图平均色。只需要单个主色时，使用 `fmt=color` 更轻量。
+
+## 感知哈希
+
+[https://demo.bitiful.com/girl.jpeg?fmt=phash](https://demo.bitiful.com/girl.jpeg?fmt=phash)
+
+返回 16 位十六进制字符串（64 位哈希），如 `c3a59e1b7d2460f8`。
+
+内容相同的图片，即使经过缩放、压缩或格式转换，哈希也相近。比较两个哈希的汉明距离（不同的二进制位数）：**不超过 10 通常是同一张图**。
+
+## 人脸位置
+
+[https://demo.bitiful.com/girl.jpeg?fmt=faces](https://demo.bitiful.com/girl.jpeg?fmt=faces)
+
+```json
+    {
+      "width": 1200,
+      "height": 800,
+      "faces": [
+        { "x": 412, "y": 156, "w": 180, "h": 180, "conf": 0.987 }
+      ]
+    }
+```
+
+坐标为处理后图片上的像素值，`x`、`y` 是人脸框的左上角；`conf` 为置信度。结果按人脸面积从大到小排列。
+
+## 内容标签
+
+[https://demo.bitiful.com/girl.jpeg?fmt=tags](https://demo.bitiful.com/girl.jpeg?fmt=tags)
+
+| 参数 | 含义 | 默认值 | 取值 |
+| :-- | --- | :-: | --- |
+| `tags-min` | 最低置信度 | 0.2 | 0 ~ 1 |
+| `tags-max` | 最多返回的标签数 | 20 | 1 ~ 100 |
+
+```json
+    {
+      "labels": [
+        { "name": "outdoor", "conf": 0.9312 },
+        { "name": "bridge", "conf": 0.8745 }
+      ]
+    }
+```
+
+标签为英文，覆盖 1300 多种常见的场景与物体。
+
+## 美学评分
+
+[https://demo.bitiful.com/girl.jpeg?fmt=aesthetics](https://demo.bitiful.com/girl.jpeg?fmt=aesthetics)
+
+| 字段 | 含义 |
+| :-- | --- |
+| `overall` | 综合美学评分，范围 -1 ~ 1，越高越好 |
+| `utility` | 是否为截图、文档、票据等功能性图片 |
+
+## 特征向量
+
+[https://demo.bitiful.com/girl.jpeg?fmt=featureprint](https://demo.bitiful.com/girl.jpeg?fmt=featureprint)
+
+```json
+    {
+      "n": 768,
+      "type": "float32",
+      "norm": "l2",
+      "input": 224,
+      "b64": "…"
+    }
+```
+
+`b64` 是 768 个 32 位浮点数（小端序）的 Base64 编码，向量已归一化。比较两张图片时计算向量的欧氏距离：
+
+| 距离 | 含义 |
+| :-- | --- |
+| 小于 0.4 | 近似重复 |
+| 0.4 ~ 0.9 | 内容相关 |
+| 大于 0.9 | 基本无关 |
+
+<Tip>
+  感知哈希适合找「同一张图的不同版本」；特征向量适合找「内容相似的不同图片」。
+</Tip>

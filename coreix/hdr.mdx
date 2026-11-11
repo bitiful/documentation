@@ -1,43 +1,76 @@
 ---
 title: "HDR 图片和视频"
 sidebarTitle: "HDR 媒体处理方案"
-description: "CoreIX 支持 HDR 图片和视频。"
+description: "CoreIX 全链路支持 HDR：读取、编辑、输出均保留高动态范围。"
 ---
 
-## HDR 介绍
+HDR（高动态范围）让画面的高光比普通屏幕白色更亮，暗部更有层次。主流旗舰手机拍摄的照片和视频多数已是 HDR，但经过普通图片处理后往往丢失 HDR，甚至发灰。CoreIX 在处理过程中完整保留 HDR，也可以按需转为 SDR。
 
-百度百科 HDR 介绍：[https://baike.baidu.com/item/HDR/2863820](https://baike.baidu.com/item/HDR/2863820)
+<Note>
+  只有 HDR 源才能输出 HDR，SDR 源不会变成 HDR。
+</Note>
 
-两颗皮蛋介绍 iPhone HDR：[https://www.bilibili.com/video/BV1V14y1R7Rk/](https://www.bilibili.com/video/BV1V14y1R7Rk/)
+## 支持范围
+
+| 类型 | 可识别的 HDR 源 |
+| :-- | --- |
+| 增益图照片 | JPEG（Ultra HDR）、HEIC（含 iPhone 照片）、AVIF |
+| PQ / HLG 图片 | HEIC、AVIF、JPEG XL、PNG |
+| 专业格式 | 相机 RAW（含 Apple ProRAW）、OpenEXR、JPEG XR |
+| 视频 | PQ、HLG、杜比视界（MP4、MOV），可截图、可转码 |
+| 实况照片 | 静图部分保留 HDR |
+
+HDR 源支持全部常规操作：裁剪、缩放、旋转、压缩、格式转换、水印。这些操作会同步作用到 HDR 信息上，输出仍是 HDR。
+
+## 默认输出
+
+不加任何 HDR 参数时，输出形态由输出格式决定：
+
+| 输出格式 | HDR 形态 | 位深 | 兼容性 |
+| :-- | --- | :-: | --- |
+| JPEG | 增益图 | 8 | 最好：不支持 HDR 的设备自动显示 SDR |
+| HEIC | 增益图 | 8 | 同上 |
+| AVIF | PQ | 10 | Chrome、Safari 等现代浏览器 |
+| PNG | PQ | 16 | 现代浏览器 |
+| JPEG XL | PQ | 16 | Safari |
+| WebP、GIF | 不支持 HDR，输出 SDR | 8 | – |
 
 <Tip>
-  目前包括华为、苹果、小米、OPPO 等旗舰机型都已支持 HDR 照片和视频的拍摄录制，但除了各大主流视频 APP 之外，大多社交 APP 对 HDR 视频的支持都不好，更不要说 HDR 照片。
+  面向大众分发时推荐 JPEG：一张图同时兼容 HDR 与 SDR 设备。追求体积与画质时选 AVIF。
 </Tip>
 
-## CoreIX HDR 支持范围
+## 参数说明
 
-### 支持功能
+| 参数 | 说明 | 默认值 | 取值 |
+| :-- | --- | :-: | --- |
+| `hdr-rate` | **HDR 亮度**。百分比：按原图 HDR 强度的比例保留；数值：指定峰值亮度为 SDR 白色的多少倍。`0` 表示转为 SDR | 保持原图 | 0% ~ 100%，或 0 ~ 10 |
+| `hdr-fmt` | **HDR 形态**。`gainmap`：增益图；`pq`：PQ；`hlg`：HLG；`keep`：跟随原图 | `auto` | `auto` / `gainmap` / `pq` / `hlg` / `keep` |
+| `depth` | **输出位深上限**，仅对 PQ / HLG 输出生效。AVIF 最高 12，JPEG XL、PNG 最高 16，HEIC 固定 10 | 见上表 | 10 ~ 16 |
+| `mark-hdr-rate` | **水印的 HDR 亮度**，详见水印文档 | 0.5 | 0 ~ 1 |
 
-1. **HDR 视频截图**：系统若判断当前视频为 HDR 格式，则截出来的图片默认也带 HDR 效果（JPEG、PNG、Webp、Avif）；
-2. **HDR 照片处理**：HDR 照片支持所有的 裁剪、缩略图、压缩、格式转换 等操作；
-3. **HDR 映射为 SDR**：若将 cs 参数（ColorSpace）设置为 srgb 或 sdr，则系统会讲 HDR 图片映射为普通 RGB 效果，避免出现灰图。
+- `hlg` 支持 HEIC、AVIF、JPEG XL、PNG；JPEG 没有 HLG 形态，按默认处理。
+- 视频截图没有峰值亮度信息，`hdr-rate` 的百分比写法可能不生效，建议使用数值或 `0`。
+
+### 转为 SDR
+
+加上 `hdr-rate=0`，系统会把 HDR 映射为普通 SDR 画面，色彩与亮度自然，不会发灰。适用于目标设备或 App 不支持 HDR 的场景，处理速度也更快。
+
+### HDR 视频转码
+
+HDR 视频转码默认保持 HDR（HEVC 10 位）。指定 `vcodec=h264` 时自动映射为 SDR，兼容不支持 HDR 的播放器。
 
 ## HDR 演示
 
-### HDR 视频截图：
-
 <Note>
-  最佳 HDR 浏览方案：
+  观看 HDR 效果需要：
 
-  - 支持 `HDR 600+` 峰值亮度的显示设备，如：Apple Silicon MacBook Pro 16'、LG - 32GQ950
-  - 支持 `HDR10` 和 `杜比视界` 的浏览器，如：Google Chrome 100\+
+  - 支持 HDR 的显示设备（峰值亮度 600 尼特以上），如 MacBook Pro、iPhone、LG 32GQ950；
+  - 支持 HDR 的浏览器，如 Chrome、Safari。
 </Note>
 
-| HDR 资源 | CoreIX 截图默认输出 HDR | CoreIX 截图强转 SDR | 阿里云 OSS 丢失色彩和方向 |
-| :-- | --- | --- | --- |
-| [彩虹.mov (iPhone 录制)](https://demo.bitiful.com/hdr-img/rainbow.mov) | <img src="https://demo.bitiful.com/hdr-img/rainbow.mov?frame=5000&w=1200" alt="rainbow.mov.hdr.jpg" /><br />[查看大图](https://demo.bitiful.com/hdr-img/rainbow.mov?frame=5000&w=2000) | <img src="https://demo.bitiful.com/hdr-img/rainbow.mov?frame=5000&w=1200&hdr-rate=0" alt="rainbow.mov.sdr.jpg" /><br />[查看大图](https://demo.bitiful.com/hdr-img/rainbow.mov?frame=5000&w=2000&hdr-rate=0) | <img src="https://oss.ladydaily.com/hdr-img/rainbow.mov?x-oss-process=video/snapshot,t_4950,f_jpg,scaletype_crop,w_1200" alt="rainbow.mov.oss.jpg" /><br />[查看大图](https://oss.ladydaily.com/hdr-img/rainbow.mov?x-oss-process=video/snapshot,t_4950,f_jpg,scaletype_crop,w_2000) |
-| [食物.mov (iPhone 录制)](https://demo.bitiful.com/hdr-img/foods.mov) | <img src="https://demo.bitiful.com/hdr-img/foods.mov?frame=5000&w=1200" alt="foods.mov.hdr.jpg" /><br />[查看大图](https://demo.bitiful.com/hdr-img/foods.mov?frame=5000&w=2000) | <img src="https://demo.bitiful.com/hdr-img/foods.mov?frame=5000&w=1200&hdr-rate=0" alt="foods.mov.sdr.jpg" /><br />[查看大图](https://demo.bitiful.com/hdr-img/foods.mov?frame=5000&w=2000&hdr-rate=0) | <img src="https://oss.ladydaily.com/hdr-img/foods.mov?x-oss-process=video/snapshot,t_4950,f_jpg,scaletype_crop,w_1200" alt="foods.mov.oss.jpg" /><br />[查看大图](https://oss.ladydaily.com/hdr-img/foods.mov?x-oss-process=video/snapshot,t_4950,f_jpg,scaletype_crop,w_2000) |
+### HDR 视频截图
 
-<Callout icon="smile-wink" color="#00ff28">
-  2026 年 6 月起：HDR 处理支持最高 **16 bit** 色深输出
-</Callout>
+| HDR 资源 | CoreIX 截图默认输出 HDR | CoreIX 截图转 SDR | 阿里云 OSS 丢失色彩和方向 |
+| :-- | --- | --- | --- |
+| [彩虹.mov（iPhone 录制）](https://demo.bitiful.com/hdr-img/rainbow.mov) | <img src={"https://demo.bitiful.com/hdr-img/rainbow.mov?frame=5000&w=1200"} alt="彩虹：HDR 截图" /><br />[查看大图](https://demo.bitiful.com/hdr-img/rainbow.mov?frame=5000&amp;w=2000) | <img src={"https://demo.bitiful.com/hdr-img/rainbow.mov?frame=5000&w=1200&hdr-rate=0"} alt="彩虹：SDR 截图" /><br />[查看大图](https://demo.bitiful.com/hdr-img/rainbow.mov?frame=5000&amp;w=2000&amp;hdr-rate=0) | <img src="https://oss.ladydaily.com/hdr-img/rainbow.mov?x-oss-process=video/snapshot,t_4950,f_jpg,scaletype_crop,w_1200" alt="彩虹：阿里云 OSS 截图" /><br />[查看大图](https://oss.ladydaily.com/hdr-img/rainbow.mov?x-oss-process=video/snapshot,t_4950,f_jpg,scaletype_crop,w_2000) |
+| [食物.mov（iPhone 录制）](https://demo.bitiful.com/hdr-img/foods.mov) | <img src={"https://demo.bitiful.com/hdr-img/foods.mov?frame=5000&w=1200"} alt="食物：HDR 截图" /><br />[查看大图](https://demo.bitiful.com/hdr-img/foods.mov?frame=5000&amp;w=2000) | <img src={"https://demo.bitiful.com/hdr-img/foods.mov?frame=5000&w=1200&hdr-rate=0"} alt="食物：SDR 截图" /><br />[查看大图](https://demo.bitiful.com/hdr-img/foods.mov?frame=5000&amp;w=2000&amp;hdr-rate=0) | <img src="https://oss.ladydaily.com/hdr-img/foods.mov?x-oss-process=video/snapshot,t_4950,f_jpg,scaletype_crop,w_1200" alt="食物：阿里云 OSS 截图" /><br />[查看大图](https://oss.ladydaily.com/hdr-img/foods.mov?x-oss-process=video/snapshot,t_4950,f_jpg,scaletype_crop,w_2000) |

@@ -1,26 +1,36 @@
 ---
-title: '图像模糊'
-description: '图像模糊参数为 blur，可为图片增加模糊效果。'
+title: "图像模糊"
+description: "使用 blur 或 px 参数为图片增加模糊或马赛克效果。"
 ---
 
 ## 参数说明
 <Warning>该方法只能用于静态图片</Warning>
-### 相关参数总览
 
-| 参数 | 含义 | 作用说明 |
-| :--- | --- | --- |
-| ` blur ` | 指定**模糊效果强度** | - 取值范围：<br />0 ~ 500（默认为 0）<br />- 取值含义：取值越大，模糊强度越高。 |
+| 参数 | 含义 | 默认值 | 取值 |
+| :-- | --- | :-: | --- |
+| `blur` | **模糊强度**（高斯模糊），值越大越模糊 | 0 | 0 ~ 500 |
+| `px` | **马赛克**，值为色块的边长，单位像素 | 0 | 0 ~ 100 |
 
-### 效果演示
+<Note>
+  两个参数都作用于整张图片。只需要遮挡人脸时，请使用 [人脸打码](/face-privacy)。
+</Note>
+
+## 效果演示
 
 原始图片：
 
-<Frame>![girl.blur.jpg](https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=300&q=90)</Frame>
+<Frame>![原图](https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&amp;w=300&amp;q=90)</Frame>
 
-模糊度设置为 10：[https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=300&q=90 **`&blur=10`**](https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=300&q=90&blur=10)
+模糊强度 10：[https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=300&q=90 **`&blur=10`**](https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=300&q=90&blur=10)
 
-<Frame>![girl.blur.jpg](https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=300&q=90&blur=10)</Frame>
+<Frame>![模糊强度 10](https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&amp;w=300&amp;q=90&amp;blur=10)</Frame>
 
-模糊度设置为 50：[https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=300&q=90 **`&blur=50`**](https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=300&q=90&blur=50)
+模糊强度 50：[https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=300&q=90 **`&blur=50`**](https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=300&q=90&blur=50)
 
-<Frame>![girl.blur.jpg](https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=300&q=90&blur=50)</Frame>
+<Frame>![模糊强度 50](https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&amp;w=300&amp;q=90&amp;blur=50)</Frame>
+
+马赛克，色块边长 12 像素：
+
+<Frame>
+  ![马赛克](https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&amp;w=300&amp;q=90&amp;px=12)
+</Frame>

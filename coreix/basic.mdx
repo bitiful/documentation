@@ -5,71 +5,17 @@ description: "介绍缤纷云 S4 自带的媒体处理功能 CoreIX。"
 mode: "wide"
 ---
 
-**CoreIX** 是缤纷云自研的，具有高度 **自动化**、**智能化**、**高兼容性** 的 **高性能** 实时 **媒体处理引擎**。
+**CoreIX** 是缤纷云自研的高性能实时**媒体处理引擎**。
 
-S4 对象存储中的媒体内容可以简单地通过在 Url 末尾（或在 GetObject 接口中）携带相关 **处理参数** 轻松获得 **CoreIX** 的 **所有丰富功能**。
+S4 对象存储中的图片、视频等媒体内容，只需在 URL 末尾（或在 GetObject 接口中）携带**处理参数**，即可实时获得处理结果。所有处理均不会修改存储桶中的原文件。
 
 <Warning>
   **注意** 当前处于测试阶段，暂不收费。收费时间及标准会另行通知，请您及时关注相应公告。
 </Warning>
 
-## CoreIX 独有特点
+## 快速上手
 
-1. **超高性能**：性能最多可达国内主流图片处理性能的 **10 倍** 以上；
-2. **独家支持颜色管理**：国内唯一可准确高性能处理 **CMYK 色彩模式** 的实时媒体引擎；
-3. **独家超大图处理**：CoreIX 允许高性能处理 **高达 200MB** 的图片；
-4. **独家全流程 HDR 管线支持**：可以输出 **HDR 图片**，也可映射为 **SDR 图片**；
-5. **独家画面感知能力**：在必须裁剪画面时可 **自动保留画面主体**；
-6. **独家原生支持 SVG**：可以将 SVG 转成光栅图，也可作为 **水印图**；
-7. **独家哈希占位支持**：原生支持 **Thumbhash** 和 **Blurhash** 码输出；
-8. **独家原生支持 RAW 格式**：兼容主流 RAW 格式，支持`镜头畸变矫正`、`Tone Mapping`、`原生高 bit HDR`；
-9. **独家支持量化压缩**：CoreIX 支持 `fmt=tpng` 参数，可原生获得类似 TinyPNG 的处理效果；
-10. **独家 OCR 内置**：CoreIX 会 **自动优化图片并识别文字内容**，无需编写复杂的代码调用第三方 API；
-11. **独家 Live Photo 完整支持**：CoreIX 能支持 iOS 和主流安卓实况照片方案的`静图/视频提取`以及`转换/合成`
-
-### 高度集成的自动优化：
-
-- **自适应方向**：可依据原图的 Exif 信息对图片做自动的方向调整处理，支持带 Exif 信息的 Jpeg、PNG、Webp、Avif、Heif 和 主流相机 Raw 图；
-- **自动删减 Exif**：在快速分享场景中，Exif 没有实际作用，去掉 Exif 可减少相应传输流量，此举最多可节省约 `500 KiB` 容量；
-- **自动颜色管理**：CoreIX 生成缩略图时，会自动进行必要的颜色空间转换，然后删除 ICC profile，此举对于特殊色彩空间的图片最多可节省约 `2.5 MiB` 容量；
-- **可转换 Tinysrgb**：对于包含 sRGB 的原图，在生成小号缩略图时，CoreIX 会自动用 Tinysrgb 替代，此举通常可节省 `3 KiB` 容量；
-- **自动支持 HDR**：在对 HDR 视频进行截图（取帧）操作时，CoreIX 将默认自动输出 HDR 图片，指定 `cs` 参数为 srgb 时将自动把色彩空间映射为 SDR，避免出现灰图；
-- **高度集成**：所有参数
-- **~~客户端协商机制~~**~~：当设定输出格式为 fm=webp 时，系统将通过 Accept 判断客户端是否支持 webp 图片；~~（鉴于 HTML type 标签的完善普及，以及 webp、avif 等格式已被大范围原生支持，该特性已正式下线）
-
-## 图片处理功能
-
-1. CoreIX 关心图片的最终分享效果，包括准确度与访问速度。所以在每次执行`手动参数`前，都会对图片做必要的自动优化，以最大程度达到`处理效果`与`节省流量`的最佳平衡。
-2. CoreIX 在生成分享图时做实时处理，所有操作均不会造成对存储桶中原图的修改。
-
-### 手动参数：
-
-| 限制项 | 相关参数 | 作用说明 | 范围 |
-| :-- | --- | --- | --- |
-| [缩略宽高](/coreix/features/resize) | - w: 图片宽度<br />- h: 图片高度 | 将图片缩放至指定大小。 | 全部 |
-| [缩放倍数](/coreix/features/resize) | - dpr: 倍数值 | 可简易设置 2x 3x 大小缩略尺寸。 | 全部 |
-| [缩略模式](/coreix/features/resize) | - mode: crop / clip | 当设定w、h全部指定且与原图比例不符时。  默认使用 crop 裁剪缩略模式。 | 全部 |
-| [保留位置](/coreix/features/resize) | - pos: 缩略裁剪模式情况下保留的部分 | 缩略裁剪后提取的保留部分。 | 全部 |
-| [自定义裁剪](/coreix/features/crop) | - rect: 裁剪坐标与大小 | 裁剪指定位置和大小的矩形图片。 | 静图 |
-| [质量变化](/coreix/features/quality) | - q: 质量百分比 | 调整 JPG、GIF（动图）、WebP（动、静图）、Avif 格式图片的质量。 | 全部 |
-| [图像锐化](/coreix/features/sharp) | - sharp: 锐化程度 | 对图片进行锐化效果处理。 | 静图 |
-| [图像模糊](/coreix/features/blur) | - blur: 模糊程度 | 对图片增加模糊效果。 | 静图 |
-| [文字水印](/coreix/features/watermark) | - txt: 水印的文字内容 | [详细参数](features/watermark) | 静图 |
-| [图片水印](/coreix/features/watermark-image) | - mark: 水印图片的桶内路径 | [详细参数](features/watermark-image) | 静图 |
-| [视频截图](/coreix/features/frame) | - frame: 毫秒数（视频）或 帧数（GIF） | 格式支持：MP4、MKV；  色彩支持：SDR 视频 / BT.2020/2100 色域 HDR 视频  \* 注意：frame 只能对已经存入 S4 对象存储的文件生效  （镜像回源场景下回源成功后才会生效） | 动图  视频 |
-| [色彩空间](/coreix/features/colorspace) | - cs: ColorSpace | 设定希望输出的色彩空间，支持：tinysrgb、srgb、adobe rgb | 静图 |
-| [修剪边框](/coreix/features/trim) | - trim: [详细参数](/coreix/features/trim) | 用于自动去除图像四周的 **纯色边框** 或 **透明边框** | 静图 |
-| [格式转换](/coreix/features/fmt) | - fmt: 格式代号 | 图片格式：jpeg、png、tpng、webp、bmp、avif、gif、tiff  - 其他格式：blurhash、thumbhash、json（输出图片、视频信息） |  |
-
-<Check>
-  **自2024年1月1日起，将支持 GIF / WEBP 动图支持高性能缩略、裁剪处理**
-</Check>
-
-## 图片处理方法
-
-直接在图片类型对象的 Url 末尾加上相应参数即可使用。
-
-#### 示例 URL 如下：
+在媒体文件的 URL 后加上参数即可：
 
 ```text
 原图：https://demo.bitiful.com/girl.jpeg
@@ -77,4 +23,87 @@ S4 对象存储中的媒体内容可以简单地通过在 Url 末尾（或在 Ge
 
 加上处理参数后：[**`https://demo.bitiful.com/girl.jpeg?w=800&h=500&pos=top`**](https://demo.bitiful.com/girl.jpeg?w=800&h=500&pos=top)
 
-![girl.resize.jpg](https://demo.bitiful.com/girl.jpeg?w=800&h=500&pos=top)
+![缩放并保留上部](https://demo.bitiful.com/girl.jpeg?w=800&amp;h=500&amp;pos=top)
+
+多个参数可以自由组合，如同时缩放、加水印并转换格式。
+
+## 核心特点
+
+1. **超高性能**：性能最多可达国内主流图片处理服务的 **10 倍**以上；
+2. **全流程 HDR**：HDR 照片与视频在裁剪、缩放、水印后仍是 HDR，也可一键映射为 SDR；
+3. **专业色彩管理**：准确处理 CMYK、Display P3、Adobe RGB 等色彩空间；
+4. **超大图处理**：支持高达 **200 MB** 的图片；
+5. **画面感知**：裁剪时自动识别人脸、人体、宠物与主体并予以保留；可自动打码人脸、挑选视频封面；
+6. **格式覆盖广**：原生支持相机 RAW、SVG、PDF、OpenEXR、JPEG XL 等格式，详见 [支持格式](/coreix/features/formats)；
+7. **实况照片**：支持 iOS 与主流安卓厂商实况照片的静图、视频提取与互相转换；
+8. **视频与动图**：视频截帧、剪辑，视频与动图互转；
+9. **内置图片分析**：文字识别（OCR）、调色板、感知哈希、内容标签、相似图特征，以及 BlurHash、ThumbHash 占位符；
+10. **量化压缩**：`fmt=tpng` 可获得类似 TinyPNG 的压缩效果。
+
+## 自动优化
+
+在执行你指定的参数之前，CoreIX 会先做必要的自动优化，在**画面准确**与**节省流量**之间取得平衡：
+
+- **自动转正**：依据 Exif 方向信息自动旋转图片，支持 JPEG、PNG、WebP、AVIF、HEIF 与主流相机 RAW；
+- **精简元数据**：去除分享场景中无用的 Exif 信息，最多可节省约 `500 KiB`；
+- **自动色彩管理**：生成缩略图时自动完成必要的色彩空间转换并精简色彩配置文件，对特殊色彩空间的图片最多可节省约 `2.5 MiB`；
+- **保留 HDR**：HDR 源默认输出 HDR；加上 `hdr-rate=0` 即映射为 SDR，不会出现灰图；
+- **格式协商**：`fmt=auto` 按浏览器支持情况自动选择 JPEG XL、AVIF 或 WebP；显式指定的格式不被浏览器支持时自动降级；
+- **智能无损**：图标、截图等低色数图片自动采用无损调色板编码，体积更小且不失真。
+
+## 功能总览
+
+### 尺寸与裁剪
+
+| 功能 | 主要参数 | 说明 | 适用 |
+| :-- | --- | --- | :-: |
+| [图片缩放](/coreix/features/resize) | `w` `h` `dpr` `mode` | 等比缩放、裁切、补边、拉伸 | 全部 |
+| [智能裁切](/coreix/features/resize) | `pos` | 裁切时保留指定方位，或自动保留人脸与主体 | 全部 |
+| [自定义裁剪](/coreix/features/crop) | `rect` | 按坐标提取任意矩形区域 | 图片 |
+| [修剪边框](/coreix/features/trim) | `trim` | 自动去除四周的纯色或透明边框 | 静图 |
+| [画布与外形](/coreix/features/canvas) | `flip` `border` `pad` `box` `mask` | 翻转、边框、内边距、色块、圆角与圆形 | 图片 |
+
+### 画质与色彩
+
+| 功能 | 主要参数 | 说明 | 适用 |
+| :-- | --- | --- | :-: |
+| [质量变换](/coreix/features/quality) | `q` | 调整有损格式的压缩质量 | 全部 |
+| [图像锐化](/coreix/features/sharp) | `sharp` `usm` | 提高清晰度 | 静图 |
+| [图像模糊](/coreix/features/blur) | `blur` `px` | 模糊与马赛克 | 静图 |
+| [调色与自动增强](/coreix/features/adjust) | `enhance` `bri` `con` `sat` 等 | 一键增强画质，或手动调整亮度、对比度、饱和度等 | 图片 |
+| [色彩管理](/coreix/features/colorspace) | `cs` | 指定输出的色彩空间 | 静图 |
+| [HDR 处理](/coreix/features/hdr) | `hdr-rate` `hdr-fmt` | 控制 HDR 亮度与输出形态，或转为 SDR | 图片、视频 |
+
+### 水印
+
+| 功能 | 主要参数 | 说明 | 适用 |
+| :-- | --- | --- | :-: |
+| [文字水印](/coreix/features/watermark) | `txt` | 字体、颜色、描边、阴影、底框、换行、旋转、平铺 | 静图 |
+| [图片水印](/coreix/features/watermark-image) | `mark` | 位图或 SVG 水印，支持平铺与混合模式 | 静图 |
+| [SVG 变量水印](/coreix/features/watermark-svg) | `mark` + `txt` | 在 SVG 模板中动态填入文字，实现多段文字与复杂版式 | 静图 |
+| [水印字体](/coreix/features/watermark-fonts) | `txt-font` | 可用字体清单 | – |
+
+### 隐私
+
+| 功能 | 主要参数 | 说明 | 适用 |
+| :-- | --- | --- | :-: |
+| [人脸打码](/coreix/features/face-privacy) | `face-blur` `face-pixel` | 自动识别人脸并模糊或打马赛克 | 静图 |
+
+### 视频与动图
+
+| 功能 | 主要参数 | 说明 | 适用 |
+| :-- | --- | --- | :-: |
+| [视频和动图截帧](/coreix/features/frame) | `frame` | 按时间点或帧序号取一帧，或自动挑选封面帧 | 视频、动图 |
+| [视频剪辑与动图转换](/coreix/features/video-clip) | `frame` 区间 | 视频剪辑、截取动图片段、视频与动图互转 | 视频、动图 |
+
+<Note>
+  视频处理只对已存入 S4 对象存储的文件生效；镜像回源场景下，回源成功后才会生效。
+</Note>
+
+### 格式与分析
+
+| 功能 | 主要参数 | 说明 | 适用 |
+| :-- | --- | --- | :-: |
+| [图片格式转换](/coreix/features/fmt) | `fmt` | JPEG、PNG、WebP、AVIF、JPEG XL、HEIC、GIF 等，或自动选择 | 全部 |
+| [图片分析](/coreix/features/analysis) | `fmt` | 调色板、感知哈希、人脸位置、内容标签、美学评分、特征向量 | 图片 |
+| [支持格式](/coreix/features/formats) | – | 可识别的输入格式与各格式的能力 | – |

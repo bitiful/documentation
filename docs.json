@@ -103,7 +103,9 @@
             "group": "媒体处理 CoreIX",
             "pages": [
               "coreix/basic",
+              "formats",
               "coreix/hdr",
+              "watermark-fonts",
               {
                 "group": "处理参数",
                 "pages": [
@@ -114,13 +116,18 @@
                   "coreix/features/blur",
                   "coreix/features/watermark-image",
                   "coreix/features/watermark",
+                  "coreix/features/watermark-svg",
                   "coreix/features/colorspace",
                   "coreix/features/frame",
                   "coreix/features/trim",
-                  "coreix/features/fmt"
+                  "coreix/features/fmt",
+                  "coreix/features/video-clip",
+                  "coreix/features/adjust",
+                  "coreix/features/face-privacy",
+                  "coreix/features/draw-canvas",
+                  "coreix/features/analysis"
                 ]
-              },
-              "formats"
+              }
             ]
           },
           {
@@ -197,7 +204,8 @@
             "pages": [
               "best-practice/web-uploads",
               "best-practice/auto-detect-mime",
-              "best-practice/token-link"
+              "best-practice/token-link",
+              "coreix/features/watermark-svg"
             ]
           },
           {

@@ -1,0 +1,98 @@
+---
+title: "SVG 变量水印"
+description: "在 SVG 水印模板中预留变量，请求时动态填入文字，实现多段文字与复杂排版。"
+sidebarTitle: "🌟 SVG 变量水印"
+---
+
+文字水印适合单段文字。需要**多段文字、图文混排或精确的版式**时，可以把版式设计成一个 SVG 模板，在其中预留变量，请求时再填入具体内容。
+
+典型场景：带用户名与日期的版权水印、带价格与标题的商品卡片、带姓名与编号的证书。
+
+## 使用方法
+
+### 1. 制作 SVG 模板
+
+在 SVG 的文字位置写入变量 `{{TXT-1}}`、`{{TXT-2}}` ……，上传到桶内：
+
+```svg
+    <svg xmlns="http://www.w3.org/2000/svg" width="600" height="160">
+      <rect width="600" height="160" rx="16" fill="#000" fill-opacity="0.5"/>
+      <text x="32" y="72" font-family="NotoSansSC" font-size="44" font-weight="700" fill="#fff">{{TXT-1}}</text>
+      <text x="32" y="124" font-family="Inter" font-size="28" fill="#fff" fill-opacity="0.8">{{TXT-2}}</text>
+    </svg>
+```
+
+### 2. 准备变量内容
+
+把要填入的文字按顺序写成 JSON 字符串数组，再做 Base64 编码：
+
+["Bitiful","2026-11-11"]
+
+编码结果：
+
+WyJCaXRpZnVsIiwiMjAyNi0xMS0xMSJd
+
+### 3. 发起请求
+
+`mark` 指向模板，`txt` 传入编码后的内容：
+
+[https://demo.bitiful.com/girl.jpeg?mark=templates/card.svg&txt=WyJCaXRpZnVsIiwiMjAyNi0xMS0xMSJd&mark-pos=0.05,0.95&mark-pct=0.5](https://demo.bitiful.com/girl.jpeg?mark=templates/card.svg&amp;txt=WyJCaXRpZnVsIiwiMjAyNi0xMS0xMSJd&amp;mark-pos=0.05,0.95&amp;mark-pct=0.5)
+
+## 规则
+
+| 项目 | 说明 |
+| :-- | --- |
+| 变量格式 | `{{TXT-N}}`，N 为 1 ~ 10 的整数，不带前导 0 |
+| 对应关系 | `{{TXT-1}}` 对应数组第 1 项，`{{TXT-2}}` 对应第 2 项，以此类推 |
+| 重复使用 | 同一个变量可在模板中出现多次，全部替换 |
+| 数组元素 | 必须全部是字符串；数字也要加引号，如 `"99"` |
+| Base64 | 标准写法与 URL 安全写法（`-`、`_`）均可，末尾的 `=` 可省略 |
+| 特殊字符 | 内容中的 `<`、`&`、引号等会自动转义，不会破坏 SVG 结构 |
+
+<Warning>
+  以下任一情况，变量替换不会生效：
+
+  - `mark` 的路径不是以 `.svg` 结尾；
+  - 模板中没有 `{{TXT-N}}` 变量；
+  - `txt` 不是合法的 Base64，或解码后不是字符串数组。
+
+  此时 `txt` 会被当作**普通文字水印**直接绘制到图片上。上线前请先验证编码是否正确。
+</Warning>
+
+<Note>
+  数组的项数少于模板中的变量数时，没有对应内容的变量会**原样保留**并显示出来。不需要显示的位置请传入空字符串 `""`。
+</Note>
+
+## 位置与尺寸
+
+变量替换后的 SVG 就是一个普通的图片水印，位置、尺寸、透明度等都使用 [图片水印](/watermark-image) 的参数：
+
+- `mark-pos`：位置；
+- `mark-pct`：尺寸。SVG 按该比例矢量渲染，放大后依然清晰；
+- `mark-alpha`、`mark-tile`、`mark-blend` 等同样可用。
+
+## 模板编写提示
+
+- **字体**：`font-family` 使用 [水印字体](/watermark-fonts) 中的字体名，中文名也可以。
+- **表情符号**：文字中的 emoji 会以彩色显示。
+- **图片**：模板内的图片需以 `data:` 形式内嵌；外部链接的图片不会加载。
+- **文字宽度**：SVG 文字不会自动换行，模板需为最长的内容留出空间；可使用 `text-anchor` 控制对齐方向。
+
+## 编码示例
+
+JavaScript：
+
+```javascript
+ const txt = btoa(unescape(encodeURIComponent(JSON.stringify(["张三", "内部资料"]))))
+.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+// WyLlvKDkuIkiLCLlhoXpg6jotYTmlpkiXQ
+```
+
+Python：
+
+```python
+import base64, json
+ data = json.dumps(["张三", "内部资料"], ensure_ascii=False, separators=(",", ":"))
+txt = base64.urlsafe_b64encode(data.encode()).decode().rstrip("=")
+# WyLlvKDkuIkiLCLlhoXpg6jotYTmlpkiXQ
+```

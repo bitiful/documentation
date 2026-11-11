@@ -1,37 +1,67 @@
 ---
 title: "图片水印"
-description: "本文介绍为图片增加 图片水印 功能的参数说明及使用示例。"
+description: "为图片叠加图片水印：参数说明与使用示例。"
 ---
 
-以下例子中，默认原图均为：https://demo.bitiful.com/bridge.jpeg
+以下示例的原图均为：[https://demo.bitiful.com/bridge.jpeg](https://demo.bitiful.com/bridge.jpeg)
+
+<Warning>
+  图片水印只作用于静态图片。动图（GIF、动态 WebP、APNG 等）会原样输出，不加水印。
+</Warning>
 
 ## 参数说明
-<Tip>该方法只能用于静态图片</Tip>
-<Warning>2025年7月起 支持 SVG 格式作为水印图源</Warning>
 
-### 相关参数总览
+### 水印图源
 
-**图片水印格式支持：**
+支持的格式：`SVG` / `JPEG` / `PNG` / `WebP` / `AVIF` / `HEIC` / `BMP`
 
-`SVG` / `JPG` / `PNG` / `WEBP` / `AVIF` / `HEIF` / `GIF`
+- 水印图只能是**同一个桶内**的图片。
+- 需要半透明或异形水印时，使用带透明通道的 PNG、WebP、AVIF，或直接使用 SVG。
+- SVG 水印按目标尺寸矢量渲染，放大后依然清晰（2025 年 7 月起支持）。
 
-**图片水印参数：**
+### 参数总览
 
-| 参数           | 含义          | 作用说明    | 范围        |
-| :----------- | ----------- | ---------- | --------- |
-| `mark`       | **水印图片路径**  | 桶内水印图片 path（如：_img/logo.png_）<br />默认为空 - 代表不增加图片水印（推荐进行 UrlEncode） | 只能是该桶内的图片 |
-| `mark-pos`   | **水印位置偏移**  | - **≥ 1** 时: 表示按绝 px 对值设定偏移<br />- **\< 1** 时: 表示按原图像素**百分比**自动计算偏移(支持 3 种偏移策略)<br />-- 策略A: `0.99,0.99`表示按水印渲染范围的**最远边**<br />（即: **右&下**边）计算（此时水印绝对不会超过原图边界）<br />-- 策略B: `*0.99,*0.99`表示按水印渲染范围的**中心**计算<br />（此时水印会超出原图边界一半）<br />- 策略C: `**0.99,**0.99`表示按水印渲染范围的**最近边**<br />（即: **左&上**边）计算（此时水印会完全超出原图边界） | -         |
-| `mark-pct`   | **水印最大百分比** | - 当水印图片 size 过大时，系统会用该值对总大小进行约束<br />- 如：设定 0.5 代表无论 size 多大都不会超过原图 50%<br />大于 1 时代表可超出原图大小，有助于部分艺术表达场景 | 0.0 ~ 2.0 |
-| `mark-alpha` | **水印透明度**   | 透明度百分比。 | 0.0 ~ 1.0 |
-| `hdr-rate` |**HDR亮度**| - 支持 `1.0 ~ 3.0 的绝对值` 和 `0% ~ 100% 的百分比`两种参数<br />- 注意: 仅支持 HDR GainMap | 1.0 ~ 3.0<br />0% ~ 100% |
+| 参数 | 说明 | 默认值 | 取值 |
+| :-- | --- | :-: | --- |
+| `mark` | **水印图片路径**，即桶内 path（如 `img/logo.png`）。为空则不加水印；建议 UrlEncode | 空 | 同桶内的图片 |
+| `mark-pos` | **水印位置**，格式 `x,y`，详见下方「位置写法」 | `0.96,0.98` | – |
+| `mark-pct` | **最大占比**。水印超过「图片宽高 × 该值」时等比缩小；大于 1 表示允许超出图片。可写 `x,y` 分别约束宽、高 | 0.25 | 大于 0，至多 5 |
+| `mark-alpha` | **不透明度**，0 为全透明，1 为不透明 | 1 | 0 ~ 1 |
+| `mark-blend` | **混合模式** | `normal` | `normal` / `multiply` / `screen` / `overlay` / `darken` / `lighten` / `soft-light` / `hard-light` / `difference` / `add` / `subtract` |
+| `mark-tile` | **平铺**，设为 `1` 时铺满整张图，隔行错位 | 关闭 | `1` |
+| `mark-tile-gap` | **平铺间距**，格式 `横,纵`；百分比按水印自身宽高计算 | `50%` | 像素或百分比 |
+| `mark-tile-rot` | **平铺倾斜角度** | 0 | -90 ~ 90 |
+| `mark-if-min-width`<br />`mark-if-min-height` | **尺寸门槛**。图片宽或高小于该值时不加水印，避免缩略图被水印遮挡 | 不限 | 像素 |
+| `mark-hdr-rate` | **HDR 亮度增益**（与文字水印共用），仅对带增益图的 HDR 输出生效。0 为不提亮，1 为最亮 | 0.5 | 0 ~ 1，或 0% ~ 100% |
+
+<Note>
+  `mark-pct` 对位图水印是**上限**：水印只会缩小，不会放大。对 SVG 水印是**目标尺寸**：水印会按该比例渲染。
+</Note>
+
+### 位置写法
+
+`mark-pos` 的 `x`、`y` 各自独立，可以混用不同写法；只写一个值时两个方向取相同值。位置按**处理后的图片**（缩放、裁剪之后）计算。
+
+**比例值（小于 1）** 有三种定位基准：
+
+| 写法 | 定位基准 | 效果 |
+| :-- | --- | --- |
+| `0.5` | 在「水印完整留在图内」的范围里按比例取位：0 贴左 / 上边，越接近 1 越靠右 / 下边 | 水印始终完整显示 |
+| `*0.5` | 水印**中心**落在图片的该比例处 | 靠近边缘时最多有一半超出图片 |
+| `**0.5` | 水印**左 / 上边缘**落在图片的该比例处 | 靠近右 / 下边缘时可完全移出图片 |
+
+**绝对值（大于等于 1）**：水印左上角相对图片左上角的像素偏移。
 
 <Tip>
-  推荐：为 mark-pos 设定 **比例值** 而不是绝对值
-  由于原图的比例、大小（特别是在配合 **w** 和 **h** 参数对原图进行裁剪、缩略后）各不相同，为 **mark-pos** 设定 **小于 1 的比例值** 能让水印大小及偏移位置更可靠。
+  建议为 `mark-pos` 设定小于 1 的**比例值**。原图的尺寸与比例各不相同（尤其是配合 `w`、`h` 缩放裁剪之后），比例值能让水印的位置在不同图片上保持一致。
 </Tip>
 
-加上参数后 URL：[**`https://demo.bitiful.com/bridge.jpeg? mark=static/img/bitiful-logo@3x.png & fm=png & mark-pos=0.5,0.95`**](https://demo.bitiful.com/bridge.jpeg?mark=static/img/bitiful-logo@3x.png&fm=png&mark-pos=0.5,0.95&fmt=png)
+## 参数示例
+
+将桶内的 Logo 置于图片底部居中：
+
+URL：[https://demo.bitiful.com/bridge.jpeg? **`mark=static/img/bitiful-logo@3x.png & mark-pos=0.5,0.95`**](https://demo.bitiful.com/bridge.jpeg?mark=static/img/bitiful-logo@3x.png&amp;mark-pos=0.5,0.95&amp;fmt=png)
 
 <Frame>
-  ![bridge.txt.jpg](https://demo.bitiful.com/bridge.jpeg?mark=static/img/bitiful-logo@3x.png&fm=png&mark-pos=0.5,0.95&fmt=png)
+  ![图片水印：底部居中](https://demo.bitiful.com/bridge.jpeg?mark=static/img/bitiful-logo@3x.png&amp;mark-pos=0.5,0.95&amp;fmt=png)
 </Frame>

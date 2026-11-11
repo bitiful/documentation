@@ -1,39 +1,56 @@
 ---
-title: '自定义裁剪'
-description: '图片自定义裁剪可以按坐标从原图中提取任意区域。本文介绍自定义裁剪的参数说明及使用示例。'
+title: "自定义裁剪"
+description: "使用 rect 参数按坐标从原图中提取任意矩形区域。"
 ---
 
-以下例子中，默认原图均为：https://demo.bitiful.com/girl.jpeg
+以下示例的原图均为：[https://demo.bitiful.com/girl.jpeg](https://demo.bitiful.com/girl.jpeg)
 
 ## 参数说明
 
-<Warning>该方法只能用于静态图片</Warning>
+| 参数 | 含义 | 格式 |
+| :-- | --- | --- |
+| `rect` | **裁剪区域** | `x,y,w,h`，四个值用半角逗号分隔 |
 
-### 相关参数总览
+| 分量 | 含义 | 取值 |
+| :-- | --- | --- |
+| `x`、`y` | 区域左上角的坐标 | 像素或百分比；**负数**表示从右边缘、下边缘往回量 |
+| `w`、`h` | 区域的宽、高 | 像素或百分比，必须大于 0 |
 
-| 参数 | 含义 | 作用说明 |
-| :--- | --- | --- |
-| ` rect ` | 指定 **裁剪坐标与长宽** | - 共4个值，均为数字，半角逗号隔开<br />- 参数分别为：**x, y, w, h**<br />- 如：0,0,500,500 |
+- 百分比以原图宽高为基准，URL 中 `%` 需写作 `%25`，如 `rect=10%25,10%25,80%25,80%25`。
+- 负数坐标让你无需知道原图尺寸就能取到右侧或底部的区域：`rect=-900,-900,900,900` 即右下角 900 × 900。
+- 区域超出图片边界的部分会被截掉，输出相应变小。
+- `rect` 先于 `w`、`h` 执行：先裁剪，再缩放。
+- HDR 图片裁剪后仍是 HDR。
 
-### 用例说明
+<Note>
+  `rect` 用于按坐标精确裁剪。如需按目标宽高自动裁切并保留人脸或主体，请使用 [图片缩放](/resize) 中的 `pos=smart`。
+</Note>
 
-- **x、y**：代表左上角的 x, y 轴坐标
-- **w、h**：与 [缩略图](resize.md#相关参数总览) 中的 w、h 含义相同，代表截取目标的 宽、高
+## 使用示例
 
 <AccordionGroup>
-    <Accordion title="演示：左上角顶边，截取原图 500 宽、500 高 的区域" icon="hand-back-point-right">
-        <Accordion title="处理逻辑示例" icon="hand-back-point-right">
-        <Frame>![crop-mode-demo-1.png](https://demo.bitiful.com/static/docs/rect-demo-1.png?w=200&fmt=webp&q=90)</Frame>
-        </Accordion>
-    加上参数后 URL：[https://demo.bitiful.com/girl.jpeg? **rect=0,0,500,500**](https://demo.bitiful.com/girl.jpeg?rect=0,0,500,500)
-    <Frame>![girl.resize.jpg](https://demo.bitiful.com/girl.jpeg?rect=0,0,500,500)</Frame>
-    </Accordion>
-    <Accordion title="演示：左上角顶边，截取原图 1000 宽、1000 高 的区域，同时，设定 w=500" icon="hand-back-point-right">
-    由于 参数 rect 的优先级高于 w 和 h，于是：
-    1. 所以系统会优先按照参数 `rect=0,0,1000,1000` 提取原图左上角开始的 1000 x 1000 区域图像；
-    2. 然后将 1000 x 1000 的正方形图像按照参数 `w=500` 将 rect 处理结果缩略至 500 x 500；
-    **所以**：按照[图片缩略逻辑](resize.md#用例说明)单独设定 w=500，系统会按**`rect 结果图像的宽高比`**（而非`原图的宽高比`）自动设定缩略高度。
-    加上参数后 URL：[https://demo.bitiful.com/girl.jpeg? **rect=0,0,1000,1000 & w=500**](https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=500)
-    <Frame>![girl.resize.jpg](https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=500)</Frame>
-    </Accordion>
+  <Accordion title="演示：从左上角截取 500 宽、500 高的区域" icon="hand-back-point-right">
+    <Frame>
+      ![裁剪逻辑示意](https://demo.bitiful.com/static/docs/rect-demo-1.png?w=200&amp;fmt=webp&amp;q=90)
+    </Frame>
+
+    URL：[https://demo.bitiful.com/girl.jpeg? **`rect=0,0,500,500`**](https://demo.bitiful.com/girl.jpeg?rect=0,0,500,500)
+
+    <Frame>
+      ![裁剪结果](https://demo.bitiful.com/girl.jpeg?rect=0,0,500,500)
+    </Frame>
+  </Accordion>
+
+  <Accordion title="演示：从左上角截取 1000 × 1000 的区域，再缩放到 500 宽" icon="hand-back-point-right">
+    `rect` 的优先级高于 `w` 和 `h`，处理分两步：
+
+    1. 按 `rect=0,0,1000,1000` 截取原图左上角 1000 × 1000 的区域；
+    2. 按 `w=500` 把截取结果等比缩放到 500 宽。
+
+    URL：[https://demo.bitiful.com/girl.jpeg? **`rect=0,0,1000,1000 & w=500`**](https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&amp;w=500)
+
+    <Frame>
+      ![裁剪后缩放](https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&amp;w=500)
+    </Frame>
+  </Accordion>
 </AccordionGroup>

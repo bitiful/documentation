@@ -1,0 +1,73 @@
+---
+title: "图形与画布"
+description: "翻转图片，添加边框、内边距与色块，或将图片裁成圆角、圆形。"
+---
+
+## 参数总览
+
+| 参数 | 含义 | 取值 |
+| :-- | --- | --- |
+| `flip` | **翻转** | `h` 水平 / `v` 垂直 / `hv` 两者 |
+| `border` | **边框**，格式 `宽度,颜色` | 宽度为像素或百分比（按图片短边） |
+| `pad` | **四边内边距** | 像素，0 ~ 4000 |
+| `pad-left` / `pad-top` / `pad-right` / `pad-bottom` | **单边内边距** | 像素，0 ~ 4000 |
+| `box` | **纯色块**，格式 `x,y,w,h` | 像素或百分比（按图片宽高） |
+| `box-color` | **色块颜色**，默认黑色 | 十六进制颜色，可半透明 |
+| `box-radius` | **色块圆角** | 像素或百分比（按色块短边） |
+| `mask` | **外形遮罩** | `corners` 圆角矩形 / `ellipse` 椭圆 |
+| `corner-radius` | **圆角半径**，`mask=corners` 时必填 | 单个值，或 `左上,右上,右下,左下` |
+
+**颜色**一律为十六进制，支持 3、4、6、8 位写法；4 位和 8 位的**首段为不透明度**，如 `80000000` 为 50% 透明的黑色。
+
+**百分比**在 URL 中需把 `%` 写作 `%25`。
+
+## 翻转
+
+[https://demo.bitiful.com/girl.jpeg?flip=h](https://demo.bitiful.com/girl.jpeg?flip=h)
+
+翻转在自动转正和旋转之后执行。`mirror` 是 `flip=h` 的简写。
+
+## 边框与内边距
+
+[https://demo.bitiful.com/girl.jpeg?border=10,ff0000](https://demo.bitiful.com/girl.jpeg?border=10,ff0000)
+
+[https://demo.bitiful.com/girl.jpeg?pad=40&bg=f5f5f5](https://demo.bitiful.com/girl.jpeg?pad=40&amp;bg=f5f5f5)
+
+- 边框和内边距都向外扩展画布，图片本身的内容不会被遮挡。
+- 内边距的颜色取 `bg`。未指定 `bg` 时，带透明通道的图片补透明，其余补白色。
+
+## 纯色块
+
+在图片上绘制一个矩形色块，位于水印**之下**。常与文字水印搭配，做成标题栏或信息条：
+
+[https://demo.bitiful.com/girl.jpeg?box=0,85%25,100%25,15%25&box-color=a0000000&txt=标题文字&txt-pos=0.5,0.96](https://demo.bitiful.com/girl.jpeg?box=0,85%25,100%25,15%25&amp;box-color=a0000000&amp;txt=标题文字&amp;txt-pos=0.5,0.96)
+
+`box` 的坐标按处理后的图片（缩放、旋转之后）计算，超出图片的部分会被裁掉。
+
+## 圆角与圆形
+
+[https://demo.bitiful.com/girl.jpeg?mask=corners&corner-radius=24&fmt=png](https://demo.bitiful.com/girl.jpeg?mask=corners&amp;corner-radius=24&amp;fmt=png)
+
+[https://example.com/avatar.jpg?w=200&h=200&mask=ellipse&fmt=png](https://example.com/avatar.jpg?w=200&amp;h=200&amp;mask=ellipse&amp;fmt=png)
+
+- `mask=ellipse` 取图片的内切椭圆；图片为正方形时即圆形。
+- `corner-radius` 的百分比按图片短边计算，`50%` 即最大圆角。
+- 遮罩之外的区域为透明。
+
+<Warning>
+  要保留透明效果，需输出支持透明的格式（`fmt=png`、`webp` 或 `avif`）。输出 JPEG 时，透明区域会被 `bg` 填充，默认为白色。
+</Warning>
+
+## 执行顺序
+
+各项处理按以下顺序执行：
+
+**缩放、旋转 → 翻转 → 色块 → 水印 → 内边距与边框 → 遮罩**
+
+因此：水印可以压在色块上；边框和内边距不会影响水印的定位；遮罩最后执行，会把边框的外角一起裁圆。
+
+## 适用范围
+
+- **动图**：色块与遮罩逐帧生效。
+- **HDR 图片**：支持，输出仍是 HDR。
+- **视频**：色块可用；遮罩不支持，会返回错误。

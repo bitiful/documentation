@@ -1,89 +1,97 @@
 ---
 title: "图片格式转换"
-description: "图片格式转换参数为 fmt，可指定图片的输出格式。"
+description: "使用 fmt 参数指定图片的输出格式。"
 ---
-
-# 图片格式转换
 
 ## 参数说明
 
-<Warning>
-  该参数影响图片的输出格式，可能会改变文件大小、质量和兼容性
-</Warning>
+| 参数 | 含义 | 说明 |
+| :-- | --- | --- |
+| `fmt` | **输出格式** | 不指定时通常保持源格式；HEIC、相机 RAW 等输出 JPEG。别名：`fm` |
 
-### 相关参数总览
+可识别的输入格式见 [支持格式](/formats)。
 
-| 参数    | 含义           | 作用说明                                                                           |
-| :---- | ------------ | ------------------------------------------------------------------------------ |
-| `fmt` | 指定**图片输出格式** | - 取值：<br />jpg、png、webp、avif、gif等多种格式<br />- 作用：<br />根据需求转换图片格式，平衡文件大小、质量和兼容性 |
+## 输出格式
 
-### 支持的格式及说明
+### 图片格式
 
-完善支持以下 **基本格式**：
-| fmt 值          | 对应格式 | 特点说明                                   |
-| :------------ | ---- | -------------------------------------- |
-| `jpg`/`jpeg`  | JPEG | 有损压缩格式，适合照片，不支持透明度                     |
-| `png`         | PNG  | 无损压缩格式，支持透明度，文件较大                      |
-| `gif`         | GIF  | 支持简单动画和透明度的格式，色彩有限（256色）               |
-| `tiff`        | TIFF | 专业级无损图像格式，支持多层和高色彩深度，文件较大              |
-| `bmp`         | BMP  | 无压缩位图格式，文件较大，兼容性好                      |
-| `keep`        | 自动  | 输出原本图片格式，若为 SVG，则会自动过滤危险代码 |
+| fmt 值 | 格式 | 特点 | 透明 | 动图 |
+| :-- | --- | --- | :-: | :-: |
+| `jpg` / `jpeg` | JPEG | 兼容性最好，适合照片 | – | – |
+| `png` | PNG | 无损，体积较大 | ✓ | ✓ |
+| `tpng` | PNG（量化压缩） | 减色压缩，体积明显小于普通 PNG | ✓ | – |
+| `webp` | WebP | 质量与体积均衡，现代浏览器普遍支持 | ✓ | ✓ |
+| `avif` | AVIF | 压缩率高，支持 HDR | ✓ | ✓ |
+| `jxl` | JPEG XL | 压缩率高，支持 HDR 与高位深 | ✓ | – |
+| `heic` / `heif` | HEIC | 苹果生态常用，支持 HDR | ✓ | – |
+| `gif` | GIF | 兼容性最好的动图格式，至多 256 色 | ✓ | ✓ |
+| `tiff` | TIFF | 专业场景使用 | ✓ | – |
+| `bmp` | BMP | 无压缩位图 | – | – |
 
-和以下 **高级格式**：
-| fmt 值                    | 对应格式      | 特点说明                              |
-| :---------------------- | --------- | --------------------------------- |
-| `tpng`        | PNG | 使用图像量化优化的PNG格式，减小文件体积(参考：TinyPNG) |
-| `gif`         | GIF (动图)| 支持简单动画和透明度的格式，色彩有限（256色）               |
-| `webp`        | WebP (含动图) | 谷歌开发的现代格式，同时支持有损和无损压缩，支持透明度和动画，兼顾质量和体积 |
-| `heic`/`heif` | HEIC (高级) | 苹果推广的高效图像格式，压缩率高，支持透明度和多图层  |
-| `avif`        | AVIF | 新一代图像格式，提供更高压缩率，保持高质量，支持透明度和HDR        |
+### 自动与保持
 
-此外，利用特殊 fmt 值还支持以下 **高级扩展特性**：
-| fmt 值                    | 对应格式      | 特点说明                              |
-| :---------------------- | --------- | --------------------------------- |
-| `color`                  | TXT      | 返回图像元数据信息而非图像内容                   |
-| `blurhash`              | [BlurHash](bitiful-s4/features/hash-placeholder)  | 图像占位符格式，将图像编码为简短字符串，用于加载预览        |
-| `thumbhash`             | [ThumbHash](bitiful-s4/features/hash-placeholder) | 类似 BlurHash 的图像哈希格式，生成小缩略图哈希值       |
-| `info`                  | JSON      | 返回图像元数据信息而非图像内容                   |
+| fmt 值 | 行为 |
+| :-- | --- |
+| `auto` | **按浏览器自动选择**：依次尝试 JPEG XL、AVIF、WebP，都不支持时按源格式输出 |
+| `keep` | **保持源格式**。源为 SVG 时会自动过滤危险代码 |
 
-### 效果演示
+`fmt=auto` 根据请求的 `Accept` 头判断浏览器支持的格式，响应带 `Vary: Accept`。动图不会输出为 JPEG XL，会在 AVIF 与 WebP 中选择。也可写作 `auto=format`。
+
+<Note>
+  显式指定 `fmt=avif` 或 `fmt=webp` 而浏览器不支持时，系统同样会自动降级：AVIF 降为 WebP，WebP 降为源格式的默认输出。
+</Note>
+
+### 信息输出
+
+以下取值返回文本或 JSON，而不是图片：
+
+| fmt 值 | 返回内容 |
+| :-- | --- |
+| `info` | 图片元数据（JSON） |
+| `color` | 图片主色 |
+| `blurhash` | [BlurHash](bitiful-s4/features/hash-placeholder) 占位符字符串 |
+| `thumbhash` | [ThumbHash](bitiful-s4/features/hash-placeholder) 占位符字符串 |
+
+调色板、感知哈希、人脸、标签等更多分析输出见 [图片分析](/analysis)。
+
+## 效果演示
 
 原始图像：
 
 <Frame>
-  ![original.jpg](https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=300&q=90)
+  ![原图](https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&amp;w=300&amp;q=90)
 </Frame>
 
-转换为WebP格式：[**`https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=300 &fmt=webp`**](https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=300&fmt=webp)
+转换为 WebP：[https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=300 **`&fmt=webp`**](https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&amp;w=300&amp;fmt=webp)
 
 <Frame>
-  ![girl.webp](https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=300&fmt=webp)
+  ![WebP 输出](https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&amp;w=300&amp;fmt=webp)
 </Frame>
 
-转换为PNG格式（保留完整质量）：[**`https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=300 &fmt=png`**](https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=300&fmt=png)
+转换为 PNG（无损）：[https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=300 **`&fmt=png`**](https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&amp;w=300&amp;fmt=png)
 
 <Frame>
-  ![girl.png](https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=300&fmt=png)
+  ![PNG 输出](https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&amp;w=300&amp;fmt=png)
 </Frame>
 
-转换为AVIF格式（最高压缩率）：[**`https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=300 &fmt=avif`**](https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=300&fmt=avif)
+转换为 AVIF（高压缩率）：[https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=300 **`&fmt=avif`**](https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&amp;w=300&amp;fmt=avif)
 
 <Frame>
-  ![girl.avif](https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&w=300&fmt=avif)
+  ![AVIF 输出](https://demo.bitiful.com/girl.jpeg?rect=0,0,1000,1000&amp;w=300&amp;fmt=avif)
 </Frame>
 
-### 格式选择指南
+## 格式选择指南
 
-- **JPEG/JPG**: 适用于照片和复杂图像，不需要透明度时的最佳选择
-- **PNG**: 需要透明度或图像质量无损时使用
-- **WebP**: 现代网站的推荐格式，兼顾质量和体积
-- **AVIF**: 追求最佳压缩效果时使用，但浏览器兼容性较新
-- **GIF**: 简单动画需求时使用
-- **HEIC/HEIF**: 苹果生态系统内使用，压缩效率高
+| 场景 | 推荐 |
+| :-- | --- |
+| 网页图片，希望自动取得最小体积 | `fmt=auto` |
+| 照片，需要最广泛的兼容性 | `jpg` |
+| 需要透明或无损 | `png`；体积敏感时用 `tpng` 或 `webp` |
+| 追求压缩率 | `avif` |
+| HDR 内容 | `jpg`（兼容 SDR 设备）或 `avif` |
+| 动图 | `webp` 或 `avif`；需要最广兼容性时用 `gif` |
 
-### 使用提示
+## 使用提示
 
-- 在不指定`fmt`参数时，系统会根据原始图像类型选择合适的输出格式
-- 参数别名：`fm`也可以用作`fmt`的替代
-- 部分格式（如AVIF、WebP）可能不被所有浏览器支持，系统会自动降级到兼容格式
-- 与`q`（质量）参数结合使用可以更精细地控制输出图像
+- 配合 `q`（质量）参数可进一步控制体积，默认质量为 88。
+- 颜色不超过 256 种的图标、截图、线稿类图片，输出 PNG、WebP 时会自动采用无损的调色板编码，体积更小且不失真。

@@ -1,50 +1,100 @@
 ---
-title: '文字水印'
-description: '本文介绍为图片增加 **文字水印** 功能的参数说明及使用示例。'
+title: "文字水印"
+description: "为图片叠加文字水印：参数说明与使用示例。"
 ---
 
-以下例子中，默认原图均为: https://demo.bitiful.com/bridge.jpeg
+以下示例的原图均为：https://demo.bitiful.com/bridge.jpeg
+
+<Warning>
+  文字水印只作用于静态图片。动图（GIF、动态 WebP、APNG 等）会原样输出，不加水印。
+</Warning>
 
 ## 参数说明
-<Warning>该方法只能用于静态图片</Warning>
-### 相关参数总览
 
-**水印参数: **
+### 内容与字体
 
-| 参数 | 含义 | 作用说明 | 范围 |
-| :--- | --- | --- | --- |
-|`txt`|**水印内容**| 默认为空 - 代表不增加文字水印（推荐进行 UrlEncode） | 可打印字符 |
-|`txt-font`|**水印字体**| 默认为空, 多个字体用半角逗号隔开, 系统按顺序匹配 | Inter,<br />NotoSansSC,<br />NotoSansTC,<br />SmileySans |
-|`txt-size`|**水印字号大小**| - **< 1** 时: 表示按原图最小边像素**百分比**自动计算字号<br />- **≥ 1** 时: 表示按 px 绝对值设定字号 | - |
-|`txt-weight`|**水印字号粗细**| 同 CSS 中 font-weight，默认: 400 | 100 ~ 900 |
-|` txt-line-height `|**水印行高**| 按**倍数**设置行高，同 CSS 中 line-height（不支持px），默认: 1.1 | 0.0 ~ 100.0 |
-|`txt-pos`|**水印位置偏移**|- **≥ 1** 时: 表示按绝 px 对值设定偏移<br />- **< 1** 时: 表示按原图像素**百分比**自动计算偏移(支持 3 种偏移策略)<br />-- 策略A: `0.99,0.99`表示按水印渲染范围的**最远边**<br />（即: **右&下**边）计算（此时水印绝对不会超过原图边界）<br />-- 策略B: `*0.99,*0.99`表示按水印渲染范围的**中心**计算<br />（此时水印会超出原图边界一半）<br />- 策略C: `**0.99,**0.99`表示按水印渲染范围的**最近边**<br />（即: **左&上**边）计算（此时水印会完全超出原图边界） | - |
-|`txt-pct`|**水印最大百分比**| - 当水印 size 过大时，系统会用该值对总大小进行约束<br />如: 设定 0.5 代表无论 size 多大都不会超过原图 50%<br />大于 1 时代表可超出原图大小，有助于部分艺术表达场景 | 0.0 ~ 2.0 |
-|`txt-color`|**水印颜色**| RGB 颜色 16 进制值，不支持颜色名称（默认为白色）<br />多个颜色用半角逗号(,)隔开，可**txt-color-deg**方向实现渐变色 | 000000<br />~<br />FFFFFF |
-|`txt-color-deg`|**水印颜色渐变方向**| 代表代表渐变角度（默认为 90 代表从 左 -> 右） | 0 ~ 360 |
-|`txt-alpha`|**水印透明度**| 透明度百分比。 | 0.0 ~ 1.0 |
-|`txt-shad`|**水印阴影虚化度**| - 为像素 px 绝对值<br />- **注意**: txt-color 为多个颜色适合，阴影**自动关闭**| 0 ~ 50 |
-|`txt-shad-pos`|**水印阴影偏移**| 为像素 px 绝对值 | 0 ~ 100 |
-|`txt-shad-color`|**水印阴影颜色**| - RGB 颜色 16 进制值，不支持颜色名称（默认为灰色）<br />- 注意: 不支持多个颜色 | 000000<br />~<br />FFFFFF |
-|`txt-hdr-rate`|**水印亮度**| - 支持 `1.0 ~ 3.0 的绝对值` 和 `0% ~ 100% 的百分比`两种参数<br />- 注意: 仅支持 HDR GainMap | 1.0 ~ 3.0<br />0% ~ 100% |
+| 参数 | 说明 | 默认值 | 取值 |
+| :-- | --- | :-: | --- |
+| `txt` | **水印内容**。为空则不加水印；建议 UrlEncode。`%0A` 表示换行，支持 emoji | 空 | 最长 256 字符 |
+| `txt-font` | **字体**。多个字体用半角逗号分隔，按顺序匹配；名称不区分大小写，空格与连字符可省略 | NotoSansSC | Inter、NotoSansSC、NotoSansTC、SmileySans 等 |
+| `txt-lang` | **汉字地区字形**。不传时自动判断：含假名按日文，含谚文按韩文，其余按简体中文 | 自动 | `zh` / `zh-TW` / `zh-HK` / `ja` / `ko` |
+| `txt-size` | **字号**。小于 1：按图片短边的比例自动计算；大于等于 1：按像素设定 | 自动 | 0 ~ 500 |
+| `txt-weight` | **字重**，同 CSS `font-weight` | 400 | 100 ~ 950 |
+| `txt-line-height` | **行高**，按倍数设定，同 CSS `line-height`（不支持 px） | 1.1 | 0 ~ 100 |
+| `txt-track` | **字距**，单位像素 | 0 | -50 ~ 200 |
+| `txt-width` | **最大行宽**，超出自动换行。中日韩文字逐字可断，拉丁文按词断 | 不换行 | 像素，或百分比（按图片宽度） |
+| `txt-align` | **多行对齐方式** | `left` | `left` / `center` / `right` |
 
-<Tip>推荐: 为 txt-size 和 txt-pos 设定**比例值**而不是绝对值。
-由于原图的比例、大小（特别是在配合 **w** 和 **h** 参数对原图进行裁剪、缩略后）各不相同，为 **txt-size** 和 **txt-pos** 设定 **小于 1 的比例值** 能让水印大小及偏移位置更可靠。</Tip>
+### 颜色与效果
+
+| 参数 | 说明 | 默认值 | 取值 |
+| :-- | --- | :-: | --- |
+| `txt-color` | **文字颜色**。多个颜色用半角逗号分隔即为渐变，方向由 `txt-color-deg` 决定 | `FFF` | 3 / 4 / 6 / 8 位十六进制（4 / 8 位的末段为不透明度），或 CSS 颜色名 |
+| `txt-color-deg` | **渐变角度**，90 表示从左到右 | 90 | 0 ~ 360 |
+| `txt-alpha` | **不透明度**，0 为全透明，1 为不透明。不传时沿用 `mark-alpha` | 1 | 0 ~ 1 |
+| `txt-shad` | **阴影虚化半径**，单位像素；不传则无阴影。`txt-color` 为渐变时阴影自动关闭 | 无阴影 | 0 ~ 50 |
+| `txt-shad-pos` | **阴影偏移**，单位像素 | – | 0 ~ 100 |
+| `txt-shad-color` | **阴影颜色**，只支持单色 | `666` | 同 `txt-color` |
+| `txt-line` | **描边宽度**，单位像素 | 0 | 0 ~ 50 |
+| `txt-line-color` | **描边颜色** | `000` | 十六进制（4 / 8 位的首段为不透明度） |
+| `txt-bg` | **底框颜色**。底框范围为文字区域加 `txt-pad` | 无底框 | 十六进制（4 / 8 位的首段为不透明度，如 `8000` 为 50% 黑） |
+| `txt-radius` | **底框圆角**，需配合 `txt-bg`；`50%` 为胶囊形 | 0 | 像素 0 ~ 9999，或百分比（按底框短边） |
+| `txt-pad` | **文字四周留白**，单位像素；有底框时即底框内边距 | 0 | 0 ~ 9999 |
+| `txt-blend` | **混合模式** | `normal` | `normal` / `multiply` / `screen` / `overlay` / `darken` / `lighten` / `soft-light` / `hard-light` / `difference` / `add` / `subtract` |
+| `mark-hdr-rate` | **HDR 亮度增益**（与图片水印共用），仅对带增益图的 HDR 输出生效。0 为不提亮，1 为最亮 | 0.5 | 0 ~ 1，或 0% ~ 100% |
+
+### 位置与尺寸
+
+| 参数 | 说明 | 默认值 | 取值 |
+| :-- | --- | :-: | --- |
+| `txt-pos` | **水印位置**，格式 `x,y`，详见下方「位置写法」 | `0.95,0.93` | – |
+| `txt-pct` | **最大占比**。水印超过「图片宽高 × 该值」时等比缩小；大于 1 表示允许超出图片。可写 `x,y` 分别约束宽、高 | 1 | 大于 0，至多 5 |
+| `txt-rot` | **旋转角度**，顺时针，连同底框、描边、阴影整体旋转 | 0 | -360 ~ 360 |
+| `txt-tile` | **平铺**，设为 `1` 时铺满整张图，隔行错位 | 关闭 | `1` |
+| `txt-tile-gap` | **平铺间距**，格式 `横,纵`；百分比按水印自身宽高计算 | `50%` | 像素或百分比 |
+| `txt-tile-rot` | **平铺倾斜角度** | 0 | -90 ~ 90 |
+| `txt-if-min-width`<br />`txt-if-min-height` | **尺寸门槛**。图片宽或高小于该值时不加水印，避免缩略图被水印遮挡 | 不限 | 像素 |
+
+### 位置写法
+
+`txt-pos` 的 `x`、`y` 各自独立，可以混用不同写法；只写一个值时两个方向取相同值。位置按**处理后的图片**（缩放、裁剪之后）计算。
+
+**比例值（小于 1）** 有三种定位基准：
+
+| 写法 | 定位基准 | 效果 |
+| :-- | --- | --- |
+| `0.5` | 在「水印完整留在图内」的范围里按比例取位：0 贴左 / 上边，越接近 1 越靠右 / 下边 | 水印始终完整显示 |
+| `*0.5` | 水印**中心**落在图片的该比例处 | 靠近边缘时最多有一半超出图片 |
+| `**0.5` | 水印**左 / 上边缘**落在图片的该比例处 | 靠近右 / 下边缘时可完全移出图片 |
+
+**绝对值（大于等于 1）**：水印左上角相对图片左上角的像素偏移。
+
+<Tip>建议为 `txt-size` 和 `txt-pos` 设定小于 1 的**比例值**。原图的尺寸与比例各不相同（尤其是配合 `w`、`h` 缩放裁剪之后），比例值能让水印的大小和位置在不同图片上保持一致。</Tip>
 
 ## 参数示例
 
 <AccordionGroup>
-    <Accordion title="演示 1: 打上文字水印 **Bitiful** 其他默认" icon="hand-back-point-right">
-    加上参数后 URL: [https://demo.bitiful.com/bridge.jpeg? **`txt=Bitiful`**](https://demo.bitiful.com/bridge.jpeg?txt=Bitiful&fmt=png)
-    <Frame>![bridge.txt.jpg](https://demo.bitiful.com/bridge.jpeg?txt=Bitiful&fmt=png)</Frame>
+    <Accordion title="演示 1：添加文字水印 Bitiful，其余参数取默认值" icon="hand-back-point-right">
+    URL：[https://demo.bitiful.com/bridge.jpeg? **`txt=Bitiful`**](https://demo.bitiful.com/bridge.jpeg?txt=Bitiful&amp;fmt=png)
+
+    <Frame>
+      ![文字水印：默认样式](https://demo.bitiful.com/bridge.jpeg?txt=Bitiful&amp;fmt=png)
+    </Frame>
     </Accordion>
-    <Accordion title="演示 2: 将上面的水印放在图片底部居中**并推出边界**；字号自动调整到约为原图的 **55%**；透明度为 3%" icon="hand-back-point-right">
-    加上参数后 URL: [https://demo.bitiful.com/bridge.jpeg?txt=Bitiful& **`txt-size=0.55 & txt-pos=0.5,*0.96 & txt-alpha=0.03`**](https://demo.bitiful.com/bridge.jpeg?txt=Bitiful&txt-size=0.55&txt-pos=0.5,*0.96&txt-alpha=0.03&fmt=png)
-    <Frame>![bridge.txt.jpg](https://demo.bitiful.com/bridge.jpeg?txt=Bitiful&txt-size=0.55&txt-pos=0.5,*0.96&txt-alpha=0.03&fmt=png)</Frame>
+    <Accordion title="演示 2：水印置于底部居中并探出边界，字号约为短边的 55%，不透明度 3%" icon="hand-back-point-right">
+    URL：[https://demo.bitiful.com/bridge.jpeg?txt=Bitiful& **`txt-size=0.55 & txt-pos=0.5,*0.96 & txt-alpha=0.03`**](https://demo.bitiful.com/bridge.jpeg?txt=Bitiful&amp;txt-size=0.55&amp;txt-pos=0.5,*0.96&amp;txt-alpha=0.03&amp;fmt=png)
+
+    <Frame>
+      ![文字水印：底部居中并探出边界](https://demo.bitiful.com/bridge.jpeg?txt=Bitiful&amp;txt-size=0.55&amp;txt-pos=0.5,*0.96&amp;txt-alpha=0.03&amp;fmt=png)
+    </Frame>
     </Accordion>
-    <Accordion title="演示 3: 将水印略微缩小并移至原图中央，然后为文字水印加上**三个颜色**，以从**左到右渐变**；完全不透明" icon="hand-back-point-right">
-    > 将图片模糊是为了更好地观察水印
-    加上参数后 URL: [https://demo.bitiful.com/bridge.jpeg?txt=Bitiful&blur=50& **`txt-size=0.3 & txt-pos=0.5,*0.5 & txt-color=03FF76,FFE05B,03FFFE`**](https://demo.bitiful.com/bridge.jpeg?blur=50&txt=Bitiful&txt-size=0.3&txt-pos=0.5,0.5&txt-color=03FF76,FFE05B,03FFFE&fm=png)
-    <Frame>![bridge.txt.jpg](https://demo.bitiful.com/bridge.jpeg?blur=50&txt=Bitiful&txt-size=0.3&txt-pos=0.5,0.5&txt-color=03FF76,FFE05B,03FFFE&fm=png)</Frame>
+    <Accordion title="演示 3：水印缩小并移至图片正中，使用三色从左到右渐变" icon="hand-back-point-right">
+    为便于观察水印，示例同时用 `blur=50` 模糊了原图。
+
+    URL：[https://demo.bitiful.com/bridge.jpeg?txt=Bitiful&blur=50& **`txt-size=0.3 & txt-pos=0.5,0.5 & txt-color=03FF76,FFE05B,03FFFE`**](https://demo.bitiful.com/bridge.jpeg?blur=50&amp;txt=Bitiful&amp;txt-size=0.3&amp;txt-pos=0.5,0.5&amp;txt-color=03FF76,FFE05B,03FFFE&amp;fmt=png)
+
+    <Frame>
+      ![文字水印：三色渐变](https://demo.bitiful.com/bridge.jpeg?blur=50&amp;txt=Bitiful&amp;txt-size=0.3&amp;txt-pos=0.5,0.5&amp;txt-color=03FF76,FFE05B,03FFFE&amp;fmt=png)
+    </Frame>
     </Accordion>
 </AccordionGroup>

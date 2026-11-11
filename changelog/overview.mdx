@@ -4,6 +4,47 @@ description: "我们一直在进步"
 mode: "wide"
 ---
 
+<Update label="2026/11/11" description="增强">
+  ## CoreIX V4.0 上线
+
+  ![CoreIXV4](https://demo.bitiful.com/docs/CoreIXV4.0.svg?w=1200&amp;fmt=tpng)
+
+  非常骄傲地在光棍节为 CoreIX 带来重大的全面更新，不仅朝我们 **创造世界上最好的实时媒体引擎** 的目标迈进了一大步，亦为你的项目带来了诸多独有的灵活功能。
+
+  希望能为你的项目带来无与伦比的全新竞争力，并祝所有 **独自坚持创造的孤勇者们** 节日快乐 ——
+
+  **COREIX20261111**（30%，你们懂的）
+
+  各场景 **性能提升 30% - 200%** 不等，同时为你带来众多精彩的 **全新特性**：
+
+  1. **视频与动图**
+     - 新增 **`视频剪辑`**、**`视频转动图`**、**`动图转视频`**，以及动图片段截取与倒放、抽帧、变速 —— [视频剪辑与动图转换](/coreix/features/video-clip)；
+     - 新增 **`frame=auto`**：自动挑选清晰、美观的一帧作为视频封面 —— [视频和动图截帧](/coreix/features/frame)；
+     - 动图转 GIF、APNG 的体积大幅下降，画面更干净。
+  2. **画面感知**
+     - **智能裁切** 升级：可同时识别人脸、人体、猫狗与显著主体 —— [图片缩放](/coreix/features/resize)；
+     - 新增 **`人脸打码`**：自动识别人脸并模糊或打马赛克 —— [人脸打码](/coreix/features/face-privacy)；
+     - 新增 **`图片分析`**：调色板、感知哈希、人脸位置、内容标签、美学评分、相似图特征向量 —— [图片分析](/coreix/features/analysis)。
+  3. **调色与画布**
+     - 新增 **`一键自动增强`** 与亮度、对比度、曝光、饱和度、色相等十余项手动调色 —— [调色与自动增强](/coreix/features/adjust)；
+     - 新增翻转、边框、内边距、色块、圆角与圆形遮罩 —— [画布与外形](/coreix/features/canvas)；
+     - 补边模式新增模糊背景、主色与内容感知填充 —— [图片缩放](/coreix/features/resize)；
+     - 新增 USM 锐化与马赛克 —— [图像锐化](/coreix/features/sharp)、[图像模糊](/coreix/features/blur)。
+  4. **水印**
+     - 文字水印新增描边、字距、自动换行、对齐、旋转与底框，支持彩色 emoji —— [文字水印](/coreix/features/watermark)；
+     - 文字与图片水印均新增 **`平铺`**、**`混合模式`** 与尺寸门槛 —— [图片水印](/coreix/features/watermark-image)；
+     - 内置字体扩充至 **60 余款**，覆盖中日韩及二十多种文字 —— [水印字体](/coreix/features/watermark-fonts)；
+     - 新增 **`SVG 变量水印`**：在 SVG 模板中动态填入文字，实现多段文字与复杂版式 —— [SVG 变量水印](/coreix/features/watermark-svg)。
+  5. **格式与 HDR**
+     - 新增 **`fmt=auto`**：按浏览器自动选择 JPEG XL、AVIF 或 WebP —— [图片格式转换](/coreix/features/fmt)；
+     - 新增 **JPEG XR** 输入与 **HLG** 输出；杜比视界视频可直接截帧 —— [HDR 处理](/coreix/features/hdr)；
+     - **hdr-rate** 的百分比在各类 HDR 照片上表现一致，iPhone HDR 照片输出 HEIC 时同样生效。
+
+  <Tip>
+    完整的功能清单与参数说明见 [CoreIX 概述](/coreix/basic)。
+  </Tip>
+</Update>
+
 <Update label="2026/08/10" description="新增">
   ## 自动证书PRO & 对象存储网站 功能上线
 
@@ -32,7 +73,7 @@ mode: "wide"
 <Update label="2026/06/22" description="增强">
   ## CoreIX V3.0 上线
 
-  ![CoreIXV2](https://demo.bitiful.com/docs/CoreIXV3.0.svg?w=1200&fmt=tpng)
+  ![CoreIXV3](https://demo.bitiful.com/docs/CoreIXV3.0.svg?w=1200&amp;fmt=tpng)
 
   本次更新，大幅优化了 CoreIX 的 HDR 处理管线，不仅兼容度大大提升，且在业界中首次具备实时 `输入/输出 10 bit ~ 16 bit 色深` 的原生 HDR 图片。下面是我们
 
@@ -58,7 +99,7 @@ mode: "wide"
 
   | CoreIX 3.0 | CoreIX 2.5 |
   | :-: | :-: |
-  | <img src="https://demo.bitiful.com/raw/nikon.nef?w=1280" alt="HDR" /> | <img src="https://demo.bitiful.com/raw/nikon.nef?w=1280&hdr-rate=0%25" alt="HDR" /> |
+  | <img src="https://demo.bitiful.com/raw/nikon.nef?w=1280" alt="HDR" /> | <img src={"https://demo.bitiful.com/raw/nikon.nef?w=1280&hdr-rate=0%25"} alt="HDR" /> |
 
   <Check>
     横向对比：[国内主流图片实时处理系统性能横向对比](https://tools.bitiful.com/coreix-bench/)
@@ -116,11 +157,11 @@ mode: "wide"
 
   | 保留完整亮度 | 保留 70% 亮度 | 去掉 HDR |
   | :-: | --- | :-: |
-  | <img src="https://demo.bitiful.com/hdr-img/oppo_hdr.jpg?w=840" alt="HDR" /> | <img src="https://demo.bitiful.com/hdr-img/oppo_hdr.jpg?w=840&hdr-rate=70%25" alt="HDR" /> | <img src="https://demo.bitiful.com/hdr-img/oppo_hdr.jpg?w=840&hdr-rate=0" alt="HDR" /> |
+  | <img src="https://demo.bitiful.com/hdr-img/oppo_hdr.jpg?w=840" alt="HDR" /> | <img src={"https://demo.bitiful.com/hdr-img/oppo_hdr.jpg?w=840&hdr-rate=70%25"} alt="HDR" /> | <img src={"https://demo.bitiful.com/hdr-img/oppo_hdr.jpg?w=840&hdr-rate=0"} alt="HDR" /> |
 
   | 完整亮度水印 | 70% 亮度水印 | SDR 亮度水印 |
   | :-: | --- | :-: |
-  | <img src="https://demo.bitiful.com/hdr-img/oppo_hdr.jpg?w=840&txt=HDR%E6%B0%B4%E5%8D%B0&txt-pos=0.5,0.2&txt-size=0.3&mark-hdr-rate=100%25" alt="HDR" /> | <img src="https://demo.bitiful.com/hdr-img/oppo_hdr.jpg?w=840&txt=HDR%E6%B0%B4%E5%8D%B0&txt-pos=0.5,0.2&txt-size=0.3&mark-hdr-rate=70%25" alt="HDR" /> | <img src="https://demo.bitiful.com/hdr-img/oppo_hdr.jpg?w=840&txt=HDR%E6%B0%B4%E5%8D%B0&txt-pos=0.5,0.2&txt-size=0.3&mark-hdr-rate=0%25" alt="HDR" /> |
+  | <img src={"https://demo.bitiful.com/hdr-img/oppo_hdr.jpg?w=840&txt=HDR%E6%B0%B4%E5%8D%B0&txt-pos=0.5,0.2&txt-size=0.3&mark-hdr-rate=100%25"} alt="HDR" /> | <img src={"https://demo.bitiful.com/hdr-img/oppo_hdr.jpg?w=840&txt=HDR%E6%B0%B4%E5%8D%B0&txt-pos=0.5,0.2&txt-size=0.3&mark-hdr-rate=70%25"} alt="HDR" /> | <img src={"https://demo.bitiful.com/hdr-img/oppo_hdr.jpg?w=840&txt=HDR%E6%B0%B4%E5%8D%B0&txt-pos=0.5,0.2&txt-size=0.3&mark-hdr-rate=0%25"} alt="HDR" /> |
 
   <Check>
     横向对比：[国内主流图片实时处理系统性能横向对比](https://tools.bitiful.com/coreix-bench/)
@@ -342,7 +383,7 @@ mode: "wide"
   ### 使用演示
 
   <Frame>
-    <video autoplay={true} controls={true} className="w-full aspect-video" poster="https://bitiful-contents.s3.bitiful.net/videos%2Fbitiful-auto-certs-high.mp4?frame=1&w=1280" src="https://bitiful-contents.s3.bitiful.net/videos%2Fbitiful-auto-certs-high.mp4" />
+    <video autoplay={true} controls={true} className="w-full aspect-video" poster={"https://bitiful-contents.s3.bitiful.net/videos%2Fbitiful-auto-certs-high.mp4?frame=1&w=1280"} src="https://bitiful-contents.s3.bitiful.net/videos%2Fbitiful-auto-certs-high.mp4" />
   </Frame>
 </Update>
 
@@ -485,7 +526,7 @@ mode: "wide"
   ## **🛜 缤纷云发布 Simul-Transfer 技术，让文件分享 0 等待**
 
   <Frame>
-    <video autoplay={true} muted={true} controls={true} className="w-full aspect-video" poster="https://bitiful-contents.s3.bitiful.net/videos/with-simul-transfer.mp4?frame=1&w=1280" src="https://bitiful-contents.s3.bitiful.net/videos/with-simul-transfer.mp4" />
+    <video autoplay={true} muted={true} controls={true} className="w-full aspect-video" poster={"https://bitiful-contents.s3.bitiful.net/videos/with-simul-transfer.mp4?frame=1&w=1280"} src="https://bitiful-contents.s3.bitiful.net/videos/with-simul-transfer.mp4" />
   </Frame>
 
   ## 上下行同步传输技术

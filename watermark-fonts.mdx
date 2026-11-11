@@ -1,0 +1,102 @@
+---
+title: "水印字体支持"
+description: "文字水印与 SVG 水印可用的字体清单及写法。"
+sidebarTitle: "字体支持"
+---
+
+本页的字体名同时适用于两处：
+
+- 文字水印的 `txt-font` 参数；
+- SVG 水印与 SVG 源图里的 `font-family`（属性、`style`、`<style>` 块均可）。
+
+## 写法规则
+
+- 字体名**不区分大小写**，空格、`-`、`_` 可省略：`Noto Sans SC`、`noto-sans-sc`、`NotoSansSC` 等价。
+- 多个字体用半角逗号分隔，按顺序匹配：`txt-font=SmileySans,NotoSansSC`。
+- 部分字体可直接写**中文名**（见下表「中文名」列），在 URL 中需 UrlEncode。
+- 指定的字体缺少某个字时，系统逐字回退到对应文种的 Noto 字体，不会出现方块或乱码。
+- 默认字体为 `NotoSansSC`（思源黑体）。
+
+## 中文字体
+
+| 字体名 | 中文名 | 字重 | 风格 |
+| :-- | --- | --- | --- |
+| `NotoSansSC` | 思源黑体 | 100 ~ 900 | 黑体，默认字体 |
+| `NotoSerifSC` | 思源宋体 | 200 ~ 900 | 宋体 |
+| `AlibabaPuHuiTi` | 阿里巴巴普惠体 | 300 / 400 / 500 / 600 / 700 / 900 | 黑体 |
+| `LXGWWenKai` | 霞鹜文楷 | 400 / 500 | 楷体 |
+| `SmileySans` | 得意黑 | 单字重 | 斜体窄黑，适合标题 |
+| `DouyinSans` | 抖音美好体 | 单字重（粗） | 标题 |
+| `ZCOOLKuaiLe` | 站酷快乐体 | 单字重 | 圆润卡通 |
+| `ZCOOLQingKeHuangYou` | 站酷庆科黄油体 | 单字重 | 窄体标题 |
+| `ZCOOLXiaoWei` | 站酷小薇 | 单字重 | 文艺衬线 |
+| `MaShanZheng` | 马善政毛笔楷书 | 单字重 | 毛笔楷书 |
+| `ZhiMangXing` | 志莽行书 | 单字重 | 行书 |
+| `LongCang` | 龙藏体 | 单字重 | 手写行楷 |
+
+## 字体组
+
+写组名时，系统按 `txt-lang` 或文字内容自动选用对应地区的版本（含假名用日文版，含谚文用韩文版，其余用简体版）。组内没有的地区使用简体版。
+
+| 组名 | 中文名 | 简体 | 繁体 | 日文 | 韩文 | 字重 |
+| :-- | --- | :-: | :-: | :-: | :-: | --- |
+| `Noto` | 思源黑体 | ✓ | ✓（台 / 港） | ✓ | ✓ | 100 ~ 900 |
+| `MiSans` | 小米 | ✓ | ✓ | – | – | 150 ~ 700 |
+| `OPPOSans` | – | ✓ | ✓ | – | – | 100 ~ 700 |
+| `HarmonyOSSans` | 鸿蒙 | ✓ | ✓ | – | – | 100 ~ 900 |
+| `LINESeed` | – | – | ✓ | ✓ | ✓ | 400 / 700 / 800 |
+
+- 需要固定某个地区版本时，写具体名字：`NotoSansTC`、`NotoSansHK`、`NotoSansJP`、`NotoSansKR`、`MiSansTC`、`OPPOSansTC`、`HarmonyOSSansTC`、`LINESeedTW`、`LINESeedJP`、`LINESeedKR`。
+- `LINESeed` 没有简体中文版，简体汉字回退到思源黑体。
+- `MiSans` 另含阿拉伯文、泰文、天城文、古吉拉特文、古木基文、藏文、高棉文、老挝文、缅甸文；`HarmonyOSSans` 另含阿拉伯文；`LINESeed` 另含泰文（`LINESeedTH`）。
+
+## 拉丁字体
+
+| 字体名 | 字重 | 风格 |
+| :-- | --- | --- |
+| `Inter` | 100 ~ 900，含斜体 | 无衬线正文 |
+| `Roboto` | 100 ~ 900 | 无衬线 |
+| `OpenSans` | 300 ~ 800 | 无衬线 |
+| `Lato` | 300 / 400 / 500 / 600 / 700 / 900 | 无衬线 |
+| `DMSans` | 100 ~ 1000 | 无衬线 |
+| `Manrope` | 200 ~ 800 | 无衬线 |
+| `Montserrat` | 100 ~ 900 | 几何无衬线 |
+| `Poppins` | 300 / 400 / 500 / 600 / 700 / 900 | 几何无衬线 |
+| `Raleway` | 100 ~ 900 | 优雅细体 |
+| `SpaceGrotesk` | 300 ~ 700 | 科技感 |
+| `Oswald` | 200 ~ 700 | 窄体标题 |
+| `BebasNeue` | 单字重 | 全大写标题 |
+| `Anton` | 单字重 | 粗标题 |
+| `PlayfairDisplay` | 400 ~ 900 | 衬线标题 |
+| `CormorantGaramond` | 300 ~ 700 | 古典衬线 |
+| `JetBrainsMono` | 100 ~ 800 | 等宽 |
+| `DancingScript` | 400 ~ 700 | 手写 |
+| `Caveat` | 400 ~ 700 | 手写 |
+| `Pacifico` | 单字重 | 圆润手写 |
+| `Lobster` | 单字重 | 粗手写 |
+| `GreatVibes` | 单字重 | 签名体 |
+| `AlexBrush` | 单字重 | 签名体 |
+| `Sacramento` | 单字重 | 签名体 |
+| `MaterialIcons` | 单字重 | 图标字体：`txt=home` 输出对应图标 |
+
+## 其他文种
+
+以下文种均有对应的 Noto 字体，通常无需指定，缺字时会自动回退；需要显式指定时写 `NotoSans` 加文种名，如 `NotoSansArabic`。
+
+| 文种 | 字体名 |
+| --- | --- |
+| 拉丁 / 希腊 / 西里尔 / 越南文 | `NotoSans` |
+| 阿拉伯文、希伯来文 | `NotoSansArabic`、`NotoSansHebrew` |
+| 泰文、老挝文、高棉文、缅甸文 | `NotoSansThai`、`NotoSansLao`、`NotoSansKhmer`、`NotoSansMyanmar` |
+| 天城文、孟加拉文、泰米尔文、泰卢固文 | `NotoSansDevanagari`、`NotoSansBengali`、`NotoSansTamil`、`NotoSansTelugu` |
+| 卡纳达文、马拉雅拉姆文、古吉拉特文、古木基文、僧伽罗文 | `NotoSansKannada`、`NotoSansMalayalam`、`NotoSansGujarati`、`NotoSansGurmukhi`、`NotoSansSinhala` |
+| 格鲁吉亚文、亚美尼亚文、埃塞俄比亚文、蒙古文 | `NotoSansGeorgian`、`NotoSansArmenian`、`NotoSansEthiopic`、`NotoSansMongolian` |
+| 藏文 | `NotoSerifTibetan` |
+
+<Tip>
+  字重（`txt-weight`）只在字体提供该字重时生效。单字重字体无论传什么值，显示效果都相同。
+</Tip>
+
+## 字体授权声明
+
+本服务的文字水印与 SVG 渲染使用了以下字体：阿里巴巴普惠体、OPPO Sans、HarmonyOS Sans、MiSans、LINE Seed，以及 Noto、思源、霞鹜文楷、得意黑、抖音美好体、站酷系列等开源字体。

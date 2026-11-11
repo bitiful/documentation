@@ -1,46 +1,58 @@
 ---
 title: "视频和动图截帧"
-description: "使用 frame 参数从视频或动态图像中提取静态帧"
+description: "使用 frame 参数从视频或动图中提取一帧静态画面。"
 ---
+
+`frame` 用于从视频或动图中取出一帧，常用于生成封面、缩略图和预览图。取出的画面可以继续叠加缩放、裁剪、水印、格式转换等全部图片参数。
 
 ## 参数说明
 
-**frame** 参数允许从视频文件或动态图像(如GIF)中提取特定时间点或位置的静态帧。这对于缩略图生成、视频预览或提取动画中特定场景非常有用。
+| 参数 | 适用源 | 含义 | 取值 |
+| :-- | --- | --- | --- |
+| `frame` | 视频 | **时间点**，单位毫秒 | 0 及以上的整数 |
+| `frame` | 动图 | **帧序号**，从 1 开始 | 1 及以上的整数 |
+| `frame=auto` | 视频 | **自动选封面帧** | `auto` |
 
-### 基本用法
+### 视频
 
-| **参数** | **类型** | **默认值** | **说明** |
-| :-- | :-- | :-- | :-- |
-| **frame** | 整数 | `1` | 提取帧的位置 |
+- `frame=0`：第一帧
+- `frame=5000`：第 5 秒处的画面
+- `frame=60000`：第 1 分钟处的画面
 
-## 详细说明
+HDR 视频（含杜比视界）截出的图片默认保留 HDR，详见 [HDR 图片和视频](/hdr)。
 
-**frame** 参数在不同媒体类型下有不同的含义：
+### 动图
 
-#### 视频文件
+适用于 GIF、动态 WebP、APNG、动态 AVIF。
 
-当处理视频文件时，**frame** 参数表示 **时间点**，单位为 **毫秒**：
-
-- `frame=0` - 提取视频的第一帧
-- `frame=5000` - 提取视频开始后5秒处的帧
-- `frame=60000` - 提取视频开始后1分钟处的帧
-
-#### 动态图像(GIF、动态 WebP 等)
-
-当处理动态图像时，**frame** 参数表示 **帧的序号**，从1开始计数：
-
-- `frame=1` - 提取动态图像的第一帧(默认值)
-- `frame=2` - 提取动态图像的第二帧
-- `frame=n` - 提取动态图像的第n帧
+- `frame=1`：第一帧
+- `frame=n`：第 n 帧
 
 <Warning>
-  如果指定的帧数超出动态图像的实际帧数，将返回最后一帧。
+  指定的帧序号超出实际帧数时，返回最后一帧。
 </Warning>
 
-### 示例用法
+### 自动选封面帧
 
-原视频：[https://demo.bitiful.com/hdr-img/rainbow.mov](https://demo.bitiful.com/hdr-img/rainbow.mov) 截取 **第 4950 毫秒** 的关键帧作为图片 [https://demo.bitiful.com/hdr-img/rainbow.mov?frame=4950&w=1000](https://demo.bitiful.com/hdr-img/rainbow.mov?frame=4950&w=1000)
+`frame=auto` 会在视频中自动挑选一帧适合做封面的画面：避开黑场、白闪和纯色画面，优先选择清晰、色彩丰富、构图美观的一帧。
+
+- 选中的时间点通过响应头 `x-coreix-frame-time` 返回，单位毫秒。
+- 选帧失败时返回第一帧。
+
+<Tip>
+  需要截取一段而不是一帧（视频剪辑、视频转动图、截取动图片段），请使用 `frame` 的区间写法，见 [视频剪辑与动图转换](/video-clip)。
+</Tip>
+
+## 使用示例
+
+原视频：[https://demo.bitiful.com/hdr-img/rainbow.mov](https://demo.bitiful.com/hdr-img/rainbow.mov)
+
+截取第 4950 毫秒的画面，并缩放到 1000 宽：[https://demo.bitiful.com/hdr-img/rainbow.mov? **`frame=4950 & w=1000`**](https://demo.bitiful.com/hdr-img/rainbow.mov?frame=4950&amp;w=1000)
 
 <Frame>
-  ![rainbow.mov.sdr.jpg](https://demo.bitiful.com/hdr-img/rainbow.mov?frame=4950&w=1000)
+  ![视频截帧：第 4950 毫秒](https://demo.bitiful.com/hdr-img/rainbow.mov?frame=4950&amp;w=1000)
 </Frame>
+
+自动选封面帧：
+
+[https://demo.bitiful.com/hdr-img/rainbow.mov?frame=auto&w=1000](https://demo.bitiful.com/hdr-img/rainbow.mov?frame=auto&amp;w=1000)
