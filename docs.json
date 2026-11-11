@@ -105,7 +105,7 @@
               "coreix/basic",
               "formats",
               "coreix/hdr",
-              "watermark-fonts",
+              "coreix/features/watermark-fonts",
               {
                 "group": "处理参数",
                 "pages": [
